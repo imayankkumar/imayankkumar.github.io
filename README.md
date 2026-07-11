@@ -1,2 +1,17 @@
-# imayankkumar.github.io
-Personal website, technical blog, open-source portfolio, and digital home of Mayank Kumar — Senior Android Engineer building high-performance mobile applications, AI-powered products, and developer tools.
+# iMayankKumar.com
+
+Source code for my personal website, portfolio, technical blog, and digital home.
+
+## Tech Stack
+
+- Astro
+- TypeScript
+- Tailwind CSS
+- GitHub Pages
+
+## Development
+
+```bash
+npm install
+npm run dev
+```
