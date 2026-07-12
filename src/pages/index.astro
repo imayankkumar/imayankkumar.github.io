@@ -1,20 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro"
-import Container from "../components/layout/Container.astro"
+import IntroductionSection from "../components/sections/introduction/IntroductionSection.astro"
 ---
 
 <BaseLayout
   title="Mayank Kumar"
   description="Senior Android Engineer, Open Source Contributor and AI Product Builder."
 >
-  <Container>
-    <main>
-      <h1>Mayank Kumar</h1>
-
-      <p>
-        Building high-performance Android applications, contributing to open
-        source, and creating AI-powered products.
-      </p>
-    </main>
-  </Container>
+  <main>
+    <IntroductionSection />
+  </main>
 </BaseLayout>

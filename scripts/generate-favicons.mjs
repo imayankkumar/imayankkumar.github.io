@@ -1,4 +1,4 @@
-import { writeFileSync } from "node:fs"
+import { copyFileSync, writeFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 import sharp from "sharp"
@@ -14,58 +14,49 @@ const sizes = [
   { name: "apple-touch-icon.png", size: 180 },
 ]
 
-const svg = sharp(svgPath)
-
 for (const { name, size } of sizes) {
-  await svg
-    .clone()
-    .resize(size, size)
-    .png()
-    .toFile(join(outDir, name))
+  await sharp(svgPath).resize(size, size).png().toFile(join(outDir, name))
   console.log(`wrote ${name}`)
 }
 
-// Multi-resolution ICO (16 + 32)
-const ico16 = await sharp(svgPath).resize(16, 16).png().toBuffer()
-const ico32 = await sharp(svgPath).resize(32, 32).png().toBuffer()
+const png16 = await sharp(svgPath).resize(16, 16).png().toBuffer()
+const png32 = await sharp(svgPath).resize(32, 32).png().toBuffer()
 
-// Prefer sharp ICO if available; otherwise write 32px PNG renamed fallback via png-to-ico style
-try {
-  await sharp(svgPath).resize(32, 32).toFormat("ico").toFile(join(outDir, "favicon.ico"))
-  console.log("wrote favicon.ico (sharp)")
-} catch {
-  // Manual ICO: simple single-image ICO header + PNG (modern browsers accept PNG-in-ICO)
-  const png = ico32
-  const ico = Buffer.concat([
-    // ICONDIR
-    Buffer.from([0, 0, 1, 0, 1, 0]),
-    // ICONDIRENTRY
-    Buffer.from([
-      32, // width
-      32, // height
-      0, // colors
-      0, // reserved
-      1,
-      0, // planes
-      32,
-      0, // bit count
-    ]),
-    (() => {
-      const size = Buffer.alloc(4)
-      size.writeUInt32LE(png.length, 0)
-      return size
-    })(),
-    (() => {
-      const offset = Buffer.alloc(4)
-      offset.writeUInt32LE(22, 0)
-      return offset
-    })(),
-    png,
-  ])
-  // Also embed 16px as primary small icon using sharp's png for browsers that request /favicon.ico
-  writeFileSync(join(outDir, "favicon.ico"), ico)
-  console.log("wrote favicon.ico (png-in-ico)")
-  void ico16
+function pngIco(images) {
+  const count = images.length
+  const header = Buffer.alloc(6)
+  header.writeUInt16LE(0, 0)
+  header.writeUInt16LE(1, 2)
+  header.writeUInt16LE(count, 4)
+
+  const entries = []
+  const bodies = []
+  let offset = 6 + count * 16
+
+  for (const img of images) {
+    const entry = Buffer.alloc(16)
+    entry[0] = img.size >= 256 ? 0 : img.size
+    entry[1] = img.size >= 256 ? 0 : img.size
+    entry.writeUInt16LE(1, 4)
+    entry.writeUInt16LE(32, 6)
+    entry.writeUInt32LE(img.data.length, 8)
+    entry.writeUInt32LE(offset, 12)
+    entries.push(entry)
+    bodies.push(img.data)
+    offset += img.data.length
+  }
+
+  return Buffer.concat([header, ...entries, ...bodies])
 }
 
+const ico = pngIco([
+  { size: 16, data: png16 },
+  { size: 32, data: png32 },
+])
+
+const icoPath = join(outDir, "favicon.ico")
+writeFileSync(icoPath, ico)
+copyFileSync(icoPath, join(root, "public/favicon.ico"))
+copyFileSync(join(outDir, "favicon.svg"), join(root, "public/favicon.svg"))
+console.log("wrote favicon.ico + synced public root copies")
 console.log("favicon generation complete")

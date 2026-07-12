@@ -1,0 +1,200 @@
+---
+import { profile } from "../../../data/profile"
+import StatusBadge from "./StatusBadge.astro"
+import CTAButtons from "./CTAButtons.astro"
+
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<div class:list={["introduction-content", className]}>
+  <StatusBadge label={profile.role} variant="role" />
+
+  <h1 id="introduction-heading" class="introduction-content__title">
+    {
+      profile.taglineLines.map((line) => (
+        <span class="introduction-content__line">
+          {line.map((part) =>
+            part.highlight ? (
+              <span class="introduction-content__highlight">{part.text}</span>
+            ) : (
+              part.text
+            ),
+          )}
+        </span>
+      ))
+    }
+  </h1>
+
+  <p class="introduction-content__bio">{profile.bio}</p>
+
+  <CTAButtons />
+
+  <div class="introduction-content__connect">
+    <p class="introduction-content__connect-label">{profile.connectLabel}</p>
+    <ul class="introduction-content__socials">
+      {
+        profile.connect.map(({ name, href, external }) => (
+          <li>
+            <a
+              href={href}
+              class="introduction-content__social-link"
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
+              aria-label={name}
+            >
+              {name === "GitHub" && (
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M9 19c-4.3 1.4-4.3-2.1-6-2.5M15 22v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 19 4.77 5.07 5.07 0 0 0 18.91 1S17.73.65 15 2.48a13.38 13.38 0 0 0-6 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              )}
+              {name === "LinkedIn" && (
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6ZM2 9h4v12H2zM4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              )}
+              {name === "Email" && (
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <rect
+                    x="3"
+                    y="5"
+                    width="18"
+                    height="14"
+                    rx="2"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                  />
+                  <path
+                    d="m4 7 8 6 8-6"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              )}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  .introduction-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+    max-width: 38rem;
+  }
+
+  .introduction-content__title {
+    font-size: clamp(1.75rem, 3.6vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+    color: var(--color-text);
+  }
+
+  .introduction-content__line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 480px) {
+    .introduction-content__line {
+      white-space: normal;
+    }
+  }
+
+  .introduction-content__highlight {
+    color: var(--color-primary);
+  }
+
+  .introduction-content__bio {
+    font-size: var(--text-lg);
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+    text-wrap: pretty;
+  }
+
+  .introduction-content__connect {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .introduction-content__connect-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .introduction-content__socials {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .introduction-content__social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--color-text);
+    border-radius: var(--radius-sm);
+    transition:
+      color 150ms ease,
+      background-color 150ms ease;
+  }
+
+  .introduction-content__social-link:hover {
+    color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  }
+
+  .introduction-content__social-link:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+</style>

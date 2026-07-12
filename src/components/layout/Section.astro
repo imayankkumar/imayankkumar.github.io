@@ -3,12 +3,25 @@ export interface Props {
   id?: string
   as?: "section" | "div"
   class?: string
+  "aria-labelledby"?: string
+  "aria-label"?: string
 }
 
-const { id, as: Tag = "section", class: className } = Astro.props
+const {
+  id,
+  as: Tag = "section",
+  class: className,
+  "aria-labelledby": ariaLabelledby,
+  "aria-label": ariaLabel,
+} = Astro.props
 ---
 
-<Tag id={id} class:list={["section", className]}>
+<Tag
+  id={id}
+  class:list={["section", className]}
+  aria-labelledby={ariaLabelledby}
+  aria-label={ariaLabel}
+>
   <slot />
 </Tag>
 
