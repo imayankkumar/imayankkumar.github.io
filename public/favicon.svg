@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="7" fill="#0F172A" />
+  <g transform="translate(4.2 5.4) scale(0.28)">
+    <path
+      d="M10 58V6L34 42L52 6"
+      stroke="#F8FAFC"
+      stroke-width="11"
+      stroke-linecap="butt"
+      stroke-linejoin="miter"
+    />
+    <path
+      d="M78 6L56 32L78 58"
+      stroke="#2563EB"
+      stroke-width="11"
+      stroke-linecap="butt"
+      stroke-linejoin="miter"
+    />
+  </g>
+</svg>

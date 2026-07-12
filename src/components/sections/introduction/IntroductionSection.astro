@@ -1,0 +1,43 @@
+---
+import Container from "../../layout/Container.astro"
+import Section from "../../layout/Section.astro"
+import IntroductionContent from "./IntroductionContent.astro"
+import ProfileCard from "./ProfileCard.astro"
+---
+
+<Section id="introduction" class="introduction-section" aria-labelledby="introduction-heading">
+  <Container>
+    <div class="introduction-section__grid">
+      <IntroductionContent />
+      <ProfileCard />
+    </div>
+  </Container>
+</Section>
+
+<style>
+  .section.introduction-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: var(--space-16) var(--space-20);
+  }
+
+  .introduction-section__grid {
+    display: grid;
+    align-items: center;
+    gap: var(--space-12);
+  }
+
+  @media (min-width: 900px) {
+    .section.introduction-section {
+      /* Fill the viewport below the sticky header (h-16 = 4rem) */
+      min-height: calc(100svh - 4rem);
+      padding-block: var(--space-20) var(--space-24);
+    }
+
+    .introduction-section__grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+      gap: var(--space-16);
+    }
+  }
+</style>

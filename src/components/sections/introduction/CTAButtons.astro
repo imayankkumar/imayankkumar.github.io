@@ -1,0 +1,44 @@
+---
+import Button from "../../ui/Button.astro"
+import { profile } from "../../../data/profile"
+
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<div class:list={["cta-buttons", className]}>
+  {
+    profile.ctas.map((cta) => (
+      <Button href={cta.href} variant={cta.variant}>
+        {cta.label}
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M5 12h14M13 6l6 6-6 6"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </Button>
+    ))
+  }
+</div>
+
+<style>
+  .cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+</style>

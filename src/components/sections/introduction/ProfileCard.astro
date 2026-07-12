@@ -1,0 +1,385 @@
+---
+import fs from "node:fs"
+import path from "node:path"
+import { profile } from "../../../data/profile"
+import StatusBadge from "./StatusBadge.astro"
+
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+
+const profilePath = path.resolve("public/images/profile.png")
+const profileVersion = fs.existsSync(profilePath)
+  ? fs.statSync(profilePath).mtimeMs.toFixed(0)
+  : "1"
+const profileSrc = `/images/profile.png?v=${profileVersion}`
+
+const codeSnippet = `fun build() {
+  ideas.forEach { idea ->
+    buildSomething(idea)
+  }
+}`
+
+const skills = [
+  "Jetpack Compose",
+  "Coroutines",
+  "Performance",
+  "Clean Architecture",
+] as const
+---
+
+<aside class:list={["profile-card", className]} aria-label="Profile highlights">
+  <div class="profile-card__stage" aria-hidden="true">
+    <div class="profile-card__workspace">
+      <div class="profile-card__dots"></div>
+
+      <pre class="profile-card__panel profile-card__panel--code"><code>{codeSnippet}</code></pre>
+
+      <div class="profile-card__panel profile-card__panel--git">
+        <span class="profile-card__git-node profile-card__git-node--main">main</span>
+        <span class="profile-card__git-line"></span>
+        <span class="profile-card__git-node profile-card__git-node--feature">feature/perf</span>
+      </div>
+
+      <div class="profile-card__panel profile-card__panel--terminal">
+        <span>$ ./gradlew build</span>
+        <span class="profile-card__success">BUILD SUCCESSFUL</span>
+      </div>
+
+      <ul class="profile-card__panel profile-card__panel--skills">
+        {
+          skills.map((skill) => (
+            <li>
+              <span class="profile-card__skill-dot"></span>
+              {skill}
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="profile-card__mark profile-card__mark--kotlin" title="Kotlin">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <defs>
+            <linearGradient id="kotlin-mark-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#E44857"></stop>
+              <stop offset="50%" stop-color="#C711E1"></stop>
+              <stop offset="100%" stop-color="#7F52FF"></stop>
+            </linearGradient>
+          </defs>
+          <path fill="url(#kotlin-mark-grad)" d="M24 24H0V0h24L12 12Z"></path>
+        </svg>
+      </div>
+      <div class="profile-card__mark profile-card__mark--android" title="Android">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+          <path
+            d="M18.4395 5.5586c-.675 1.1664-1.352 2.3318-2.0274 3.498-.0366-.0155-.0742-.0286-.1113-.043-1.8249-.6957-3.484-.8-4.42-.787-1.8551.0185-3.3544.4643-4.2597.8203-.084-.1494-1.7526-3.021-2.0215-3.4864a1.1451 1.1451 0 0 0-.1406-.1914c-.3312-.364-.9054-.4859-1.379-.203-.475.282-.7136.9361-.3886 1.5019 1.9466 3.3696-.0966-.2158 1.9473 3.3593.0172.031-.4946.2642-1.3926 1.0177C2.8987 12.176.452 14.772 0 18.9902h24c-.119-1.1108-.3686-2.099-.7461-3.0683-.7438-1.9118-1.8435-3.2928-2.7402-4.1836a12.1048 12.1048 0 0 0-2.1309-1.6875c.6594-1.122 1.312-2.2559 1.9649-3.3848.2077-.3615.1886-.7956-.0079-1.1191a1.1001 1.1001 0 0 0-.8515-.5332c-.5225-.0536-.9392.3128-1.0488.5449zm-.0391 8.461c.3944.5926.324 1.3306-.1563 1.6503-.4799.3197-1.188.0985-1.582-.4941-.3944-.5927-.324-1.3307.1563-1.6504.4727-.315 1.1812-.1086 1.582.4941zM7.207 13.5273c.4803.3197.5506 1.0577.1563 1.6504-.394.5926-1.1038.8138-1.584.4941-.48-.3197-.5503-1.0577-.1563-1.6504.4008-.6021 1.1087-.8106 1.584-.4941z"
+          ></path>
+        </svg>
+      </div>
+
+      <div class="profile-card__mark profile-card__mark--code">&lt;/&gt;</div>
+      <div class="profile-card__mark profile-card__mark--braces">{"{ }"}</div>
+
+      <div class="profile-card__panel profile-card__panel--window">
+        <span></span><span></span><span></span>
+      </div>
+
+      <pre class="profile-card__panel profile-card__panel--tree"><code>android/
+├─ app
+├─ core
+├─ ui
+└─ data</code></pre>
+    </div>
+  </div>
+
+  <div class="profile-card__photo-wrap">
+    <img
+      src={profileSrc}
+      alt={profile.image.alt}
+      width="928"
+      height="1152"
+      class="profile-card__photo"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+
+  <ul class="profile-card__badges">
+    {
+      profile.highlights.map((item) => (
+        <li>
+          <StatusBadge
+            label={item.label}
+            description={item.description}
+            variant={item.variant}
+            icon={item.icon}
+            class="profile-card__badge"
+          />
+        </li>
+      ))
+    }
+  </ul>
+</aside>
+
+<style>
+  .profile-card {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: min(100%, 22rem);
+    aspect-ratio: 4 / 5;
+    margin-inline: auto;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: #f3f4f6;
+    box-shadow: var(--shadow-md);
+  }
+
+  .profile-card__stage {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .profile-card__workspace {
+    position: absolute;
+    inset: -4%;
+    color: #94a3b8;
+    opacity: 0.34;
+    user-select: none;
+  }
+
+  .profile-card__dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 14px 14px;
+    opacity: 0.45;
+  }
+
+  .profile-card__panel {
+    position: absolute;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    line-height: 1.45;
+    color: #64748b;
+    white-space: pre;
+  }
+
+  .profile-card__panel--code {
+    top: 7%;
+    left: 5%;
+  }
+
+  .profile-card__panel--git {
+    top: 28%;
+    left: 6%;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: normal;
+  }
+
+  .profile-card__git-node {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    font-size: 0.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .profile-card__git-node--main {
+    background: color-mix(in srgb, var(--color-primary) 18%, white);
+    color: var(--color-primary);
+  }
+
+  .profile-card__git-node--feature {
+    background: color-mix(in srgb, #16a34a 16%, white);
+    color: #15803d;
+  }
+
+  .profile-card__git-line {
+    width: 1.25rem;
+    height: 2px;
+    background: #94a3b8;
+  }
+
+  .profile-card__panel--terminal {
+    top: 38%;
+    left: 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    white-space: normal;
+  }
+
+  .profile-card__success {
+    color: #16a34a;
+    font-weight: 600;
+  }
+
+  .profile-card__panel--skills {
+    left: 5%;
+    top: 52%;
+    bottom: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0;
+    list-style: none;
+    white-space: normal;
+  }
+
+  .profile-card__panel--skills li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.55rem;
+    color: #64748b;
+  }
+
+  .profile-card__skill-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-primary) 55%, #94a3b8);
+    flex-shrink: 0;
+  }
+
+  .profile-card__mark {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    color: #94a3b8;
+  }
+
+  .profile-card__mark--kotlin {
+    top: 6%;
+    left: 48%;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.3rem;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  .profile-card__mark--kotlin svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .profile-card__mark--android {
+    top: 18%;
+    left: 52%;
+    color: #3ddc84;
+  }
+
+  .profile-card__mark--android svg {
+    display: block;
+  }
+
+  .profile-card__mark--code {
+    top: 34%;
+    left: 42%;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.35rem;
+    background: color-mix(in srgb, white 70%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    font-weight: 600;
+  }
+
+  .profile-card__mark--braces {
+    right: 10%;
+    bottom: 28%;
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #94a3b8;
+  }
+
+  .profile-card__panel--window {
+    top: 8%;
+    right: 8%;
+    display: flex;
+    gap: 0.25rem;
+    width: 3.5rem;
+    height: 2.4rem;
+    padding: 0.35rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.35rem;
+    background: color-mix(in srgb, white 75%, transparent);
+    white-space: normal;
+  }
+
+  .profile-card__panel--window span {
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 999px;
+    background: #cbd5e1;
+  }
+
+  .profile-card__panel--tree {
+    top: 42%;
+    right: 4%;
+    font-size: 0.52rem;
+    line-height: 1.4;
+  }
+
+  .profile-card__photo-wrap {
+    position: absolute;
+    z-index: 1;
+    left: 66%;
+    bottom: -3%;
+    width: min(88%, 18rem);
+    transform: translateX(-50%);
+  }
+
+  .profile-card__photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    object-fit: contain;
+    object-position: bottom center;
+    filter: drop-shadow(0 12px 28px rgb(0 0 0 / 0.2));
+  }
+
+  .profile-card__badges {
+    position: absolute;
+    z-index: 2;
+    left: var(--space-4);
+    bottom: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 640px) {
+    .profile-card {
+      width: min(100%, 18.5rem);
+    }
+
+    .profile-card__badges {
+      left: var(--space-3);
+      bottom: var(--space-4);
+    }
+  }
+</style>
