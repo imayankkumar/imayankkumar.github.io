@@ -1,0 +1,33 @@
+---
+import { site } from "../../data/site"
+import BrandMark from "./BrandMark.astro"
+---
+
+<a href="/" class="logo" aria-label={`${site.name} — Home`}>
+  <BrandMark size={40} />
+  <span class="logo__name">{site.name}</span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .logo:focus-visible {
+    outline: none;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-focus);
+  }
+
+  .logo__name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+  }
+</style>

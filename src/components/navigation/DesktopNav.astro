@@ -1,0 +1,82 @@
+---
+import { navigation } from "../../data/navigation"
+
+const currentPath = Astro.url.pathname
+---
+
+<nav class="desktop-nav" aria-label="Primary">
+  <ul class="desktop-nav__list">
+    {
+      navigation.map(({ title, href }) => {
+        const isActive =
+          currentPath === href ||
+          (href !== "/" && currentPath.startsWith(href))
+
+        return (
+          <li>
+            <a
+              href={href}
+              class:list={["desktop-nav__link", { "is-active": isActive }]}
+              aria-current={isActive ? "page" : undefined}
+            >
+              {title}
+            </a>
+          </li>
+        )
+      })
+    }
+  </ul>
+</nav>
+
+<style>
+  .desktop-nav {
+    display: none;
+  }
+
+  @media (min-width: 900px) {
+    .desktop-nav {
+      display: block;
+    }
+  }
+
+  .desktop-nav__list {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .desktop-nav__link {
+    position: relative;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .desktop-nav__link:hover,
+  .desktop-nav__link.is-active {
+    color: var(--color-text);
+  }
+
+  .desktop-nav__link.is-active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.55rem;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--color-primary);
+  }
+
+  .desktop-nav__link:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-sm);
+  }
+</style>

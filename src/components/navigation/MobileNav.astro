@@ -1,0 +1,189 @@
+---
+import { navigation } from "../../data/navigation"
+import { site } from "../../data/site"
+import SocialLinks from "./SocialLinks.astro"
+import Button from "../ui/Button.astro"
+
+const currentPath = Astro.url.pathname
+---
+
+<details class="mobile-nav">
+  <summary class="mobile-nav__toggle" aria-label="Open menu">
+    <span class="mobile-nav__icon mobile-nav__icon--open" aria-hidden="true">
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
+        <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+    </span>
+    <span class="mobile-nav__icon mobile-nav__icon--close" aria-hidden="true">
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
+        <path d="M6 6l12 12M18 6 6 18"></path>
+      </svg>
+    </span>
+  </summary>
+
+  <div class="mobile-nav__panel">
+    <nav aria-label="Mobile">
+      <ul class="mobile-nav__list">
+        {
+          navigation.map(({ title, href }) => {
+            const isActive =
+              currentPath === href ||
+              (href !== "/" && currentPath.startsWith(href))
+
+            return (
+              <li>
+                <a
+                  href={href}
+                  class:list={["mobile-nav__link", { "is-active": isActive }]}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {title}
+                </a>
+              </li>
+            )
+          })
+        }
+      </ul>
+    </nav>
+
+    <div class="mobile-nav__actions">
+      <SocialLinks />
+      <Button href={site.resume} class="mobile-nav__resume">
+        Download Resume
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 3v12"></path>
+          <path d="m7 10 5 5 5-5"></path>
+          <path d="M5 21h14"></path>
+        </svg>
+      </Button>
+    </div>
+  </div>
+</details>
+
+<style>
+  .mobile-nav {
+    position: relative;
+  }
+
+  @media (min-width: 900px) {
+    .mobile-nav {
+      display: none;
+    }
+  }
+
+  .mobile-nav__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    list-style: none;
+    color: var(--color-text);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+
+  .mobile-nav__toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-nav__toggle:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .mobile-nav__icon--close {
+    display: none;
+  }
+
+  .mobile-nav[open] .mobile-nav__icon--open {
+    display: none;
+  }
+
+  .mobile-nav[open] .mobile-nav__icon--close {
+    display: block;
+  }
+
+  .mobile-nav__panel {
+    position: absolute;
+    top: calc(100% + var(--space-3));
+    right: 0;
+    z-index: 50;
+    display: grid;
+    gap: var(--space-6);
+    width: min(20rem, calc(100vw - 2rem));
+    padding: var(--space-4);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+  }
+
+  .mobile-nav__list {
+    display: grid;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mobile-nav__link {
+    display: block;
+    padding: var(--space-3) var(--space-3);
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+  }
+
+  .mobile-nav__link:hover,
+  .mobile-nav__link.is-active {
+    color: var(--color-text);
+    background: var(--color-surface);
+  }
+
+  .mobile-nav__link:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .mobile-nav__actions {
+    display: grid;
+    gap: var(--space-4);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .mobile-nav__resume {
+    width: 100%;
+  }
+</style>

@@ -1,0 +1,18 @@
+---
+import Container from "../layout/Container.astro"
+import Logo from "./Logo.astro"
+import DesktopNav from "./DesktopNav.astro"
+import HeaderActions from "./HeaderActions.astro"
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-background)_80%,transparent)] backdrop-blur-[12px]"
+>
+  <Container>
+    <div class="flex h-16 items-center justify-between gap-4">
+      <Logo />
+      <DesktopNav />
+      <HeaderActions />
+    </div>
+  </Container>
+</header>
