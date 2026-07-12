@@ -11,7 +11,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "favicon": "node scripts/generate-favicons.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.9",
