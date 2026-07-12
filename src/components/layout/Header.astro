@@ -1,26 +1,13 @@
----
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/writing", label: "Writing" },
-  { href: "/resume", label: "Resume" },
-  { href: "/contact", label: "Contact" },
-]
----
-
 <header>
-  <nav aria-label="Main navigation">
+  <div class="container">
     <a href="/">Mayank Kumar</a>
 
-    <ul>
-      {
-        navLinks.map(({ href, label }) => (
-          <li>
-            <a href={href}>{label}</a>
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
+    <nav>
+      <a href="/about">About</a>
+      <a href="/projects">Projects</a>
+      <a href="/writing">Writing</a>
+      <a href="/resume">Resume</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </div>
 </header>
