@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import Container from "../components/layout/Container.astro"
+import ExperienceTimeline from "../components/career/ExperienceTimeline.astro"
+import PatentCard from "../components/career/PatentCard.astro"
+import { awards, education } from "../data/career"
+---
+
+<BaseLayout
+  title="About · Mayank Kumar"
+  description="Mayank Kumar is a Senior Android Engineer working on enterprise mobility, Android rendering performance and AI-assisted engineering."
+>
+  <main class="page">
+    <Container>
+      <div class="page__inner">
+        <p class="page__eyebrow">About</p>
+        <h1 class="page__title">
+          Android engineer, 8+ years in enterprise mobility
+        </h1>
+
+        <div class="page__prose page__lead">
+          <p>
+            I started in 2017 testing Zebra's enterprise devices at Tata Elxsi,
+            moved into Android development on Zebra's Device Diagnostic Tool,
+            and then built the onboarding app for an Android TV set-top box,
+            including time onsite in Dubai for its MVP release.
+          </p>
+          <p>
+            Since 2023 I've been at Zebra Technologies, working on the Android
+            client of an enterprise push-to-talk and messaging app used in
+            retail, healthcare and logistics.
+          </p>
+          <p>
+            Outside the day job my attention goes to two things: how Android
+            rendering actually works, which I'm exploring in the open with{" "}
+            <a class="page__link" href="/projects">FramePulse</a>, and using AI
+            agents on the large, tedious parts of Android work, like SDK
+            upgrades.
+          </p>
+        </div>
+
+        <section class="page__section" aria-labelledby="career-heading">
+          <h2 id="career-heading" class="page__section-title">Career</h2>
+          <ExperienceTimeline />
+        </section>
+
+        <section class="page__section" aria-labelledby="patent-heading">
+          <h2 id="patent-heading" class="page__section-title">Patent</h2>
+          <PatentCard />
+        </section>
+
+        <section class="page__section" aria-labelledby="recognition-heading">
+          <h2 id="recognition-heading" class="page__section-title">
+            Recognition & education
+          </h2>
+          <ul class="list">
+            {
+              awards.map((award) => (
+                <li>
+                  {award.name}, {award.org} ({award.year})
+                </li>
+              ))
+            }
+            <li>{education.degree}, {education.school} ({education.period})</li>
+          </ul>
+        </section>
+      </div>
+    </Container>
+  </main>
+</BaseLayout>

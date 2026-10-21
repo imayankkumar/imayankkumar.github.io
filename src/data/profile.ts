@@ -1,4 +1,5 @@
 import { site } from "./site"
+import { contact, patent, framePulse } from "./career"
 
 export const profile = {
   name: "Mayank Kumar",
@@ -25,12 +26,14 @@ export const profile = {
   highlights: [
     {
       label: "USPTO Patent Inventor",
+      href: patent.href,
       variant: "light" as const,
       icon: "patent" as const,
     },
     {
       label: "Open Source Contributor",
-      description: "Building tools for developers",
+      description: "Building FramePulse",
+      href: framePulse.href,
       variant: "dark" as const,
       icon: "globe" as const,
     },
@@ -61,7 +64,7 @@ export const profile = {
     },
     {
       name: "Email",
-      href: "/contact",
+      href: `mailto:${contact.email}`,
       external: false,
     },
   ],

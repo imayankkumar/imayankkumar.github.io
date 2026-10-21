@@ -1,0 +1,27 @@
+---
+import { framePulse } from "../../data/career"
+---
+
+<article class="card">
+  <div class="card__head">
+    <h3 class="card__title">{framePulse.name}</h3>
+    <span class="card__meta">{framePulse.status}</span>
+  </div>
+  <p class="card__body">{framePulse.summary}</p>
+  <ul class="list">
+    {framePulse.points.map((point) => <li>{point}</li>)}
+  </ul>
+  <ul class="tags" aria-label="Topics">
+    {framePulse.tags.map((tag) => <li>{tag}</li>)}
+  </ul>
+  <p class="card__body">
+    <a
+      class="page__link"
+      href={framePulse.href}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View on GitHub
+    </a>
+  </p>
+</article>

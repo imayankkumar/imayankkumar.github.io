@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import Container from "../components/layout/Container.astro"
+import { contact } from "../data/career"
+import { site } from "../data/site"
+---
+
+<BaseLayout
+  title="Contact · Mayank Kumar"
+  description="How to reach Mayank Kumar."
+>
+  <main class="page">
+    <Container>
+      <div class="page__inner">
+        <p class="page__eyebrow">Contact</p>
+        <h1 class="page__title">Get in touch</h1>
+        <p class="page__lead">
+          Happy to talk about Android performance, AI-assisted engineering,
+          FramePulse, or roles. Email is the most reliable way to reach me.
+        </p>
+
+        <ul class="page__section contact-list">
+          <li class="card">
+            <span class="card__meta">Email</span>
+            <a class="page__link card__title" href={`mailto:${contact.email}`}
+              >{contact.email}</a
+            >
+          </li>
+          <li class="card">
+            <span class="card__meta">LinkedIn</span>
+            <a
+              class="page__link card__title"
+              href={site.linkedin}
+              target="_blank"
+              rel="noopener noreferrer">linkedin.com/in/mayankkumar-mk</a
+            >
+          </li>
+          <li class="card">
+            <span class="card__meta">GitHub</span>
+            <a
+              class="page__link card__title"
+              href={site.github}
+              target="_blank"
+              rel="noopener noreferrer">github.com/imayankkumar</a
+            >
+          </li>
+        </ul>
+      </div>
+    </Container>
+  </main>
+</BaseLayout>
+
+<style>
+  .contact-list {
+    margin-bottom: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .contact-list .card {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .contact-list a {
+    overflow-wrap: anywhere;
+  }
+</style>

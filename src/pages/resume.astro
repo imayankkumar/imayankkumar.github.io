@@ -1,0 +1,157 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import Container from "../components/layout/Container.astro"
+import ExperienceTimeline from "../components/career/ExperienceTimeline.astro"
+import {
+  awards,
+  contact,
+  education,
+  framePulse,
+  patent,
+  skills,
+} from "../data/career"
+import { site } from "../data/site"
+---
+
+<BaseLayout
+  title="Resume · Mayank Kumar"
+  description="Resume of Mayank Kumar, Senior Android Engineer: experience, skills, open source and patent."
+>
+  <main class="page">
+    <Container>
+      <div class="page__inner">
+        <p class="page__eyebrow">Resume</p>
+        <h1 class="page__title">Mayank Kumar</h1>
+        <p class="page__lead">
+          Senior Android Engineer with 8+ years building enterprise Android apps
+          for mobility and real-time communication. Android architecture, SDK
+          integration and upgrades, performance, and AI-assisted engineering
+          workflows. Co-inventor on a granted US patent.
+        </p>
+        <p class="card__body resume-links">
+          <a class="page__link" href={`mailto:${contact.email}`}
+            >{contact.email}</a
+          >
+          <a
+            class="page__link"
+            href={site.linkedin}
+            target="_blank"
+            rel="noopener noreferrer">LinkedIn</a
+          >
+          <a
+            class="page__link"
+            href={site.github}
+            target="_blank"
+            rel="noopener noreferrer">GitHub</a
+          >
+        </p>
+
+        <section class="page__section" aria-labelledby="experience-heading">
+          <h2 id="experience-heading" class="page__section-title">
+            Experience
+          </h2>
+          <ExperienceTimeline />
+        </section>
+
+        <section class="page__section" aria-labelledby="skills-heading">
+          <h2 id="skills-heading" class="page__section-title">Skills</h2>
+          <dl class="resume-skills">
+            {
+              skills.map(({ group, items }) => (
+                <div>
+                  <dt>{group}</dt>
+                  <dd>{items.join(", ")}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </section>
+
+        <section class="page__section" aria-labelledby="oss-heading">
+          <h2 id="oss-heading" class="page__section-title">Open source</h2>
+          <p class="card__body">
+            <a
+              class="page__link"
+              href={framePulse.href}
+              target="_blank"
+              rel="noopener noreferrer">{framePulse.name}</a
+            >, creator and maintainer ({framePulse.status.toLowerCase()}). {
+              framePulse.summary
+            }
+          </p>
+        </section>
+
+        <section class="page__section" aria-labelledby="patent-heading">
+          <h2 id="patent-heading" class="page__section-title">
+            Patents & innovation
+          </h2>
+          <ul class="list">
+            <li>
+              <a
+                class="page__link"
+                href={patent.href}
+                target="_blank"
+                rel="noopener noreferrer">{patent.number}</a
+              >, {patent.role.toLowerCase()}: {patent.title}. Filed {
+                patent.filed
+              }, granted {patent.granted}.
+            </li>
+            <li>
+              Author or contributor on 13+ internal innovation disclosures.
+            </li>
+          </ul>
+        </section>
+
+        <section class="page__section" aria-labelledby="edu-heading">
+          <h2 id="edu-heading" class="page__section-title">
+            Education & awards
+          </h2>
+          <ul class="list">
+            <li>{education.degree}, {education.school} ({education.period})</li>
+            {
+              awards.map((award) => (
+                <li>
+                  {award.name}, {award.org} ({award.year})
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+    </Container>
+  </main>
+</BaseLayout>
+
+<style>
+  .resume-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .resume-skills {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+  }
+
+  .resume-skills div {
+    display: grid;
+    gap: var(--space-1) var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .resume-skills div {
+      grid-template-columns: 12rem 1fr;
+    }
+  }
+
+  .resume-skills dt {
+    font-weight: 600;
+  }
+
+  .resume-skills dd {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+</style>

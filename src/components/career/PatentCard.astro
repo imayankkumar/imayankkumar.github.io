@@ -1,0 +1,21 @@
+---
+import { patent } from "../../data/career"
+---
+
+<article class="card">
+  <div class="card__head">
+    <h3 class="card__title">{patent.number}</h3>
+    <span class="card__meta">{patent.role} · Granted {patent.granted}</span>
+  </div>
+  <p class="card__body">{patent.title}. Filed {patent.filed}.</p>
+  <p class="card__body">
+    <a
+      class="page__link"
+      href={patent.href}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View on Google Patents
+    </a>
+  </p>
+</article>
