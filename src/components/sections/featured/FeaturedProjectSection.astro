@@ -1,0 +1,51 @@
+---
+import Container from "../../layout/Container.astro"
+import Section from "../../layout/Section.astro"
+import FramePulseCard from "../../career/FramePulseCard.astro"
+---
+
+<Section
+  id="featured"
+  aria-labelledby="featured-heading"
+  class="featured-section"
+>
+  <Container>
+    <div class="featured-section__inner">
+      <p class="page__eyebrow">Currently building</p>
+      <h2 id="featured-heading" class="featured-section__title">
+        Learning Android rendering by building the tool
+      </h2>
+      <FramePulseCard />
+      <p class="featured-section__more">
+        <a class="page__link" href="/projects">All projects</a>
+      </p>
+    </div>
+  </Container>
+</Section>
+
+<style>
+  .section.featured-section {
+    padding-block: 0 var(--space-24);
+  }
+
+  .featured-section__inner {
+    max-width: 46rem;
+  }
+
+  .featured-section__title {
+    margin: var(--space-2) 0 var(--space-6);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .featured-section__more {
+    margin-top: var(--space-4);
+  }
+
+  .featured-section__more a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

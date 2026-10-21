@@ -111,13 +111,20 @@ const skills = [
     {
       profile.highlights.map((item) => (
         <li>
-          <StatusBadge
-            label={item.label}
-            description={item.description}
-            variant={item.variant}
-            icon={item.icon}
-            class="profile-card__badge"
-          />
+          <a
+            href={item.href}
+            class="profile-card__badge-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <StatusBadge
+              label={item.label}
+              description={item.description}
+              variant={item.variant}
+              icon={item.icon}
+              class="profile-card__badge"
+            />
+          </a>
         </li>
       ))
     }
@@ -370,6 +377,21 @@ const skills = [
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .profile-card__badge-link {
+    display: block;
+    border-radius: 999px;
+    transition: transform 150ms ease;
+  }
+
+  .profile-card__badge-link:hover {
+    transform: translateY(-1px);
+  }
+
+  .profile-card__badge-link:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
   }
 
   @media (max-width: 640px) {

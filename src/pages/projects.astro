@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import Container from "../components/layout/Container.astro"
+import FramePulseCard from "../components/career/FramePulseCard.astro"
+import PatentCard from "../components/career/PatentCard.astro"
+---
+
+<BaseLayout
+  title="Projects · Mayank Kumar"
+  description="FramePulse, an open-source Android rendering and jank analysis library, and a granted US patent on push-to-talk session control."
+>
+  <main class="page">
+    <Container>
+      <div class="page__inner">
+        <p class="page__eyebrow">Projects</p>
+        <h1 class="page__title">What I'm building</h1>
+        <p class="page__lead">
+          Open-source work I can show in full, and the patent from my work on
+          enterprise push-to-talk.
+        </p>
+
+        <section class="page__section" aria-labelledby="oss-heading">
+          <h2 id="oss-heading" class="page__section-title">Open source</h2>
+          <FramePulseCard />
+        </section>
+
+        <section class="page__section" aria-labelledby="patent-heading">
+          <h2 id="patent-heading" class="page__section-title">Patent</h2>
+          <PatentCard />
+        </section>
+
+        <section class="page__section" aria-labelledby="work-heading">
+          <h2 id="work-heading" class="page__section-title">At work</h2>
+          <p class="page__prose card__body">
+            Most of my day-to-day work is on closed-source enterprise apps, so I
+            describe it at the level of the engineering problem. The details are
+            on the{" "}
+            <a class="page__link" href="/resume">resume</a>.
+          </p>
+        </section>
+      </div>
+    </Container>
+  </main>
+</BaseLayout>

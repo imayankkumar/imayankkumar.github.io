@@ -53,3 +53,166 @@ h6,
 p {
   margin: 0;
 }
+
+/* ---------- Inner pages (About, Projects, Resume, Contact) ---------- */
+
+.page {
+  padding-block: var(--space-16) var(--space-24);
+}
+
+.page__inner {
+  max-width: 46rem;
+}
+
+.page__eyebrow {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.page__title {
+  margin-top: var(--space-2);
+  font-size: clamp(1.875rem, 4vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.page__lead {
+  margin-top: var(--space-4);
+  font-size: var(--text-lg);
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+}
+
+.page__section {
+  margin-top: var(--space-16);
+}
+
+.page__section-title {
+  font-size: var(--text-xl);
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.page__section-title {
+  margin-bottom: var(--space-6);
+}
+
+.page__prose p + p {
+  margin-top: var(--space-4);
+}
+
+.page__prose p {
+  line-height: 1.75;
+}
+
+a.page__link {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+a.page__link:hover {
+  color: var(--color-primary-hover);
+}
+
+.page a:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--radius-sm);
+}
+
+.card {
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.card + .card {
+  margin-top: var(--space-4);
+}
+
+.card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
+.card__title {
+  font-size: var(--text-lg);
+  font-weight: 650;
+}
+
+.card__meta {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.card__body {
+  margin-top: var(--space-3);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.list {
+  margin: var(--space-3) 0 0;
+  padding-left: 1.1rem;
+  list-style: disc;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.list li + li {
+  margin-top: var(--space-2);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tags li {
+  padding: 0.15rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  background: var(--color-background);
+}
+
+.timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline > li + li {
+  margin-top: var(--space-12);
+}
+
+.timeline__company {
+  font-size: var(--text-lg);
+  font-weight: 650;
+}
+
+.timeline__roles {
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.timeline__roles strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
