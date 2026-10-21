@@ -1,3 +1,21 @@
-<footer>
-  <div class="container">© {new Date().getFullYear()} Mayank Kumar</div>
+---
+import Container from "./Container.astro"
+---
+
+<footer class="site-footer">
+  <Container>
+    <p class="site-footer__text">© {new Date().getFullYear()} Mayank Kumar</p>
+  </Container>
 </footer>
+
+<style>
+  .site-footer {
+    padding-block: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .site-footer__text {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+</style>
