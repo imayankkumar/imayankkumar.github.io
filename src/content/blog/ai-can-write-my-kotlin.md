@@ -5,6 +5,8 @@ pubDate: 2026-10-22
 tags: ["android", "ai", "kotlin", "testing"]
 ogImage: "/og/ai-can-write-my-kotlin.jpg"
 ogImageAlt: "Diagram: tests pass in the repository, but Android bugs live on the device at runtime."
+cover: "../../assets/blog/verification-gap.png"
+coverAlt: "Diagram: tests pass in the repository, but Android bugs live on the device at runtime."
 ---
 
 It's 2:07 AM, and Crashlytics has opinions. The crash is in a ViewModel that `git blame` says you wrote. You didn't. An agent did, and its pull request said "all tests pass." They do. The agent updated the expected values to match its new behaviour.

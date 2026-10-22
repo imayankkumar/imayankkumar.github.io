@@ -1,6 +1,7 @@
 ---
 import Container from "../../layout/Container.astro"
 import Section from "../../layout/Section.astro"
+import { Image } from "astro:assets"
 import Icon from "../../ui/Icon.astro"
 import SectionHeader from "./SectionHeader.astro"
 import { getPublishedPosts, postUrl, formatDate, readingTime } from "../../../lib/blog"
@@ -22,10 +23,20 @@ const tones = ["blue", "violet", "green"] as const
         <ul class="posts">
           {posts.map((post, i) => (
             <li>
-              <a class="post" href={postUrl(post)}>
-                <span class:list={["icon-tile", `icon-tile--${tones[i % 3]}`]}>
-                  <Icon name="pulse" size={22} />
-                </span>
+              <a class:list={["post", { "post--cover": post.data.cover }]} href={postUrl(post)}>
+                {post.data.cover ? (
+                  <Image
+                    class="post__cover"
+                    src={post.data.cover}
+                    alt={post.data.coverAlt ?? ""}
+                    widths={[400, 800]}
+                    sizes="(min-width: 900px) 380px, 100vw"
+                  />
+                ) : (
+                  <span class:list={["icon-tile", `icon-tile--${tones[i % 3]}`]}>
+                    <Icon name="pulse" size={22} />
+                  </span>
+                )}
                 <div class="post__text">
                   <h3 class="post__title">{post.data.title}</h3>
                   <p class="post__body">{post.data.description}</p>
@@ -71,6 +82,22 @@ const tones = ["blue", "violet", "green"] as const
     background: var(--color-background);
     box-shadow: var(--shadow-sm);
     transition: transform 150ms ease;
+  }
+
+  .post--cover {
+    flex-direction: column;
+    padding-top: var(--space-4);
+  }
+
+  .post__cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    object-position: top left;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
   }
 
   .post:hover {

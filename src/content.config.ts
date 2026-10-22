@@ -8,20 +8,24 @@ import { z } from "astro/zod"
  */
 const blog = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string().max(200),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-    /** Links to where the post was shared, shown at the end of the article. */
-    linkedinUrl: z.string().url().optional(),
-    xUrl: z.string().url().optional(),
-    /** Link-preview image for this post, a root-relative path under public/ (1200×630). */
-    ogImage: z.string().startsWith("/").optional(),
-    ogImageAlt: z.string().optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string().max(200),
+      pubDate: z.coerce.date(),
+      updatedDate: z.coerce.date().optional(),
+      tags: z.array(z.string()).default([]),
+      draft: z.boolean().default(false),
+      /** Links to where the post was shared, shown at the end of the article. */
+      linkedinUrl: z.string().url().optional(),
+      xUrl: z.string().url().optional(),
+      /** Link-preview image for this post, a root-relative path under public/ (1200×630). */
+      ogImage: z.string().startsWith("/").optional(),
+      ogImageAlt: z.string().optional(),
+      /** Image shown on the post's card on the homepage. Path relative to the post file. */
+      cover: image().optional(),
+      coverAlt: z.string().optional(),
+    }),
 })
 
 export const collections = { blog }
