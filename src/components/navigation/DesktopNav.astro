@@ -1,6 +1,7 @@
 ---
-import { navigation } from "../../data/navigation"
+import { getNavigation } from "../../data/navigation"
 
+const navigation = await getNavigation()
 const currentPath = Astro.url.pathname
 ---
 

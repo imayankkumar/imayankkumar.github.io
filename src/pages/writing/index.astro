@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"
+import Container from "../../components/layout/Container.astro"
+import { getPublishedPosts, postUrl, formatDate, readingTime } from "../../lib/writing"
+
+const posts = await getPublishedPosts()
+---
+
+<BaseLayout
+  title="Writing · Mayank Kumar"
+  description="Mayank Kumar writes about Android rendering and performance, FramePulse, and AI-assisted engineering."
+>
+  {posts.length === 0 && <meta slot="head" name="robots" content="noindex" />}
+  <link slot="head" rel="alternate" type="application/rss+xml" title="Mayank Kumar · Writing" href="/rss.xml" />
+  <main class="page">
+    <Container>
+      <div class="page__inner">
+        <p class="page__eyebrow">Writing</p>
+        <h1 class="page__title">Notes on Android, performance and engineering</h1>
+        <p class="page__lead">
+          Long-form write-ups first, then shared on LinkedIn and X.
+        </p>
+
+        {
+          posts.length === 0 ? (
+            <p class="page__section card__body">The first post is on its way.</p>
+          ) : (
+            <ul class="page__section post-list">
+              {posts.map((post) => (
+                <li class="card">
+                  <a class="post-list__link" href={postUrl(post)}>
+                    <h2 class="card__title">{post.data.title}</h2>
+                  </a>
+                  <p class="card__meta">
+                    <time datetime={post.data.pubDate.toISOString()}>
+                      {formatDate(post.data.pubDate)}
+                    </time>{" "}
+                    · {readingTime(post)}
+                  </p>
+                  <p class="card__body">{post.data.description}</p>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+    </Container>
+  </main>
+</BaseLayout>
+
+<style>
+  .post-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post-list__link:hover .card__title {
+    color: var(--color-primary);
+  }
+
+  .post-list__link:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-sm);
+  }
+</style>

@@ -1,0 +1,109 @@
+---
+import Container from "../../layout/Container.astro"
+import Section from "../../layout/Section.astro"
+import Icon from "../../ui/Icon.astro"
+import SectionHeader from "./SectionHeader.astro"
+import { getPublishedPosts, postUrl, formatDate, readingTime } from "../../../lib/writing"
+
+// Renders nothing until the first post is published.
+const posts = (await getPublishedPosts()).slice(0, 3)
+const tones = ["blue", "violet", "green"] as const
+---
+
+{
+  posts.length > 0 && (
+    <Section id="writing" class="home-section" aria-labelledby="writing-heading">
+      <Container>
+        <SectionHeader
+          id="writing-heading"
+          title="Latest Writing"
+          link={{ label: "View all articles", href: "/writing/" }}
+        />
+        <ul class="posts">
+          {posts.map((post, i) => (
+            <li>
+              <a class="post" href={postUrl(post)}>
+                <span class:list={["icon-tile", `icon-tile--${tones[i % 3]}`]}>
+                  <Icon name="pulse" size={22} />
+                </span>
+                <div class="post__text">
+                  <h3 class="post__title">{post.data.title}</h3>
+                  <p class="post__body">{post.data.description}</p>
+                  <p class="post__meta">
+                    {formatDate(post.data.pubDate)} · {readingTime(post)}
+                  </p>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </Section>
+  )
+}
+
+<style>
+  .posts {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 900px) {
+    .posts {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .posts > li {
+    display: flex;
+  }
+
+  .post {
+    display: flex;
+    gap: var(--space-4);
+    width: 100%;
+    padding: var(--space-6) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-background);
+    box-shadow: var(--shadow-sm);
+    transition: transform 150ms ease;
+  }
+
+  .post:hover {
+    transform: translateY(-2px);
+  }
+
+  .post:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .post__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .post__title {
+    font-size: var(--text-base);
+    font-weight: 650;
+    line-height: 1.35;
+  }
+
+  .post__body {
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+  }
+
+  .post__meta {
+    margin-top: auto;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+</style>

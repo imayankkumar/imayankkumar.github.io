@@ -1,9 +1,10 @@
 ---
-import { navigation } from "../../data/navigation"
+import { getNavigation } from "../../data/navigation"
 import { site } from "../../data/site"
 import SocialLinks from "./SocialLinks.astro"
 import Button from "../ui/Button.astro"
 
+const navigation = await getNavigation()
 const currentPath = Astro.url.pathname
 ---
 
