@@ -1,21 +1,21 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro"
 import Container from "../../components/layout/Container.astro"
-import { getPublishedPosts, postUrl, formatDate, readingTime } from "../../lib/writing"
+import { getPublishedPosts, postUrl, formatDate, readingTime } from "../../lib/blog"
 
 const posts = await getPublishedPosts()
 ---
 
 <BaseLayout
-  title="Writing · Mayank Kumar"
+  title="Blog · Mayank Kumar"
   description="Short, practical posts by Mayank Kumar on Android engineering, performance, and building Android apps with AI."
 >
   {posts.length === 0 && <meta slot="head" name="robots" content="noindex" />}
-  <link slot="head" rel="alternate" type="application/rss+xml" title="Mayank Kumar · Writing" href="/rss.xml" />
+  <link slot="head" rel="alternate" type="application/rss+xml" title="Mayank Kumar · Blog" href="/rss.xml" />
   <main class="page">
     <Container>
       <div class="page__inner">
-        <p class="page__eyebrow">Writing</p>
+        <p class="page__eyebrow">Blog</p>
         <h1 class="page__title">Notes on Android, performance and AI</h1>
         <p class="page__lead">
           Short, practical posts on Android engineering and building with AI, including the
@@ -51,7 +51,9 @@ const posts = await getPublishedPosts()
 
 <style>
   .post-list {
-    margin: 0;
+    display: grid;
+    gap: var(--space-4);
+    margin: var(--space-12) 0 0;
     padding: 0;
     list-style: none;
   }

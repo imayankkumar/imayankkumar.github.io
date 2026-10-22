@@ -1,7 +1,7 @@
 ---
-# Template for new posts. Copy this file to src/content/writing/<slug>.md,
+# Template for new posts. Copy this file to src/content/blog/<slug>.md,
 # fill in the fields and remove `draft: true` to publish.
-# The file name becomes the URL: /writing/<slug>/
+# The file name becomes the URL: /blog/<slug>/
 title: "Post title"
 description: "One or two sentences. Shown in search results, link previews and the post list (max 200 characters)."
 pubDate: 2026-01-01

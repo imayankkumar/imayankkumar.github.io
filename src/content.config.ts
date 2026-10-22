@@ -3,11 +3,11 @@ import { glob } from "astro/loaders"
 import { z } from "astro/zod"
 
 /**
- * Posts live in src/content/writing/<slug>.md.
+ * Posts live in src/content/blog/<slug>.md.
  * Set `draft: true` to keep a post out of the built site.
  */
-const writing = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/writing" }),
+const blog = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
   schema: z.object({
     title: z.string(),
     description: z.string().max(200),
@@ -24,4 +24,4 @@ const writing = defineCollection({
   }),
 })
 
-export const collections = { writing }
+export const collections = { blog }

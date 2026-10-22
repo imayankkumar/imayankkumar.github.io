@@ -3,7 +3,7 @@ import Container from "../../layout/Container.astro"
 import Section from "../../layout/Section.astro"
 import Icon from "../../ui/Icon.astro"
 import SectionHeader from "./SectionHeader.astro"
-import { getPublishedPosts, postUrl, formatDate, readingTime } from "../../../lib/writing"
+import { getPublishedPosts, postUrl, formatDate, readingTime } from "../../../lib/blog"
 
 // Renders nothing until the first post is published.
 const posts = (await getPublishedPosts()).slice(0, 3)
@@ -12,12 +12,12 @@ const tones = ["blue", "violet", "green"] as const
 
 {
   posts.length > 0 && (
-    <Section id="writing" class="home-section" aria-labelledby="writing-heading">
+    <Section id="blog" class="home-section" aria-labelledby="blog-heading">
       <Container>
         <SectionHeader
-          id="writing-heading"
-          title="Latest Writing"
-          link={{ label: "View all articles", href: "/writing/" }}
+          id="blog-heading"
+          title="Latest Posts"
+          link={{ label: "View all posts", href: "/blog/" }}
         />
         <ul class="posts">
           {posts.map((post, i) => (

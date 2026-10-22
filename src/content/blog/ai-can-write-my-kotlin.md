@@ -27,7 +27,7 @@ When changes get cheap to produce, teams produce more of them. The limit becomes
 
 Because an agent works on the repository, but Android correctness depends on the device at runtime.
 
-![Diagram: on the left, what the agent sees, the repository with a green build and passing tests. On the right, where Android bugs live: process death, OEM battery managers, R8 release builds, recomposition, and low-memory devices.](../../assets/writing/verification-gap.png)
+![Diagram: on the left, what the agent sees, the repository with a green build and passing tests. On the right, where Android bugs live: process death, OEM battery managers, R8 release builds, recomposition, and low-memory devices.](../../assets/blog/verification-gap.png)
 
 Process death, OEM battery managers, R8 in release builds, unexpected recomposition, and main-thread work on low-memory devices rarely show up in a diff. Most don't show up on a flagship emulator either.
 

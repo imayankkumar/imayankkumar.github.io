@@ -2,9 +2,9 @@
 import { render } from "astro:content"
 import BaseLayout from "../../layouts/BaseLayout.astro"
 import Container from "../../components/layout/Container.astro"
-import { getPublishedPosts, postUrl, formatDate, readingTime, type Post } from "../../lib/writing"
+import { getPublishedPosts, postUrl, formatDate, readingTime, type Post } from "../../lib/blog"
 import { site } from "../../data/site"
-import AuthorNote from "../../components/writing/AuthorNote.astro"
+import AuthorNote from "../../components/blog/AuthorNote.astro"
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts()
@@ -43,7 +43,7 @@ const articleSchema = {
   <main class="page">
     <Container>
       <article class="page__inner">
-        <p class="page__eyebrow"><a href="/writing/">Writing</a></p>
+        <p class="page__eyebrow"><a href="/blog/">Blog</a></p>
         <h1 class="page__title">{post.data.title}</h1>
         <p class="card__meta post__meta">
           <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>

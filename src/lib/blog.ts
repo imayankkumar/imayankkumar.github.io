@@ -1,15 +1,15 @@
 import { getCollection, type CollectionEntry } from "astro:content"
 
-export type Post = CollectionEntry<"writing">
+export type Post = CollectionEntry<"blog">
 
 /** Published posts, newest first. Drafts never ship. */
 export async function getPublishedPosts(): Promise<Post[]> {
-  const posts = await getCollection("writing", ({ data }) => !data.draft)
+  const posts = await getCollection("blog", ({ data }) => !data.draft)
   return posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 }
 
 export function postUrl(post: Post): string {
-  return `/writing/${post.id}/`
+  return `/blog/${post.id}/`
 }
 
 export function formatDate(date: Date): string {

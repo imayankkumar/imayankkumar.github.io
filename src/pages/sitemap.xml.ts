@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro"
-import { getPublishedPosts, postUrl } from "../lib/writing"
+import { getPublishedPosts, postUrl } from "../lib/blog"
 
 // Static pages, plus every published post.
 const pages = ["/", "/about/", "/projects/", "/resume/", "/contact/"]
@@ -8,7 +8,7 @@ export const GET: APIRoute = async ({ site }) => {
   const posts = await getPublishedPosts()
   const entries = [
     ...pages.map((path) => ({ path, lastmod: undefined as Date | undefined })),
-    ...(posts.length ? [{ path: "/writing/", lastmod: posts[0].data.pubDate }] : []),
+    ...(posts.length ? [{ path: "/blog/", lastmod: posts[0].data.pubDate }] : []),
     ...posts.map((p) => ({ path: postUrl(p), lastmod: p.data.updatedDate ?? p.data.pubDate })),
   ]
   const urls = entries
