@@ -81,6 +81,15 @@ const classes = ["button", `button--${variant}`, className]
     background: var(--color-primary-hover);
   }
 
+  /* The lighter dark-theme blue is too pale behind white text. */
+  :global([data-theme="dark"]) .button--primary {
+    background: #2563eb;
+  }
+
+  :global([data-theme="dark"]) .button--primary:hover {
+    background: #1d4ed8;
+  }
+
   .button--secondary {
     background: var(--color-surface);
     border-color: var(--color-border);
