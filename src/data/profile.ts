@@ -1,8 +1,12 @@
 import { site } from "./site"
 import { contact, patent, framePulse } from "./career"
 
+/** Single source for the experience figure (career started Oct 2017). */
+const yearsOfExperience = "9+"
+
 export const profile = {
   name: "Mayank Kumar",
+  yearsOfExperience,
   role: "Senior Android Engineer",
   tagline:
     "Building high-performance Android applications, open-source tools, and AI-powered products.",
@@ -18,7 +22,7 @@ export const profile = {
   ],
   location: "India",
   availability: "Open to opportunities",
-  bio: "I'm Mayank Kumar, a Senior Android Engineer with 8+ years of experience. I build high-performance Android applications, contribute to open source, and create developer tools that improve engineering productivity.",
+  bio: `I'm Mayank Kumar, a Senior Android Engineer with ${yearsOfExperience} years of experience. I build high-performance Android applications, contribute to open source, and create developer tools that improve engineering productivity.`,
   image: {
     src: "/images/profile.png",
     alt: "Portrait of Mayank Kumar",
@@ -31,11 +35,10 @@ export const profile = {
       icon: "patent" as const,
     },
     {
-      label: "Open Source Contributor",
-      description: "Building FramePulse",
+      label: "Creator of FramePulse",
       href: framePulse.href,
       variant: "dark" as const,
-      icon: "globe" as const,
+      icon: "pulse" as const,
     },
   ],
   ctas: [

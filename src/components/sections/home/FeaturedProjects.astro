@@ -1,0 +1,213 @@
+---
+import Container from "../../layout/Container.astro"
+import Section from "../../layout/Section.astro"
+import Icon from "../../ui/Icon.astro"
+import SectionHeader from "./SectionHeader.astro"
+import { featuredProjects } from "../../../data/home"
+---
+
+<Section id="featured" class="home-section" aria-labelledby="featured-heading">
+  <Container>
+    <SectionHeader
+      id="featured-heading"
+      title="Featured Projects"
+      link={{ label: "View all projects", href: "/projects" }}
+    />
+
+    <ul class="projects">
+      {
+        featuredProjects.map((project) => (
+          <li>
+            <a
+              href={project.href}
+              class:list={["project", `project--${project.tone}`]}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="project__icon">
+                <Icon name={project.icon} size={30} />
+              </span>
+              <div class="project__text">
+                <h3 class="project__title">{project.title}</h3>
+                <p class="project__body">{project.body}</p>
+                <div class="project__footer">
+                  <ul class="project__tags" aria-label="Topics">
+                    {project.tags.map((tag) => (
+                      <li>{tag}</li>
+                    ))}
+                  </ul>
+                  {project.meta && <span class="project__meta">{project.meta}</span>}
+                </div>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a href="/projects" class="project project--more">
+          <span class="icon-tile icon-tile--green icon-tile--lg">
+            <Icon name="grid" size={30} />
+          </span>
+          <div class="project__text">
+            <h3 class="project__title">More Projects</h3>
+            <p class="project__body">
+              Everything I can show in full, plus how I describe closed-source work.
+            </p>
+            <span class="project__more-link">
+              View all
+              <Icon name="arrow-right" size={14} />
+            </span>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </Container>
+</Section>
+
+<style>
+  .projects {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 900px) {
+    .projects {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .projects > li {
+    display: flex;
+  }
+
+  .project {
+    display: flex;
+    gap: var(--space-4);
+    width: 100%;
+    padding: var(--space-6);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    color: #ffffff;
+    box-shadow: var(--shadow-md);
+    transition: transform 150ms ease;
+  }
+
+  .project:hover {
+    transform: translateY(-2px);
+  }
+
+  .project:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .project--blue {
+    background: linear-gradient(145deg, #0b1324 0%, #13203a 100%);
+    border-color: #1e293b;
+  }
+
+  .project--violet {
+    background: linear-gradient(145deg, #15112b 0%, #221a45 100%);
+    border-color: #2a2350;
+  }
+
+  .project--more {
+    color: var(--color-text);
+    background: var(--color-background);
+    border-color: var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .project__icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: var(--radius-md);
+  }
+
+  .project--blue .project__icon {
+    color: #38bdf8;
+    background: rgb(56 189 248 / 0.12);
+    border: 1px solid rgb(56 189 248 / 0.25);
+  }
+
+  .project--violet .project__icon {
+    color: #a78bfa;
+    background: rgb(167 139 250 / 0.14);
+    border: 1px solid rgb(167 139 250 / 0.28);
+  }
+
+  .project__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+    flex: 1;
+  }
+
+  .project__title {
+    font-size: var(--text-lg);
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .project__body {
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: #cbd5e1;
+  }
+
+  .project--more .project__body {
+    color: var(--color-text-secondary);
+  }
+
+  .project__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-2);
+  }
+
+  .project__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .project__tags li {
+    padding: 0.1rem 0.55rem;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    color: #e2e8f0;
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  .project__meta {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #94a3b8;
+  }
+
+  .project__more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: auto;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+</style>

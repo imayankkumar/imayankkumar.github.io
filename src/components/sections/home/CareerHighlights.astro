@@ -1,0 +1,116 @@
+---
+import Container from "../../layout/Container.astro"
+import Section from "../../layout/Section.astro"
+import Icon from "../../ui/Icon.astro"
+import SectionHeader from "./SectionHeader.astro"
+import { highlights } from "../../../data/home"
+---
+
+<Section id="highlights" class="home-section" aria-labelledby="highlights-heading">
+  <Container>
+    <SectionHeader
+      id="highlights-heading"
+      title="Career Highlights"
+      link={{ label: "View all", href: "/about" }}
+    />
+
+    <ul class="highlights">
+      {
+        highlights.map((item) => (
+          <li class="highlight">
+            <span class:list={["icon-tile", `icon-tile--${item.tone}`]}>
+              <Icon name={item.icon} size={22} />
+            </span>
+            <div class="highlight__text">
+              <h3 class="highlight__title">{item.title}</h3>
+              <p class="highlight__body">{item.body}</p>
+              {item.link && (
+                <a
+                  href={item.link.href}
+                  class="highlight__link"
+                  target={item.link.external ? "_blank" : undefined}
+                  rel={item.link.external ? "noopener noreferrer" : undefined}
+                >
+                  {item.link.label}
+                  <Icon name="arrow-right" size={14} />
+                </a>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</Section>
+
+<style>
+  .highlights {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .highlights {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .highlights {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .highlight {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-6) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-background);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .highlight__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .highlight__title {
+    font-size: var(--text-base);
+    font-weight: 650;
+    line-height: 1.3;
+  }
+
+  .highlight__body {
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+  }
+
+  .highlight__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: auto;
+    padding-top: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+
+  .highlight__link:hover {
+    color: var(--color-primary-hover);
+  }
+
+  .highlight__link:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-sm);
+  }
+</style>

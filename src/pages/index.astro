@@ -1,7 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro"
 import IntroductionSection from "../components/sections/introduction/IntroductionSection.astro"
-import FeaturedProjectSection from "../components/sections/featured/FeaturedProjectSection.astro"
+import CareerHighlights from "../components/sections/home/CareerHighlights.astro"
+import FeaturedProjects from "../components/sections/home/FeaturedProjects.astro"
+import CareerJourney from "../components/sections/home/CareerJourney.astro"
+import CallToAction from "../components/sections/home/CallToAction.astro"
 ---
 
 <BaseLayout
@@ -10,6 +13,10 @@ import FeaturedProjectSection from "../components/sections/featured/FeaturedProj
 >
   <main>
     <IntroductionSection />
-    <FeaturedProjectSection />
+    <CareerHighlights />
+    <FeaturedProjects />
+    <!-- Latest Writing goes here once the first post is published. -->
+    <CareerJourney />
+    <CallToAction />
   </main>
 </BaseLayout>

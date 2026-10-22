@@ -1,0 +1,125 @@
+---
+import Container from "../../layout/Container.astro"
+import Section from "../../layout/Section.astro"
+import SectionHeader from "./SectionHeader.astro"
+import { journey } from "../../../data/home"
+---
+
+<Section id="journey" class="home-section" aria-labelledby="journey-heading">
+  <Container>
+    <SectionHeader
+      id="journey-heading"
+      title="Career Journey"
+      link={{ label: "View full journey", href: "/resume" }}
+    />
+
+    <ol class="journey">
+      {
+        journey.map((step, index) => (
+          <li
+            class:list={[
+              "journey__step",
+              { "journey__step--current": index === journey.length - 1 },
+            ]}
+          >
+            <span class="journey__dot" aria-hidden="true" />
+            <span class="journey__year">{step.year}</span>
+            <span class="journey__text">{step.text}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </Container>
+</Section>
+
+<style>
+  .journey {
+    --dot: 0.75rem;
+
+    position: relative;
+    display: grid;
+    gap: var(--space-6);
+    margin: 0;
+    padding: 0 0 0 var(--space-8);
+    list-style: none;
+  }
+
+  /* Vertical line on mobile */
+  .journey::before {
+    content: "";
+    position: absolute;
+    top: 0.4rem;
+    bottom: 0.4rem;
+    left: calc(var(--dot) / 2 - 1px);
+    width: 2px;
+    background: color-mix(in srgb, var(--color-primary) 30%, var(--color-border));
+  }
+
+  .journey__step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .journey__dot {
+    position: absolute;
+    top: 0.35rem;
+    left: calc(-1 * var(--space-8));
+    width: var(--dot);
+    height: var(--dot);
+    border-radius: 999px;
+    background: var(--color-primary);
+    box-shadow: 0 0 0 4px var(--color-background);
+  }
+
+  .journey__step--current .journey__dot {
+    box-shadow:
+      0 0 0 3px var(--color-background),
+      0 0 0 5px color-mix(in srgb, var(--color-primary) 40%, transparent);
+  }
+
+  .journey__year {
+    font-size: var(--text-sm);
+    font-weight: 650;
+    color: var(--color-text);
+  }
+
+  .journey__step--current .journey__year {
+    color: var(--color-primary);
+  }
+
+  .journey__text {
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  /* Horizontal line from tablet up */
+  @media (min-width: 768px) {
+    .journey {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--space-6);
+      padding: var(--space-8) 0 0;
+    }
+
+    .journey::before {
+      top: calc(var(--dot) / 2 - 1px);
+      bottom: auto;
+      left: calc(var(--dot) / 2);
+      /* Stop at the last dot: one column width (5 columns, 4 gaps) */
+      right: calc((100% - 4 * var(--space-6)) / 5 - var(--dot) / 2);
+      width: auto;
+      height: 2px;
+    }
+
+    .journey__dot {
+      top: calc(-1 * var(--space-8));
+      left: 0;
+    }
+
+    .journey__text {
+      max-width: 13rem;
+    }
+  }
+</style>
