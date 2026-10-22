@@ -1,12 +1,14 @@
 import { site } from "./site"
 import { contact, patent, framePulse } from "./career"
 
-/** Single source for the experience figure (career started Oct 2017). */
-const yearsOfExperience = "9+"
+/** Experience figures: total software (since Oct 2017) and Android specifically. */
+const yearsInSoftware = "9+"
+const yearsInAndroid = "8+"
 
 export const profile = {
   name: "Mayank Kumar",
-  yearsOfExperience,
+  yearsInSoftware,
+  yearsInAndroid,
   role: "Senior Android Engineer",
   tagline:
     "Building high-performance Android applications, open-source tools, and AI-powered products.",
@@ -22,7 +24,7 @@ export const profile = {
   ],
   location: "India",
   availability: "Open to opportunities",
-  bio: `I'm Mayank Kumar, a Senior Android Engineer with ${yearsOfExperience} years of experience. I build high-performance Android applications, contribute to open source, and create developer tools that improve engineering productivity.`,
+  bio: `I'm Mayank Kumar, a Senior Android Engineer with ${yearsInSoftware} years in software engineering, ${yearsInAndroid} of them building Android apps. I build high-performance Android applications, contribute to open source, and create developer tools that improve engineering productivity.`,
   image: {
     src: "/images/profile.png",
     alt: "Portrait of Mayank Kumar",
