@@ -68,10 +68,6 @@ const socials = [
 
       <div class="site-footer__bottom">
         <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
-        <p class="site-footer__built">
-          <Icon name="heart" size={16} class="site-footer__heart" />
-          Built with Astro &amp; Tailwind CSS
-        </p>
       </div>
     </div>
   </Container>
@@ -181,16 +177,6 @@ const socials = [
     border-top: 1px solid var(--color-border);
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
-  }
-
-  .site-footer__built {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  :global(.site-footer__heart) {
-    color: #f87171;
   }
 
   @media (min-width: 768px) {
