@@ -1,22 +1,37 @@
 ---
 // Short first-person bio shown at the end of every post.
+import { Image } from "astro:assets"
+import profilePhoto from "../../assets/profile-avatar.png"
 ---
 
 <aside class="author-note" aria-label="About the author">
-  <p>
-    I'm Mayank, an Android engineer focused on Kotlin, software architecture, performance
-    engineering, and AI-assisted development. I write here about building Android apps with AI,
-    including the experiments that don't work.
-  </p>
-  <p class="author-note__links">
-    <a class="page__link" href="/about/">More about me</a>
-    <span aria-hidden="true"> · </span>
-    <a class="page__link" href="/rss.xml">RSS feed</a>
-  </p>
+  <Image
+    src={profilePhoto}
+    alt="Mayank Kumar"
+    width={72}
+    height={72}
+    densities={[1, 2]}
+    format="webp"
+    quality={85}
+    class="author-note__photo"
+  />
+  <div>
+    <p>
+      I'm Mayank, an Android engineer focused on Kotlin, software architecture, performance
+      engineering, and AI-assisted development. I write here about building Android apps with AI,
+      including the experiments that don't work.
+    </p>
+    <p class="author-note__links">
+      <a class="page__link" href="/about/">More about me</a>
+    </p>
+  </div>
 </aside>
 
 <style>
   .author-note {
+    display: flex;
+    gap: var(--space-6);
+    align-items: flex-start;
     margin-top: var(--space-12);
     padding: var(--space-6);
     border: 1px solid var(--color-border);
@@ -26,8 +41,23 @@
     line-height: 1.7;
   }
 
+  .author-note__photo {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+  }
+
   .author-note__links {
     margin-top: var(--space-3);
     font-size: var(--text-sm);
+  }
+
+  @media (max-width: 480px) {
+    .author-note {
+      flex-direction: column;
+    }
   }
 </style>
