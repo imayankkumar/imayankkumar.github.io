@@ -79,19 +79,13 @@ const socials = [
 
 <style>
   .site-footer {
-    padding-bottom: var(--space-6);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-background);
   }
 
   .site-footer__panel {
-    padding: var(--space-8) var(--space-6) var(--space-6);
-    border-radius: var(--radius-lg);
-    background: #0b1220;
-    color: #cbd5e1;
-  }
-
-  :global([data-theme="dark"]) .site-footer__panel {
-    background: #0f172a;
-    border: 1px solid #1e293b;
+    padding-block: var(--space-12) var(--space-6);
+    color: var(--color-text-secondary);
   }
 
   .site-footer__top {
@@ -114,18 +108,14 @@ const socials = [
     width: fit-content;
     font-weight: 700;
     letter-spacing: -0.02em;
-    color: #ffffff;
-  }
-
-  :global(.site-footer__mark .brand-mark__m) {
-    stroke: #ffffff;
+    color: var(--color-text);
   }
 
   .site-footer__tagline {
     max-width: 18rem;
     font-size: var(--text-sm);
     line-height: 1.7;
-    color: #94a3b8;
+    color: var(--color-text-secondary);
   }
 
   .site-footer__socials {
@@ -142,19 +132,19 @@ const socials = [
     width: 2.25rem;
     height: 2.25rem;
     border-radius: var(--radius-sm);
-    color: #e2e8f0;
+    color: var(--color-text);
     transition: background-color 150ms ease;
   }
 
   .site-footer__socials a:hover {
-    background: rgb(255 255 255 / 0.08);
+    background: var(--color-surface);
   }
 
   .site-footer__heading {
     margin-bottom: var(--space-4);
     font-size: var(--text-sm);
     font-weight: 600;
-    color: #ffffff;
+    color: var(--color-text);
   }
 
   .site-footer__column ul {
@@ -167,12 +157,12 @@ const socials = [
 
   .site-footer__column a {
     font-size: var(--text-sm);
-    color: #94a3b8;
+    color: var(--color-text-secondary);
     transition: color 150ms ease;
   }
 
   .site-footer__column a:hover {
-    color: #ffffff;
+    color: var(--color-text);
   }
 
   .site-footer a:focus-visible {
@@ -188,9 +178,9 @@ const socials = [
     gap: var(--space-3);
     margin-top: var(--space-8);
     padding-top: var(--space-6);
-    border-top: 1px solid rgb(255 255 255 / 0.08);
+    border-top: 1px solid var(--color-border);
     font-size: var(--text-sm);
-    color: #94a3b8;
+    color: var(--color-text-secondary);
   }
 
   .site-footer__built {
@@ -204,10 +194,6 @@ const socials = [
   }
 
   @media (min-width: 768px) {
-    .site-footer__panel {
-      padding: var(--space-12) var(--space-8) var(--space-6);
-    }
-
     .site-footer__top {
       grid-template-columns: 1.6fr repeat(3, minmax(0, 1fr));
     }
