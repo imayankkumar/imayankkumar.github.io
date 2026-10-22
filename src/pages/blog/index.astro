@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro"
+import { Image } from "astro:assets"
 import Container from "../../components/layout/Container.astro"
 import { getPublishedPosts, postUrl, formatDate, readingTime } from "../../lib/blog"
 
@@ -28,17 +29,30 @@ const posts = await getPublishedPosts()
           ) : (
             <ul class="page__section post-list">
               {posts.map((post) => (
-                <li class="card">
-                  <a class="post-list__link" href={postUrl(post)}>
-                    <h2 class="card__title">{post.data.title}</h2>
-                  </a>
-                  <p class="card__meta">
-                    <time datetime={post.data.pubDate.toISOString()}>
-                      {formatDate(post.data.pubDate)}
-                    </time>{" "}
-                    · {readingTime(post)}
-                  </p>
-                  <p class="card__body">{post.data.description}</p>
+                <li class:list={["card", { "post-card--cover": post.data.cover }]}>
+                  {post.data.cover && (
+                    <a class="post-card__media" href={postUrl(post)} tabindex="-1" aria-hidden="true">
+                      <Image
+                        class="post-card__cover"
+                        src={post.data.cover}
+                        alt=""
+                        widths={[400, 800]}
+                        sizes="(min-width: 720px) 280px, 100vw"
+                      />
+                    </a>
+                  )}
+                  <div class="post-card__text">
+                    <a class="post-list__link" href={postUrl(post)}>
+                      <h2 class="card__title">{post.data.title}</h2>
+                    </a>
+                    <p class="card__meta">
+                      <time datetime={post.data.pubDate.toISOString()}>
+                        {formatDate(post.data.pubDate)}
+                      </time>{" "}
+                      · {readingTime(post)}
+                    </p>
+                    <p class="card__body">{post.data.description}</p>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -56,6 +70,34 @@ const posts = await getPublishedPosts()
     margin: var(--space-12) 0 0;
     padding: 0;
     list-style: none;
+  }
+
+  .post-list > li {
+    margin: 0;
+  }
+
+  .post-card--cover {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 720px) {
+    .post-card--cover {
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: var(--space-6);
+      align-items: start;
+    }
+  }
+
+  .post-card__cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    object-position: top left;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
   }
 
   .post-list__link:hover .card__title {
