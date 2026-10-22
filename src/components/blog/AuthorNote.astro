@@ -2,6 +2,7 @@
 // Short first-person bio shown at the end of every post.
 import { Image } from "astro:assets"
 import profilePhoto from "../../assets/profile-avatar.png"
+import { site } from "../../data/site"
 ---
 
 <aside class="author-note" aria-label="About the author">
@@ -22,7 +23,7 @@ import profilePhoto from "../../assets/profile-avatar.png"
       including the experiments that don't work.
     </p>
     <p class="author-note__links">
-      <a class="page__link" href="/about/">More about me</a>
+      Connect with me on <a class="page__link" href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a> and <a class="page__link" href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>, or read <a class="page__link" href="/about/">more about me</a>.
     </p>
   </div>
 </aside>
