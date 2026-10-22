@@ -1,0 +1,45 @@
+---
+/**
+ * Structured data that tells search engines this site is the official home of
+ * Mayank Kumar, and which GitHub and LinkedIn profiles are the same person.
+ * Only public, verifiable facts belong here.
+ */
+import { site } from "../data/site"
+import { education, framePulse } from "../data/career"
+
+const url = new URL("/", Astro.site).href
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${url}#person`,
+      name: site.name,
+      alternateName: "imayankkumar",
+      url,
+      image: new URL("/og-image.jpg", Astro.site).href,
+      jobTitle: site.role,
+      worksFor: { "@type": "Organization", name: "Zebra Technologies" },
+      alumniOf: { "@type": "CollegeOrUniversity", name: education.school },
+      knowsAbout: [
+        "Android",
+        "Kotlin",
+        "Android rendering performance",
+        "Jetpack",
+        "AI-assisted software engineering",
+      ],
+      sameAs: [site.github, "https://www.linkedin.com/in/mayankkumar-mk/", framePulse.href],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${url}#website`,
+      name: site.name,
+      url,
+      publisher: { "@id": `${url}#person` },
+    },
+  ],
+}
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
