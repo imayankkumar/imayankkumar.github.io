@@ -370,3 +370,8 @@ a.page__link:hover {
   border-top: 1px solid var(--color-border);
   margin-block: var(--space-12);
 }
+
+.prose picture img {
+  width: 100%;
+  height: auto;
+}

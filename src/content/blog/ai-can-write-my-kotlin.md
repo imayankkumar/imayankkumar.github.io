@@ -1,7 +1,7 @@
 ---
 title: "AI Can Write My Kotlin. Who's Going to Debug It at 2 AM?"
 description: "AI agents can now write and fix Android code. Why proving it works on real devices, not writing it, is becoming the Android engineer's core job."
-pubDate: 2026-10-22
+pubDate: 2026-10-23
 tags: ["android", "ai", "kotlin", "testing"]
 ogImage: "/og/ai-can-write-my-kotlin.jpg"
 ogImageAlt: "Diagram: tests pass in the repository, but Android bugs live on the device at runtime."
@@ -29,7 +29,10 @@ When changes get cheap to produce, teams produce more of them. The limit becomes
 
 Because an agent works on the repository, but Android correctness depends on the device at runtime.
 
-![Diagram: on the left, what the agent sees, the repository with a green build and passing tests. On the right, where Android bugs live: process death, OEM battery managers, R8 release builds, recomposition, and low-memory devices.](../../assets/blog/verification-gap.png)
+<picture>
+  <source media="(max-width: 640px)" srcset="/blog/ai-can-write-my-kotlin/verification-gap-mobile.png" width="960" height="2114" />
+  <img src="/blog/ai-can-write-my-kotlin/verification-gap.png" width="1600" height="780" loading="lazy" decoding="async" alt="Diagram: on the left, what the agent sees, the repository with a green build and passing tests. On the right, where Android bugs live: process death, OEM battery managers, R8 release builds, recomposition, and low-memory devices." />
+</picture>
 
 Process death, OEM battery managers, R8 in release builds, unexpected recomposition, and main-thread work on low-memory devices rarely show up in a diff. Most don't show up on a flagship emulator either.
 
