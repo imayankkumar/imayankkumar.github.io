@@ -2,7 +2,7 @@ import { site } from "./site"
 import { contact, patent, framePulse } from "./career"
 
 /** Single source for the experience figure (career started Oct 2017). */
-const yearsOfExperience = "8+"
+const yearsOfExperience = "9+"
 
 export const profile = {
   name: "Mayank Kumar",
