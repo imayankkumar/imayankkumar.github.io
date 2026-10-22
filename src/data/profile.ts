@@ -3,7 +3,7 @@ import { contact, patent, framePulse } from "./career"
 
 /** Experience figures: total software (since Oct 2017) and Android specifically. */
 const yearsInSoftware = "9+"
-const yearsInAndroid = "8+"
+const yearsInAndroid = "6+"
 
 export const profile = {
   name: "Mayank Kumar",
@@ -26,7 +26,6 @@ export const profile = {
   availability: "Open to opportunities",
   bio: `I'm Mayank Kumar, a Senior Android Engineer with ${yearsInSoftware} years in software engineering, ${yearsInAndroid} of them building Android apps. I build high-performance Android applications, contribute to open source, and create developer tools that improve engineering productivity.`,
   image: {
-    src: "/images/profile.png",
     alt: "Portrait of Mayank Kumar",
   },
   highlights: [
@@ -46,12 +45,12 @@ export const profile = {
   ctas: [
     {
       label: "View Projects",
-      href: "/projects",
+      href: "/projects/",
       variant: "primary" as const,
     },
     {
       label: "Get In Touch",
-      href: "/contact",
+      href: "/contact/",
       variant: "secondary" as const,
     },
   ],

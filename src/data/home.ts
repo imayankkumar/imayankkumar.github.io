@@ -90,17 +90,17 @@ export const callToAction = {
   title: "Let's build something together",
   body: "I'm always happy to talk about Android, performance, AI-assisted engineering, or a role where those matter.",
   label: "Get In Touch",
-  href: "/contact",
+  href: "/contact/",
 }
 
 export const footerColumns = [
   {
     title: "Navigate",
     links: [
-      { label: "About", href: "/about" },
-      { label: "Projects", href: "/projects" },
-      { label: "Resume", href: "/resume" },
-      { label: "Contact", href: "/contact" },
+      { label: "About", href: "/about/" },
+      { label: "Projects", href: "/projects/" },
+      { label: "Resume", href: "/resume/" },
+      { label: "Contact", href: "/contact/" },
     ],
   },
   {

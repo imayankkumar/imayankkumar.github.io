@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import Container from "../components/layout/Container.astro"
+import Button from "../components/ui/Button.astro"
+---
+
+<BaseLayout
+  title="Page not found · Mayank Kumar"
+  description="This page doesn't exist on imayankkumar.com."
+>
+  <meta slot="head" name="robots" content="noindex" />
+  <main class="page">
+    <Container>
+      <div class="page__inner">
+        <p class="page__eyebrow">404</p>
+        <h1 class="page__title">This page doesn't exist</h1>
+        <p class="page__lead">
+          The link may be old or mistyped. Here's where you can go instead.
+        </p>
+        <div class="not-found__actions">
+          <Button href="/">Go to the homepage</Button>
+          <Button href="/projects/" variant="secondary">See projects</Button>
+          <Button href="/contact/" variant="secondary">Contact</Button>
+        </div>
+      </div>
+    </Container>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+  }
+</style>

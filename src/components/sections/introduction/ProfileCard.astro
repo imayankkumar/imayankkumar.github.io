@@ -1,7 +1,7 @@
 ---
-import fs from "node:fs"
-import path from "node:path"
+import { Image } from "astro:assets"
 import { profile } from "../../../data/profile"
+import profilePhoto from "../../../assets/profile.png"
 import StatusBadge from "./StatusBadge.astro"
 
 interface Props {
@@ -9,12 +9,6 @@ interface Props {
 }
 
 const { class: className } = Astro.props
-
-const profilePath = path.resolve("public/images/profile.png")
-const profileVersion = fs.existsSync(profilePath)
-  ? fs.statSync(profilePath).mtimeMs.toFixed(0)
-  : "1"
-const profileSrc = `/images/profile.png?v=${profileVersion}`
 
 // Decorative backdrop: the Choreographer API FramePulse is built on.
 const codeSnippet = `// FramePulse
@@ -34,15 +28,16 @@ choreographer.postFrameCallback {
   <pre class="profile-card__code" aria-hidden="true"><code>{codeSnippet}</code></pre>
 
   <div class="profile-card__photo-wrap">
-    <img
-      src={profileSrc}
+    <Image
+      src={profilePhoto}
       alt={profile.image.alt}
-      width="928"
-      height="1152"
+      widths={[280, 420, 560, 720, 928]}
+      sizes="(min-width: 900px) 270px, 64vw"
+      format="webp"
+      quality={85}
       class="profile-card__photo"
       loading="eager"
       fetchpriority="high"
-      decoding="async"
     />
   </div>
 
