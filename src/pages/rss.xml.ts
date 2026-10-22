@@ -25,7 +25,7 @@ export const GET: APIRoute = async ({ site }) => {
   <channel>
     <title>Mayank Kumar · Writing</title>
     <link>${new URL("/writing/", site).href}</link>
-    <description>Android rendering and performance, FramePulse, and AI-assisted engineering.</description>
+    <description>Android engineering, performance, and building Android apps with AI.</description>
     <language>en</language>
 ${items}
   </channel>

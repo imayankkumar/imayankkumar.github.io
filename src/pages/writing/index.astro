@@ -8,7 +8,7 @@ const posts = await getPublishedPosts()
 
 <BaseLayout
   title="Writing · Mayank Kumar"
-  description="Mayank Kumar writes about Android rendering and performance, FramePulse, and AI-assisted engineering."
+  description="Short, practical posts by Mayank Kumar on Android engineering, performance, and building Android apps with AI."
 >
   {posts.length === 0 && <meta slot="head" name="robots" content="noindex" />}
   <link slot="head" rel="alternate" type="application/rss+xml" title="Mayank Kumar · Writing" href="/rss.xml" />
@@ -16,9 +16,10 @@ const posts = await getPublishedPosts()
     <Container>
       <div class="page__inner">
         <p class="page__eyebrow">Writing</p>
-        <h1 class="page__title">Notes on Android, performance and engineering</h1>
+        <h1 class="page__title">Notes on Android, performance and AI</h1>
         <p class="page__lead">
-          Long-form write-ups first, then shared on LinkedIn and X.
+          Short, practical posts on Android engineering and building with AI, including the
+          experiments that don't work.
         </p>
 
         {

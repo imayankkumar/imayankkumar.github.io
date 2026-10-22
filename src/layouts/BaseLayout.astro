@@ -8,19 +8,23 @@ export interface Props {
   title: string
   description?: string
   type?: "website" | "article"
+  image?: string
+  imageAlt?: string
 }
 
 const {
   title,
   description = "Personal website of Mayank Kumar",
   type = "website",
+  image,
+  imageAlt,
 } = Astro.props
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <SEO title={title} description={description} type={type} />
+    <SEO title={title} description={description} type={type} image={image} imageAlt={imageAlt} />
     <script is:inline>
       ;(() => {
         let stored = null
