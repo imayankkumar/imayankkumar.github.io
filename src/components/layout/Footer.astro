@@ -1,21 +1,219 @@
 ---
 import Container from "./Container.astro"
+import BrandMark from "../navigation/BrandMark.astro"
+import Icon from "../ui/Icon.astro"
+import { site } from "../../data/site"
+import { contact } from "../../data/career"
+import { footerColumns } from "../../data/home"
+
+const socials = [
+  { name: "GitHub", href: site.github, icon: "github" as const, external: true },
+  { name: "LinkedIn", href: site.linkedin, icon: "linkedin" as const, external: true },
+  { name: "Email", href: `mailto:${contact.email}`, icon: "mail" as const, external: false },
+]
 ---
 
 <footer class="site-footer">
   <Container>
-    <p class="site-footer__text">© {new Date().getFullYear()} Mayank Kumar</p>
+    <div class="site-footer__panel">
+      <div class="site-footer__top">
+        <div class="site-footer__brand">
+          <a href="/" class="site-footer__logo" aria-label={`${site.name} — Home`}>
+            <BrandMark size={28} class="site-footer__mark" />
+            <span>{site.name}</span>
+          </a>
+          <p class="site-footer__tagline">
+            {site.role}<br />
+            Android performance, open source and AI-assisted engineering.
+          </p>
+          <ul class="site-footer__socials">
+            {
+              socials.map((s) => (
+                <li>
+                  <a
+                    href={s.href}
+                    aria-label={s.name}
+                    target={s.external ? "_blank" : undefined}
+                    rel={s.external ? "noopener noreferrer" : undefined}
+                  >
+                    <Icon name={s.icon} size={20} />
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        {
+          footerColumns.map((column) => (
+            <nav class="site-footer__column" aria-label={column.title}>
+              <h2 class="site-footer__heading">{column.title}</h2>
+              <ul>
+                {column.links.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      target={"external" in link && link.external ? "_blank" : undefined}
+                      rel={"external" in link && link.external ? "noopener noreferrer" : undefined}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))
+        }
+      </div>
+
+      <div class="site-footer__bottom">
+        <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
+        <p class="site-footer__built">
+          <Icon name="heart" size={16} class="site-footer__heart" />
+          Built with Astro &amp; Tailwind CSS
+        </p>
+      </div>
+    </div>
   </Container>
 </footer>
 
 <style>
   .site-footer {
-    padding-block: var(--space-8);
-    border-top: 1px solid var(--color-border);
+    padding-bottom: var(--space-6);
   }
 
-  .site-footer__text {
+  .site-footer__panel {
+    padding: var(--space-8) var(--space-6) var(--space-6);
+    border-radius: var(--radius-lg);
+    background: #0b1220;
+    color: #cbd5e1;
+  }
+
+  :global([data-theme="dark"]) .site-footer__panel {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+  }
+
+  .site-footer__top {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-8) var(--space-6);
+  }
+
+  .site-footer__brand {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .site-footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: fit-content;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  :global(.site-footer__mark .brand-mark__m) {
+    stroke: #ffffff;
+  }
+
+  .site-footer__tagline {
+    max-width: 18rem;
     font-size: var(--text-sm);
-    color: var(--color-text-secondary);
+    line-height: 1.7;
+    color: #94a3b8;
+  }
+
+  .site-footer__socials {
+    display: flex;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__socials a {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-sm);
+    color: #e2e8f0;
+    transition: background-color 150ms ease;
+  }
+
+  .site-footer__socials a:hover {
+    background: rgb(255 255 255 / 0.08);
+  }
+
+  .site-footer__heading {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .site-footer__column ul {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__column a {
+    font-size: var(--text-sm);
+    color: #94a3b8;
+    transition: color 150ms ease;
+  }
+
+  .site-footer__column a:hover {
+    color: #ffffff;
+  }
+
+  .site-footer a:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-sm);
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid rgb(255 255 255 / 0.08);
+    font-size: var(--text-sm);
+    color: #94a3b8;
+  }
+
+  .site-footer__built {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  :global(.site-footer__heart) {
+    color: #f87171;
+  }
+
+  @media (min-width: 768px) {
+    .site-footer__panel {
+      padding: var(--space-12) var(--space-8) var(--space-6);
+    }
+
+    .site-footer__top {
+      grid-template-columns: 1.6fr repeat(3, minmax(0, 1fr));
+    }
+
+    .site-footer__brand {
+      grid-column: auto;
+    }
   }
 </style>

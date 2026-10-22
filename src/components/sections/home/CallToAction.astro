@@ -1,0 +1,83 @@
+---
+import Container from "../../layout/Container.astro"
+import Section from "../../layout/Section.astro"
+import Button from "../../ui/Button.astro"
+import Icon from "../../ui/Icon.astro"
+import { callToAction } from "../../../data/home"
+---
+
+<Section id="cta" class="home-section cta-section" aria-labelledby="cta-heading">
+  <Container>
+    <div class="cta">
+      <span class="cta__icon">
+        <Icon name="send" size={30} />
+      </span>
+      <div class="cta__text">
+        <h2 id="cta-heading" class="cta__title">{callToAction.title}</h2>
+        <p class="cta__body">{callToAction.body}</p>
+      </div>
+      <Button href={callToAction.href} class="cta__button">
+        {callToAction.label}
+        <Icon name="arrow-right" size={16} />
+      </Button>
+    </div>
+  </Container>
+</Section>
+
+<style>
+  .cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+    padding: var(--space-8) var(--space-6);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 14%, var(--color-border));
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--color-primary) 6%, var(--color-background));
+  }
+
+  .cta__icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 999px;
+    color: var(--color-primary);
+    background: var(--color-background);
+    box-shadow: var(--shadow-md);
+  }
+
+  .cta__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .cta__title {
+    font-size: var(--text-xl);
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  .cta__body {
+    max-width: 36rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+  }
+
+  :global(.cta__button) {
+    padding: 0.8rem 1.5rem;
+    font-weight: 600;
+    font-size: var(--text-base);
+  }
+
+  @media (min-width: 768px) {
+    .cta {
+      flex-direction: row;
+      align-items: center;
+      padding: var(--space-8) var(--space-12) var(--space-8) var(--space-6);
+    }
+  }
+</style>
