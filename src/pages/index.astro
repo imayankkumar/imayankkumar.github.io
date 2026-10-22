@@ -5,12 +5,14 @@ import CareerHighlights from "../components/sections/home/CareerHighlights.astro
 import FeaturedProjects from "../components/sections/home/FeaturedProjects.astro"
 import CareerJourney from "../components/sections/home/CareerJourney.astro"
 import CallToAction from "../components/sections/home/CallToAction.astro"
+import PersonSchema from "../seo/PersonSchema.astro"
 ---
 
 <BaseLayout
   title="Mayank Kumar · Senior Android Engineer"
   description="Senior Android Engineer: Android performance, open source (FramePulse) and AI-assisted engineering."
 >
+  <PersonSchema slot="head" />
   <main>
     <IntroductionSection />
     <CareerHighlights />
