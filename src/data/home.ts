@@ -25,8 +25,8 @@ export const highlights: Highlight[] = [
   {
     icon: "calendar",
     tone: "green",
-    title: `${profile.yearsOfExperience} Years`,
-    body: "Building Android apps in production since 2017",
+    title: `${profile.yearsInAndroid} Years`,
+    body: `Of Android development, ${profile.yearsInSoftware} years in software overall`,
   },
   {
     icon: "pulse",
