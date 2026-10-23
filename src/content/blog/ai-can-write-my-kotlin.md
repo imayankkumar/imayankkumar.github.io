@@ -21,7 +21,7 @@ So writing Android code is no longer the slow part. Checking it is.
 
 ## Why is "almost right" the expensive part?
 
-Because it compiles, looks fine in review, and fails later. In Stack Overflow's [2025 survey](https://survey.stackoverflow.co/2025/ai), 66% of developers named "AI solutions that are almost right, but not quite" as their top frustration. Google's [DORA 2025 report](https://www.infoq.com/news/2025/09/dora-state-of-ai-in-dev-2025) found that AI adoption goes with higher delivery throughput, while delivery instability keeps rising.
+Because it compiles, looks fine in review, and fails later. In Stack Overflow's [2025 survey](https://survey.stackoverflow.co/2025/ai), 66% of developers named "AI solutions that are almost right, but not quite" as their top frustration. Google's [DORA 2025 report](https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report) found that AI adoption goes with higher delivery throughput, but it's still linked to less stable delivery.
 
 When changes get cheap to produce, teams produce more of them. The limit becomes how much change you can verify.
 
