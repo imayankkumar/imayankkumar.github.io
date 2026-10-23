@@ -1,0 +1,136 @@
+---
+import Container from "../../layout/Container.astro"
+import Section from "../../layout/Section.astro"
+import { Image } from "astro:assets"
+import Icon from "../../ui/Icon.astro"
+import SectionHeader from "./SectionHeader.astro"
+import { getPublishedPosts, postUrl, formatDate, readingTime } from "../../../lib/blog"
+
+// Renders nothing until the first post is published.
+const posts = (await getPublishedPosts()).slice(0, 3)
+const tones = ["blue", "violet", "green"] as const
+---
+
+{
+  posts.length > 0 && (
+    <Section id="blog" class="home-section" aria-labelledby="blog-heading">
+      <Container>
+        <SectionHeader
+          id="blog-heading"
+          title="Latest Posts"
+          link={{ label: "View all posts", href: "/blog/" }}
+        />
+        <ul class="posts">
+          {posts.map((post, i) => (
+            <li>
+              <a class:list={["post", { "post--cover": post.data.cover }]} href={postUrl(post)}>
+                {post.data.cover ? (
+                  <Image
+                    class="post__cover"
+                    src={post.data.cover}
+                    alt={post.data.coverAlt ?? ""}
+                    widths={[400, 800]}
+                    sizes="(min-width: 900px) 380px, 100vw"
+                  />
+                ) : (
+                  <span class:list={["icon-tile", `icon-tile--${tones[i % 3]}`]}>
+                    <Icon name="pulse" size={22} />
+                  </span>
+                )}
+                <div class="post__text">
+                  <h3 class="post__title">{post.data.title}</h3>
+                  <p class="post__body">{post.data.description}</p>
+                  <p class="post__meta">
+                    {formatDate(post.data.pubDate)} · {readingTime(post)}
+                  </p>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </Section>
+  )
+}
+
+<style>
+  .posts {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 900px) {
+    .posts {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .posts > li {
+    display: flex;
+  }
+
+  .post {
+    display: flex;
+    gap: var(--space-4);
+    width: 100%;
+    padding: var(--space-6) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-background);
+    box-shadow: var(--shadow-sm);
+    transition: transform 150ms ease;
+  }
+
+  .post--cover {
+    flex-direction: column;
+    padding-top: var(--space-4);
+  }
+
+  .post__cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    object-position: top left;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .post:hover {
+    transform: translateY(-2px);
+  }
+
+  .post:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .post__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .post__title {
+    font-size: var(--text-base);
+    font-weight: 650;
+    line-height: 1.35;
+  }
+
+  .post__body {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+  }
+
+  .post__meta {
+    margin-top: auto;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+</style>

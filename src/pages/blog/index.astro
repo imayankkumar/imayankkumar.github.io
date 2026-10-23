@@ -1,0 +1,112 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"
+import { Image } from "astro:assets"
+import Container from "../../components/layout/Container.astro"
+import { getPublishedPosts, postUrl, formatDate, readingTime } from "../../lib/blog"
+
+const posts = await getPublishedPosts()
+---
+
+<BaseLayout
+  title="Blog · Mayank Kumar"
+  description="Short, practical posts by Mayank Kumar on Android engineering, performance, and building Android apps with AI."
+>
+  {posts.length === 0 && <meta slot="head" name="robots" content="noindex" />}
+  <link slot="head" rel="alternate" type="application/rss+xml" title="Mayank Kumar · Blog" href="/rss.xml" />
+  <main class="page">
+    <Container>
+      <div class="page__inner">
+        <p class="page__eyebrow">Blog</p>
+        <h1 class="page__title">Notes on Android, performance and AI</h1>
+        <p class="page__lead">
+          Short, practical posts on Android engineering and building with AI, including the
+          experiments that don't work.
+        </p>
+
+        {
+          posts.length === 0 ? (
+            <p class="page__section card__body">The first post is on its way.</p>
+          ) : (
+            <ul class="page__section post-list">
+              {posts.map((post) => (
+                <li class:list={["card", { "post-card--cover": post.data.cover }]}>
+                  {post.data.cover && (
+                    <a class="post-card__media" href={postUrl(post)} tabindex="-1" aria-hidden="true">
+                      <Image
+                        class="post-card__cover"
+                        src={post.data.cover}
+                        alt=""
+                        widths={[400, 800]}
+                        sizes="(min-width: 720px) 280px, 100vw"
+                      />
+                    </a>
+                  )}
+                  <div class="post-card__text">
+                    <a class="post-list__link" href={postUrl(post)}>
+                      <h2 class="card__title">{post.data.title}</h2>
+                    </a>
+                    <p class="card__meta">
+                      <time datetime={post.data.pubDate.toISOString()}>
+                        {formatDate(post.data.pubDate)}
+                      </time>{" "}
+                      · {readingTime(post)}
+                    </p>
+                    <p class="card__body">{post.data.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+    </Container>
+  </main>
+</BaseLayout>
+
+<style>
+  .post-list {
+    display: grid;
+    gap: var(--space-4);
+    margin: var(--space-12) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post-list > li {
+    margin: 0;
+  }
+
+  .post-card--cover {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 720px) {
+    .post-card--cover {
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: var(--space-6);
+      align-items: start;
+    }
+  }
+
+  .post-card__cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    object-position: top left;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .post-list__link:hover .card__title {
+    color: var(--color-primary);
+  }
+
+  .post-list__link:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-sm);
+  }
+</style>

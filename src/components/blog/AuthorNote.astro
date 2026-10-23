@@ -1,0 +1,75 @@
+---
+// Short first-person bio shown at the end of every post.
+import { Image } from "astro:assets"
+import profilePhoto from "../../assets/profile-avatar.png"
+import { site } from "../../data/site"
+---
+
+<aside class="author-note" aria-label="About the author">
+  <Image
+    src={profilePhoto}
+    alt="Mayank Kumar"
+    width={96}
+    height={96}
+    densities={[1, 2]}
+    format="webp"
+    quality={85}
+    class="author-note__photo"
+  />
+  <div>
+    <p>
+      I'm Mayank, an Android engineer focused on Kotlin, software architecture, performance
+      engineering, and AI-assisted development. I write here about building Android apps with AI,
+      including the experiments that don't work.
+    </p>
+    <p class="author-note__links">
+      Connect with me on <a class="page__link" href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a> and <a class="page__link" href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>, or read <a class="page__link" href="/about/">more about me</a>.
+    </p>
+  </div>
+</aside>
+
+<style>
+  .author-note {
+    display: flex;
+    gap: var(--space-6);
+    align-items: center;
+    margin-top: var(--space-12);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .author-note__photo {
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: linear-gradient(160deg, #dbeafe 0%, #bfdbfe 100%);
+    box-shadow:
+      0 0 0 3px var(--color-surface),
+      0 0 0 4px #bfdbfe;
+  }
+
+  :global([data-theme="dark"]) .author-note__photo {
+    background: linear-gradient(160deg, #bfdbfe 0%, #93c5fd 100%);
+    box-shadow:
+      0 0 0 3px var(--color-surface),
+      0 0 0 4px #3b82f6;
+  }
+
+  .author-note__links {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  @media (max-width: 480px) {
+    .author-note {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

@@ -2,17 +2,24 @@
 export interface Props {
   title: string
   description: string
+  type?: "website" | "article"
   /** Absolute or root-relative path to the link-preview image (1200×630). */
   image?: string
+  imageAlt?: string
 }
 
-const { title, description, image = "/og-image.jpg" } = Astro.props
+const {
+  title,
+  description,
+  image = "/og-image.jpg",
+  imageAlt = "Mayank Kumar, Senior Android Engineer",
+  type = "website",
+} = Astro.props
 
 // Astro.site comes from astro.config (https://imayankkumar.com), so these
 // stay correct whichever host serves the page.
 const canonical = new URL(Astro.url.pathname, Astro.site)
 const imageUrl = new URL(image, Astro.site)
-const imageAlt = "Mayank Kumar, Senior Android Engineer"
 ---
 
 <meta charset="UTF-8" />
@@ -23,7 +30,7 @@ const imageAlt = "Mayank Kumar, Senior Android Engineer"
 <link rel="sitemap" href="/sitemap.xml" />
 
 <!-- Link previews (LinkedIn, Slack, X, etc.) -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={type} />
 <meta property="og:site_name" content="Mayank Kumar" />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />

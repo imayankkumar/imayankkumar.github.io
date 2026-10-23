@@ -263,3 +263,115 @@ a.page__link:hover {
 [data-theme="dark"] .icon-tile--violet {
   color: #a78bfa;
 }
+
+/* ---------- Article body (Markdown) ---------- */
+
+.prose {
+  margin-top: var(--space-8);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+}
+
+.prose > * + * {
+  margin-top: var(--space-4);
+}
+
+.prose h2 {
+  margin-top: var(--space-12);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.prose h3 {
+  margin-top: var(--space-8);
+  font-size: var(--text-xl);
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.prose a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.25rem;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li + li {
+  margin-top: var(--space-2);
+}
+
+.prose blockquote {
+  margin-inline: 0;
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--color-primary);
+  color: var(--color-text-secondary);
+}
+
+.prose :not(pre) > code {
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  font-size: 0.9em;
+}
+
+.prose pre {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.prose img {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+/* Tables scroll sideways on narrow screens instead of widening the page. */
+.prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.prose th,
+.prose td {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--color-surface);
+  font-weight: 650;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin-block: var(--space-12);
+}
+
+.prose picture img {
+  width: 100%;
+  height: auto;
+}

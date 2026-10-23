@@ -1,11 +1,22 @@
 import type { APIRoute } from "astro"
+import { getPublishedPosts, postUrl } from "../lib/blog"
 
-// Hand-listed: the site has a handful of static pages. Add new pages here.
-const paths = ["/", "/about/", "/projects/", "/resume/", "/contact/"]
+// Static pages, plus every published post.
+const pages = ["/", "/about/", "/projects/", "/resume/", "/contact/"]
 
-export const GET: APIRoute = ({ site }) => {
-  const urls = paths
-    .map((path) => `  <url><loc>${new URL(path, site)}</loc></url>`)
+export const GET: APIRoute = async ({ site }) => {
+  const posts = await getPublishedPosts()
+  const entries = [
+    ...pages.map((path) => ({ path, lastmod: undefined as Date | undefined })),
+    ...(posts.length ? [{ path: "/blog/", lastmod: posts[0].data.pubDate }] : []),
+    ...posts.map((p) => ({ path: postUrl(p), lastmod: p.data.updatedDate ?? p.data.pubDate })),
+  ]
+  const urls = entries
+    .map(({ path, lastmod }) => {
+      const loc = new URL(path, site)
+      const mod = lastmod ? `<lastmod>${lastmod.toISOString().slice(0, 10)}</lastmod>` : ""
+      return `  <url><loc>${loc}</loc>${mod}</url>`
+    })
     .join("\n")
 
   return new Response(
