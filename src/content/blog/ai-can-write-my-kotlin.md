@@ -13,6 +13,8 @@ It's 2:07 AM, and Crashlytics has opinions. The crash is in a ViewModel that `gi
 
 That's a composite, not a confession. But it points at a real shift in Android work. This post covers what AI tools can do on Android today, why "the tests pass" is not the same as "it works" on a phone, and what to get better at.
 
+Short answer: AI can now write and fix Android code, but proving it works on a real device is still your job.
+
 ## What can AI tools do on Android today?
 
 Quite a lot. Android Studio's [May 2026 release](https://android-developers.googleblog.com/2026/05/whats-new-android-developer-tools.html) includes an agent that plans multi-step work and fixes its own build errors, "Fix with AI" for crashes in App Quality Insights, and an option to hand LeakCanary traces to an agent. Google also runs [Android Bench](https://android-developers.googleblog.com/2026/03/elevating-ai-assisted-androi.html), which gives models real issues from public Android repos and checks each fix with tests. At its March 2026 launch, models solved between 16% and 72% of tasks.
@@ -35,6 +37,23 @@ Because an agent works on the repository, but Android correctness depends on the
 </picture>
 
 Process death, OEM battery managers, R8 in release builds, unexpected recomposition, and main-thread work on low-memory devices rarely show up in a diff. Most don't show up on a flagship emulator either.
+
+Here's what "almost right" looks like. Both versions compile and pass a simple unit test:
+
+```kotlin
+// Loses the draft when Android kills the app in the background
+class ComposeViewModel : ViewModel() {
+    var draft by mutableStateOf("")
+}
+
+// Restores the draft after process death
+class ComposeViewModel(private val state: SavedStateHandle) : ViewModel() {
+    val draft = state.getStateFlow("draft", "")
+    fun onDraftChange(text: String) { state["draft"] = text }
+}
+```
+
+The first version keeps the draft only in memory. The second saves it in `SavedStateHandle`, which Android restores when the user comes back.
 
 Android Bench counts a task as solved when the tests pass. That's fair for a benchmark and risky for a release. Tests only check what someone thought to check, and an agent working toward green will take the shortest path there. Sometimes that path goes through the test file.
 
@@ -61,6 +80,14 @@ Make checking cheaper than generating.
 | Read traces | Fixes for the wrong cause | Perfetto for jank, a heap dump for leaks |
 
 And write some code by hand on purpose, in the parts you want to understand deeply. That's how mental models get built.
+
+## Frequently asked questions
+
+**Can an AI agent test process death?** Only if your workflow asks it to. Tests check what someone thought to check, and that's true for agents too.
+
+**Should I stop using AI for Android code?** No. Let it write the code, and spend the time you save checking on real devices.
+
+**Does Android Bench measure real-world quality?** It checks whether a model's fix passes tests from real repos. That's useful, but passing tests isn't the same as working on a phone.
 
 ## So, who debugs at 2 AM?
 
