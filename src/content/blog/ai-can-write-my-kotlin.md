@@ -4,6 +4,7 @@ description: "AI agents can now write and fix Android code. Why proving it works
 pubDate: 2026-10-23
 tags: ["android", "ai", "kotlin", "testing"]
 linkedinUrl: "https://www.linkedin.com/posts/mayankkumar-mk_androiddev-kotlin-ai-share-7519340699205615616-pErm/"
+xUrl: "https://x.com/bymayankkumar/status/2113642915671236925"
 ogImage: "/og/ai-can-write-my-kotlin.jpg"
 ogImageAlt: "Diagram: tests pass in the repository, but Android bugs live on the device at runtime."
 cover: "../../assets/blog/verification-gap.png"
