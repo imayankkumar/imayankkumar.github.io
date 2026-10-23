@@ -3,6 +3,7 @@ title: "AI Can Write My Kotlin. Who's Going to Debug It at 2 AM?"
 description: "AI agents can now write and fix Android code. Why proving it works on real devices, not writing it, is becoming the Android engineer's core job."
 pubDate: 2026-10-23
 tags: ["android", "ai", "kotlin", "testing"]
+linkedinUrl: "https://www.linkedin.com/posts/mayankkumar-mk_androiddev-kotlin-ai-share-7519340699205615616-pErm/"
 ogImage: "/og/ai-can-write-my-kotlin.jpg"
 ogImageAlt: "Diagram: tests pass in the repository, but Android bugs live on the device at runtime."
 cover: "../../assets/blog/verification-gap.png"
