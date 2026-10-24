@@ -47,5 +47,12 @@ const {
     <Header />
     <slot />
     <Footer />
+    <!-- Cloudflare Web Analytics: cookieless page-view counts -->
+    <script
+      is:inline
+      type="module"
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "77344d67fb13414c804f119325702698"}'
+    ></script>
   </body>
 </html>
