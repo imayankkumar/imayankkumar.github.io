@@ -34,7 +34,9 @@ When changes get cheap to produce, teams produce more of them. The limit becomes
 Because an agent works on the repository, but Android correctness depends on the device at runtime.
 
 <picture>
+  <source media="(max-width: 640px)" type="image/webp" srcset="/blog/ai-can-write-my-kotlin/verification-gap-mobile.webp" width="960" height="2114" />
   <source media="(max-width: 640px)" srcset="/blog/ai-can-write-my-kotlin/verification-gap-mobile.png" width="960" height="2114" />
+  <source type="image/webp" srcset="/blog/ai-can-write-my-kotlin/verification-gap.webp" width="1600" height="780" />
   <img src="/blog/ai-can-write-my-kotlin/verification-gap.png" width="1600" height="780" loading="lazy" decoding="async" alt="Diagram: on the left, what the agent sees, the repository with a green build and passing tests. On the right, where Android bugs live: process death, OEM battery managers, R8 release builds, recomposition, and low-memory devices." />
 </picture>
 

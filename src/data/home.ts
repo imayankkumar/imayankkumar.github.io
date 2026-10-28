@@ -99,6 +99,7 @@ export const footerColumns = [
     links: [
       { label: "About", href: "/about/" },
       { label: "Projects", href: "/projects/" },
+      { label: "Blog", href: "/blog/" },
       { label: "Resume", href: "/resume/" },
       { label: "Contact", href: "/contact/" },
     ],
@@ -119,6 +120,7 @@ export const footerColumns = [
         href: "https://linkedin.com/in/mayankkumar-mk",
         external: true,
       },
+      { label: "X", href: "https://x.com/bymayankkumar", external: true },
       { label: "Email", href: `mailto:${contact.email}` },
     ],
   },
