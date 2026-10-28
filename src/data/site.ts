@@ -9,5 +9,7 @@ export const site = {
 
   linkedin: "https://linkedin.com/in/mayankkumar-mk",
 
+  x: "https://x.com/bymayankkumar",
+
   resume: "/resume/",
 }
