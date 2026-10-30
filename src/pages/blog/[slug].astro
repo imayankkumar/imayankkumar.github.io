@@ -16,6 +16,11 @@ const { Content } = await render(post)
 const url = new URL(postUrl(post), Astro.site).href
 const ogImage = post.data.ogImage ?? "/og-image.jpg"
 
+// "Main title: subtitle" titles show the subtitle on its own line.
+const colonAt = post.data.title.indexOf(": ")
+const titleMain = colonAt > 0 ? post.data.title.slice(0, colonAt + 1) : post.data.title
+const titleSub = colonAt > 0 ? post.data.title.slice(colonAt + 2) : ""
+
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -44,7 +49,10 @@ const articleSchema = {
     <Container>
       <article class="page__inner">
         <p class="page__eyebrow"><a href="/blog/">Blog</a></p>
-        <h1 class="page__title">{post.data.title}</h1>
+        <h1 class="page__title">
+          {titleMain}
+          {titleSub && <span class="page__title-sub"> {titleSub}</span>}
+        </h1>
         <p class="card__meta post__meta">
           <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
           {" · "}{readingTime(post)}
