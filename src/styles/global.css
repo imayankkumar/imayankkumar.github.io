@@ -280,6 +280,12 @@ a.page__link:hover {
   margin-top: var(--space-4);
 }
 
+/* Keep anchor targets clear of the sticky header. */
+.prose h2,
+.prose h3 {
+  scroll-margin-top: 5rem;
+}
+
 .prose h2 {
   margin-top: var(--space-12);
   font-size: var(--text-2xl);
@@ -367,6 +373,19 @@ a.page__link:hover {
 .prose th {
   background: var(--color-surface);
   font-weight: 650;
+}
+
+/* Phones: smaller text and tighter cells so columns get more room. */
+@media (max-width: 40rem) {
+  .prose table {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+
+  .prose th,
+  .prose td {
+    padding: var(--space-1) var(--space-2);
+  }
 }
 
 .prose hr {
