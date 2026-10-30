@@ -72,17 +72,21 @@ Each stage depends on the one before it. Compose makes little sense until you un
   <img src="/blog/android-developer-roadmap-2027/android-roadmap-2027.png" width="1600" height="780" loading="lazy" decoding="async" alt="Android Developer Roadmap 2027 diagram: nine stages in learning order. Foundations: 1 Kotlin and DSA basics, 2 Android platform, 3 Coroutines and Flow. Building apps: 4 Compose UI, 5 Architecture, 6 Data and offline. Shipping at quality: 7 Testing, 8 Production, 9 System design. Each stage has a done-when check. Two AI tracks run under all stages: use AI to work faster, and build AI features. A side box lists what to learn when needed: Kotlin and Compose Multiplatform, Views, Fragments and RxJava, specialized APIs, and Wear OS, TV, Auto and XR." />
 </picture>
 
+<div class="stage-table">
+
 | Stage | What it covers | You are done when you can... |
 | --- | --- | --- |
-| 1. Kotlin and DSA basics | Language, collections, generics, OOP, DSA, Git, Gradle | Build and test a small Kotlin project and explain your choices |
-| 2. Android platform | Components, lifecycle, process death, insets, permissions, background limits | Say what happens when the OS kills your app, and prove state comes back |
-| 3. Coroutines and Flow | Structured concurrency, cancellation, dispatchers, StateFlow | Handle cancel, failure and two requests at once without bugs |
-| 4. Compose UI | State, recomposition, side effects, Navigation 3, adaptive layouts | Build a multi-screen app with loading, error, empty and data states |
-| 5. Architecture | UI and data layers, one-way data flow, ViewModel, dependency injection, modules | Defend every layer in a feature you designed |
-| 6. Data and offline | HTTP, Room, DataStore, caching, sync, database migrations | Keep a feature useful when the network is slow or gone |
-| 7. Testing | Fakes, ViewModel and Flow tests, Compose UI tests, CI | Catch a real regression automatically |
-| 8. Production | Profiling, jank, ANRs, Baseline Profiles, R8, security, releases | Reproduce a problem, fix it, and show before and after numbers |
-| 9. System design | Mobile design, sync, failure handling, internals | Design an app and defend it against two alternatives |
+| <span class="stage-table__num">1</span> **Kotlin and DSA basics** | Language, collections, generics, OOP, DSA, Git, Gradle | Build and test a small Kotlin project and explain your choices |
+| <span class="stage-table__num">2</span> **Android platform** | Components, lifecycle, process death, insets, permissions, background limits | Say what happens when the OS kills your app, and prove state comes back |
+| <span class="stage-table__num">3</span> **Coroutines and Flow** | Structured concurrency, cancellation, dispatchers, StateFlow | Handle cancel, failure and two requests at once without bugs |
+| <span class="stage-table__num">4</span> **Compose UI** | State, recomposition, side effects, Navigation 3, adaptive layouts | Build a multi-screen app with loading, error, empty and data states |
+| <span class="stage-table__num">5</span> **Architecture** | UI and data layers, one-way data flow, ViewModel, dependency injection, modules | Defend every layer in a feature you designed |
+| <span class="stage-table__num">6</span> **Data and offline** | HTTP, Room, DataStore, caching, sync, database migrations | Keep a feature useful when the network is slow or gone |
+| <span class="stage-table__num">7</span> **Testing** | Fakes, ViewModel and Flow tests, Compose UI tests, CI | Catch a real regression automatically |
+| <span class="stage-table__num">8</span> **Production** | Profiling, jank, ANRs, Baseline Profiles, R8, security, releases | Reproduce a problem, fix it, and show before and after numbers |
+| <span class="stage-table__num">9</span> **System design** | Mobile design, sync, failure handling, internals | Design an app and defend it against two alternatives |
+
+</div>
 
 If you already work as an Android developer, do not start at stage 1 by default. Use the last column as a test, and start at the first stage you cannot pass.
 
