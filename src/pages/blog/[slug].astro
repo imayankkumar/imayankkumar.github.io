@@ -37,7 +37,7 @@ const articleSchema = {
 ---
 
 <BaseLayout
-  title={`${post.data.title} · Mayank Kumar`}
+  title={`${post.data.seoTitle ?? post.data.title} · Mayank Kumar`}
   description={post.data.description}
   type="article"
   image={ogImage}

@@ -1,5 +1,6 @@
 ---
 title: "Android Developer Roadmap 2027: What to Learn, What Interviews Ask, and Where AI Fits"
+seoTitle: "Android Developer Roadmap 2027: Skills, Interviews and AI"
 description: "A complete Android roadmap for 2027: nine stages in learning order, what to know in each, common interview questions, what changed in 2026, and where AI fits."
 pubDate: 2026-10-30
 tags: ["android", "kotlin", "roadmap", "interviews", "ai"]
@@ -65,7 +66,9 @@ Before the topic lists, five rules. They matter more than any single library.
 Each stage depends on the one before it. Compose makes little sense until you understand state. State makes little sense until you understand lifecycle and process death. Skip a stage and you can still ship features, but you end up debugging by guessing. AI makes that worse, because it gives you more code to guess about.
 
 <picture>
+  <source media="(max-width: 640px)" type="image/webp" srcset="/blog/android-developer-roadmap-2027/android-roadmap-2027-mobile.webp" width="960" height="2509" />
   <source media="(max-width: 640px)" srcset="/blog/android-developer-roadmap-2027/android-roadmap-2027-mobile.png" width="960" height="2509" />
+  <source type="image/webp" srcset="/blog/android-developer-roadmap-2027/android-roadmap-2027.webp" width="1600" height="780" />
   <img src="/blog/android-developer-roadmap-2027/android-roadmap-2027.png" width="1600" height="780" loading="lazy" decoding="async" alt="Android Developer Roadmap 2027 diagram: nine stages in learning order. Foundations: 1 Kotlin and DSA basics, 2 Android platform, 3 Coroutines and Flow. Building apps: 4 Compose UI, 5 Architecture, 6 Data and offline. Shipping at quality: 7 Testing, 8 Production, 9 System design. Each stage has a done-when check. Two AI tracks run under all stages: use AI to work faster, and build AI features. A side box lists what to learn when needed: Kotlin and Compose Multiplatform, Views, Fragments and RxJava, specialized APIs, and Wear OS, TV, Auto and XR." />
 </picture>
 

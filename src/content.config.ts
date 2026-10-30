@@ -11,6 +11,8 @@ const blog = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
+      /** Shorter title for search results and the browser tab. Defaults to `title`. */
+      seoTitle: z.string().optional(),
       description: z.string().max(200),
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
