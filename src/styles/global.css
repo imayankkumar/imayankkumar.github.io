@@ -78,6 +78,10 @@ p {
   line-height: 1.15;
 }
 
+.page__title-sub {
+  display: block;
+}
+
 .page__lead {
   margin-top: var(--space-4);
   font-size: var(--text-lg);
@@ -371,7 +375,31 @@ a.page__link:hover {
   margin-block: var(--space-12);
 }
 
+/* <picture> is inline by default, so it ignored the spacing between blocks. */
+.prose picture {
+  display: block;
+  margin-block: var(--space-8);
+}
+
 .prose picture img {
   width: 100%;
   height: auto;
+}
+
+/* Collapsible "Go deeper" lists */
+.prose details {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.prose summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.prose details > * + * {
+  margin-top: var(--space-3);
 }
