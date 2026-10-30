@@ -280,6 +280,12 @@ a.page__link:hover {
   margin-top: var(--space-4);
 }
 
+/* Keep anchor targets clear of the sticky header. */
+.prose h2,
+.prose h3 {
+  scroll-margin-top: 5rem;
+}
+
 .prose h2 {
   margin-top: var(--space-12);
   font-size: var(--text-2xl);
@@ -346,27 +352,157 @@ a.page__link:hover {
   border: 1px solid var(--color-border);
 }
 
-/* Tables scroll sideways on narrow screens instead of widening the page. */
+/* Post tables: rounded box, row separators, zebra rows, bold first column.
+   On phones each row becomes a card, and cells are labelled with their
+   column heading (data-label, added by src/lib/table-labels.mjs). */
 .prose table {
-  display: block;
-  max-width: 100%;
-  overflow-x: auto;
-  border-collapse: collapse;
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
   font-size: 0.9375rem;
   line-height: 1.55;
 }
 
 .prose th,
 .prose td {
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-border);
+  padding: 0.625rem var(--space-4);
+  border-top: 1px solid var(--color-border);
   text-align: left;
   vertical-align: top;
 }
 
-.prose th {
+.prose thead th {
+  border-top: 0;
   background: var(--color-surface);
   font-weight: 650;
+}
+
+.prose tbody tr:nth-child(even) {
+  background: var(--color-surface);
+}
+
+.prose td:first-child {
+  font-weight: 650;
+}
+
+@media (max-width: 40rem) {
+  .prose table,
+  .prose tbody,
+  .prose tr,
+  .prose td {
+    display: block;
+    width: auto;
+  }
+
+  .prose table {
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* The header row is replaced by labels inside each card. */
+  .prose thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .prose tbody tr,
+  .prose tbody tr:nth-child(even) {
+    padding: 0.625rem var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .prose tbody tr + tr {
+    margin-top: var(--space-2);
+  }
+
+  .prose td {
+    padding: 0;
+    border: 0;
+  }
+
+  .prose td:first-child {
+    font-size: 0.9375rem;
+  }
+
+  .prose td + td {
+    margin-top: var(--space-1);
+  }
+
+  .prose td[data-label]::before {
+    content: attr(data-label) ": ";
+    color: var(--color-text-secondary);
+    font-weight: 650;
+  }
+}
+
+/* Stage overview table in the Android roadmap post: fixed column widths,
+   numbered badges, and shorter card labels on phones. */
+.stage-table table {
+  table-layout: fixed;
+}
+
+.stage-table th:first-child {
+  width: 30%;
+}
+
+.stage-table th:nth-child(2) {
+  width: 37%;
+}
+
+.stage-table td:first-child {
+  position: relative;
+  padding-left: calc(var(--space-4) + 1.5rem + var(--space-2));
+}
+
+.stage-table__num {
+  position: absolute;
+  left: var(--space-4);
+  top: 0.625rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+@media (max-width: 40rem) {
+  .stage-table td:first-child {
+    min-height: 1.5rem;
+    padding-left: calc(1.5rem + var(--space-2));
+    line-height: 1.5rem;
+  }
+
+  .stage-table__num {
+    left: 0;
+    top: 0;
+  }
+
+  .stage-table td[data-label]:nth-child(2)::before {
+    content: "Covers: ";
+  }
+
+  .stage-table td[data-label]:nth-child(3)::before {
+    content: "Done when: ";
+  }
 }
 
 .prose hr {

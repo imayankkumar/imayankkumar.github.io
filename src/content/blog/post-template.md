@@ -3,6 +3,7 @@
 # fill in the fields and remove `draft: true` to publish.
 # The file name becomes the URL: /blog/<slug>/
 title: "Post title"
+# seoTitle: "Shorter title for search results, if the title is over ~60 characters"
 description: "One or two sentences. Shown in search results, link previews and the post list (max 200 characters)."
 pubDate: 2026-01-01
 tags: ["android"]

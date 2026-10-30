@@ -1,5 +1,6 @@
 ---
 title: "Android Developer Roadmap 2027: What to Learn, What Interviews Ask, and Where AI Fits"
+seoTitle: "Android Developer Roadmap 2027: Skills, Interviews and AI"
 description: "A complete Android roadmap for 2027: nine stages in learning order, what to know in each, common interview questions, what changed in 2026, and where AI fits."
 pubDate: 2026-10-30
 tags: ["android", "kotlin", "roadmap", "interviews", "ai"]
@@ -42,7 +43,7 @@ A roadmap is only useful if it matches the platform you will ship on. These chan
 | When | What changed | What it means for your learning |
 | --- | --- | --- |
 | Feb 1, 2027 | Play blocks app updates that [don't support 16 KB memory pages](https://developer.android.com/guide/practices/page-sizes) (apps targeting Android 15+) | Know how native libraries and your build affect this, even if you never write C++ |
-| 2027 | [Developer verification](https://support.google.com/android-developer-console/answer/16561738) expands to all apps on certified Android devices | Distribution is part of the job now, not only Play Console |
+| 2027 | [Developer verification](https://support.google.com/android-developer-console/answer/16561738) expands to all apps on certified Android devices | Even apps shipped outside Play will need a verified developer |
 | Aug 31, 2026 | New apps and updates must [target Android 16 (API 36)](https://developer.android.com/google/play/requirements/target-sdk) | You must know API 36 behavior changes, not just the APIs |
 | Jul 2026 | Google says [more than 68% of the top 1,000 apps](https://android-developers.googleblog.com/2026/07/five-years-of-jetpack-compose.html) use Compose in production | Compose is the default skill employers expect |
 | May 19, 2026 | [Compose-first](https://android-developers.googleblog.com/2026/05/android-ui-development-is-compose-first.html): Views get critical bug fixes only, no new features | Learn Compose first; learn Views to maintain old code |
@@ -57,7 +58,7 @@ Before the topic lists, five rules. They matter more than any single library.
 1. **Fundamentals before tools.** Libraries change every year. Lifecycle, state, threading and data flow have not changed much in a decade. Learn the things that will still be true in 2030.
 2. **One project, not ten tutorials.** Build one app and improve it at every stage. You learn more from fixing your own design than from finishing someone else's.
 3. **Use AI, but check it.** Let AI write, explain and suggest. Then prove it right with a test, a profiler or the docs. If you can't check it, you are not ready to ship it.
-4. **Go deep in one area.** Be solid across all nine stages, then pick one to become known for: performance, architecture, testing, AI features or KMP. Depth is what makes a senior engineer.
+4. **Go deep in one area.** Be solid across all nine stages, then pick one to become known for: performance, architecture, testing, AI features or Kotlin Multiplatform (KMP). Depth is what makes a senior engineer.
 5. **Show your work.** A GitHub repo, a short write-up or a talk proves more than a certificate. It also gives you real stories for interviews.
 
 ## The roadmap at a glance
@@ -65,21 +66,27 @@ Before the topic lists, five rules. They matter more than any single library.
 Each stage depends on the one before it. Compose makes little sense until you understand state. State makes little sense until you understand lifecycle and process death. Skip a stage and you can still ship features, but you end up debugging by guessing. AI makes that worse, because it gives you more code to guess about.
 
 <picture>
+  <source media="(max-width: 640px)" type="image/webp" srcset="/blog/android-developer-roadmap-2027/android-roadmap-2027-mobile.webp" width="960" height="2509" />
   <source media="(max-width: 640px)" srcset="/blog/android-developer-roadmap-2027/android-roadmap-2027-mobile.png" width="960" height="2509" />
+  <source type="image/webp" srcset="/blog/android-developer-roadmap-2027/android-roadmap-2027.webp" width="1600" height="780" />
   <img src="/blog/android-developer-roadmap-2027/android-roadmap-2027.png" width="1600" height="780" loading="lazy" decoding="async" alt="Android Developer Roadmap 2027 diagram: nine stages in learning order. Foundations: 1 Kotlin and DSA basics, 2 Android platform, 3 Coroutines and Flow. Building apps: 4 Compose UI, 5 Architecture, 6 Data and offline. Shipping at quality: 7 Testing, 8 Production, 9 System design. Each stage has a done-when check. Two AI tracks run under all stages: use AI to work faster, and build AI features. A side box lists what to learn when needed: Kotlin and Compose Multiplatform, Views, Fragments and RxJava, specialized APIs, and Wear OS, TV, Auto and XR." />
 </picture>
 
+<div class="stage-table">
+
 | Stage | What it covers | You are done when you can... |
 | --- | --- | --- |
-| 1. Kotlin and DSA basics | Language, collections, generics, OOP, DSA, Git, Gradle | Build and test a small Kotlin project and explain your choices |
-| 2. Android platform | Components, lifecycle, process death, insets, permissions, background limits | Say what happens when the OS kills your app, and prove state comes back |
-| 3. Coroutines and Flow | Structured concurrency, cancellation, dispatchers, StateFlow | Handle cancel, failure and two requests at once without bugs |
-| 4. Compose UI | State, recomposition, side effects, Navigation 3, adaptive layouts | Build a multi-screen app with loading, error, empty and data states |
-| 5. Architecture | UI and data layers, one-way data flow, ViewModel, dependency injection, modules | Defend every layer in a feature you designed |
-| 6. Data and offline | HTTP, Room, DataStore, caching, sync, database migrations | Keep a feature useful when the network is slow or gone |
-| 7. Testing | Fakes, ViewModel and Flow tests, Compose UI tests, CI | Catch a real regression automatically |
-| 8. Production | Profiling, jank, ANRs, Baseline Profiles, R8, security, releases | Reproduce a problem, fix it, and show before and after numbers |
-| 9. System design | Mobile design, sync, failure handling, internals | Design an app and defend it against two alternatives |
+| <span class="stage-table__num">1</span> **Kotlin and DSA basics** | Language, collections, generics, OOP, DSA, Git, Gradle | Build and test a small Kotlin project and explain your choices |
+| <span class="stage-table__num">2</span> **Android platform** | Components, lifecycle, process death, insets, permissions, background limits | Say what happens when the OS kills your app, and prove state comes back |
+| <span class="stage-table__num">3</span> **Coroutines and Flow** | Structured concurrency, cancellation, dispatchers, StateFlow | Handle cancel, failure and two requests at once without bugs |
+| <span class="stage-table__num">4</span> **Compose UI** | State, recomposition, side effects, Navigation 3, adaptive layouts | Build a multi-screen app with loading, error, empty and data states |
+| <span class="stage-table__num">5</span> **Architecture** | UI and data layers, one-way data flow, ViewModel, dependency injection, modules | Defend every layer in a feature you designed |
+| <span class="stage-table__num">6</span> **Data and offline** | HTTP, Room, DataStore, caching, sync, database migrations | Keep a feature useful when the network is slow or gone |
+| <span class="stage-table__num">7</span> **Testing** | Fakes, ViewModel and Flow tests, Compose UI tests, CI | Catch a real regression automatically |
+| <span class="stage-table__num">8</span> **Production** | Profiling, jank, ANRs, Baseline Profiles, R8, security, releases | Reproduce a problem, fix it, and show before and after numbers |
+| <span class="stage-table__num">9</span> **System design** | Mobile design, sync, failure handling, internals | Design an app and defend it against two alternatives |
+
+</div>
 
 If you already work as an Android developer, do not start at stage 1 by default. Use the last column as a test, and start at the first stage you cannot pass.
 
@@ -96,7 +103,7 @@ Kotlin is the language of Android. Knowing the syntax is easy. Knowing what the 
 - Types: `val` and `var`, type inference, null safety (`?.`, `?:`, `!!`, `let`), smart casts
 - Functions: default and named arguments, extension and infix functions, lambdas, higher-order functions, `inline` and `reified`
 - Classes: data, sealed, enum, object, companion object, value classes, interfaces, visibility
-- Generics: variance (`in`, `out`, `*`) and why it exists
+- Generics: variance (`in`, `out`), star projections (`*`) and why they exist
 - Collections: read-only vs mutable, sequences, `map`, `filter`, `fold`, `groupBy`
 - Equality: `==` vs `===`, `equals` and `hashCode`
 - Idioms: scope functions, `by lazy`, class delegation, `lateinit`, exceptions
@@ -162,7 +169,7 @@ This is the stage people skip, and it is where many production bugs live. The pl
 - Walk me through the Activity lifecycle when the user rotates the screen, then presses Home.
 - How does a ViewModel survive a configuration change? Does it survive process death?
 - `singleTop` vs `singleTask`: when would you use each?
-- Foreground service vs bound service: what is the difference?
+- Started vs bound service, and when must a service run in the foreground?
 - (Senior) How would you find the process-death bugs your app has today?
 
 **Try this:** Open your app, fill a form, press Home, then run `adb shell am kill <your.package>`. Open it again from Recents. Did the form come back?
@@ -398,7 +405,7 @@ Shipping is a separate skill from building. In 2027 it also includes rules that 
 - Perfetto and custom trace sections; logging and network inspection tools such as Timber and Chucker
 - Native crashes
 - Gradle build speed and the configuration cache
-- Feature flags and remote config
+- Feature flags and safe rollouts
 - Privacy reviews and the Play Data safety form
 
 </details>
@@ -547,10 +554,10 @@ Every item on that list is a stage 3, 6, 7 or 8 skill with a model in the middle
 Based on recent Android interview experiences that developers shared publicly in 2026, from SDE-1 to SDE-2, a few patterns stand out. They are personal stories, not a survey, but they point the same way:
 
 1. **Coding problems still show up.** Most loops had a DSA round (sliding window, two pointers, hash maps). Some asked for a small coroutine task instead. Android experience does not let you skip them.
-2. **The Android round goes deep, not wide.** ViewModel internals and keeping state across configuration change came up again and again. So did coroutines. Interviewers ask "how does it work" and "what happens if", not "what is".
+2. **The Android round goes deep, not wide.** ViewModel internals and keeping state across configuration changes came up again and again. So did coroutines. Interviewers ask "how does it work" and "what happens if", not "what is".
 3. **Design starts early.** Even SDE-1 loops can have a design round. Topics included an image loading library, an analytics SDK, an infinite image grid and a shopping app.
 4. **Some companies add a machine coding round.** You build a small working app live in 45 to 60 minutes, or as a take-home.
-5. **AI has entered the interview.** As a topic (which tools you use, what MCP is, how you use AI at work). In May 2026, Google was also reported to be [piloting a round](https://careers.northeastern.edu/blog/2026/05/13/googles-ai-assisted-coding-interview-2026-guide/) where junior and mid-level candidates read, debug and improve existing code with Gemini.
+5. **AI has entered the interview.** It comes up as a topic (which tools you use, what MCP is, how you use AI at work). In May 2026, Google was also reported to be [piloting a round](https://careers.northeastern.edu/blog/2026/05/13/googles-ai-assisted-coding-interview-2026-guide/) where junior and mid-level candidates read, debug and improve existing code with Gemini.
 
 **How to prepare for each round**
 
@@ -622,7 +629,7 @@ The posts will be here on the blog, and the videos on [YouTube](https://www.yout
 
 ## Frequently asked questions
 
-**Will AI replace Android developers?** I don't think the evidence points that way. AI tools write more of the code, but more developers distrust their accuracy than trust it ([46% vs 33%](https://survey.stackoverflow.co/2025/ai)). Someone still has to decide what to build, check that it works on real devices and own it in production. Some interviews are starting to move the same way: from writing code from scratch toward reading, checking and fixing it.
+**Will AI replace Android developers?** I don't think the evidence points that way. AI tools write more of the code, but more developers distrust their accuracy than trust it ([46% vs 33%](https://survey.stackoverflow.co/2025/ai#2-accuracy-of-ai-tools)). Someone still has to decide what to build, check that it works on real devices and own it in production. Some interviews are starting to move the same way: from writing code from scratch toward reading, checking and fixing it.
 
 **Do I need Kotlin Multiplatform to get an Android job?** Not for most native Android roles. It helps when a team shares code with iOS or the web. Learn it after you are solid in Kotlin, coroutines, architecture and testing, since KMP builds on all of them.
 
