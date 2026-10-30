@@ -42,7 +42,7 @@ A roadmap is only useful if it matches the platform you will ship on. These chan
 | When | What changed | What it means for your learning |
 | --- | --- | --- |
 | Feb 1, 2027 | Play blocks app updates that [don't support 16 KB memory pages](https://developer.android.com/guide/practices/page-sizes) (apps targeting Android 15+) | Know how native libraries and your build affect this, even if you never write C++ |
-| 2027 | [Developer verification](https://support.google.com/android-developer-console/answer/16561738) expands to all apps on certified Android devices | Distribution is part of the job now, not only Play Console |
+| 2027 | [Developer verification](https://support.google.com/android-developer-console/answer/16561738) expands to all apps on certified Android devices | Even apps shipped outside Play will need a verified developer |
 | Aug 31, 2026 | New apps and updates must [target Android 16 (API 36)](https://developer.android.com/google/play/requirements/target-sdk) | You must know API 36 behavior changes, not just the APIs |
 | Jul 2026 | Google says [more than 68% of the top 1,000 apps](https://android-developers.googleblog.com/2026/07/five-years-of-jetpack-compose.html) use Compose in production | Compose is the default skill employers expect |
 | May 19, 2026 | [Compose-first](https://android-developers.googleblog.com/2026/05/android-ui-development-is-compose-first.html): Views get critical bug fixes only, no new features | Learn Compose first; learn Views to maintain old code |
@@ -57,7 +57,7 @@ Before the topic lists, five rules. They matter more than any single library.
 1. **Fundamentals before tools.** Libraries change every year. Lifecycle, state, threading and data flow have not changed much in a decade. Learn the things that will still be true in 2030.
 2. **One project, not ten tutorials.** Build one app and improve it at every stage. You learn more from fixing your own design than from finishing someone else's.
 3. **Use AI, but check it.** Let AI write, explain and suggest. Then prove it right with a test, a profiler or the docs. If you can't check it, you are not ready to ship it.
-4. **Go deep in one area.** Be solid across all nine stages, then pick one to become known for: performance, architecture, testing, AI features or KMP. Depth is what makes a senior engineer.
+4. **Go deep in one area.** Be solid across all nine stages, then pick one to become known for: performance, architecture, testing, AI features or Kotlin Multiplatform (KMP). Depth is what makes a senior engineer.
 5. **Show your work.** A GitHub repo, a short write-up or a talk proves more than a certificate. It also gives you real stories for interviews.
 
 ## The roadmap at a glance
@@ -96,7 +96,7 @@ Kotlin is the language of Android. Knowing the syntax is easy. Knowing what the 
 - Types: `val` and `var`, type inference, null safety (`?.`, `?:`, `!!`, `let`), smart casts
 - Functions: default and named arguments, extension and infix functions, lambdas, higher-order functions, `inline` and `reified`
 - Classes: data, sealed, enum, object, companion object, value classes, interfaces, visibility
-- Generics: variance (`in`, `out`, `*`) and why it exists
+- Generics: variance (`in`, `out`), star projections (`*`) and why they exist
 - Collections: read-only vs mutable, sequences, `map`, `filter`, `fold`, `groupBy`
 - Equality: `==` vs `===`, `equals` and `hashCode`
 - Idioms: scope functions, `by lazy`, class delegation, `lateinit`, exceptions
@@ -162,7 +162,7 @@ This is the stage people skip, and it is where many production bugs live. The pl
 - Walk me through the Activity lifecycle when the user rotates the screen, then presses Home.
 - How does a ViewModel survive a configuration change? Does it survive process death?
 - `singleTop` vs `singleTask`: when would you use each?
-- Foreground service vs bound service: what is the difference?
+- Started vs bound service, and when must a service run in the foreground?
 - (Senior) How would you find the process-death bugs your app has today?
 
 **Try this:** Open your app, fill a form, press Home, then run `adb shell am kill <your.package>`. Open it again from Recents. Did the form come back?
@@ -398,7 +398,7 @@ Shipping is a separate skill from building. In 2027 it also includes rules that 
 - Perfetto and custom trace sections; logging and network inspection tools such as Timber and Chucker
 - Native crashes
 - Gradle build speed and the configuration cache
-- Feature flags and remote config
+- Feature flags and safe rollouts
 - Privacy reviews and the Play Data safety form
 
 </details>
@@ -547,10 +547,10 @@ Every item on that list is a stage 3, 6, 7 or 8 skill with a model in the middle
 Based on recent Android interview experiences that developers shared publicly in 2026, from SDE-1 to SDE-2, a few patterns stand out. They are personal stories, not a survey, but they point the same way:
 
 1. **Coding problems still show up.** Most loops had a DSA round (sliding window, two pointers, hash maps). Some asked for a small coroutine task instead. Android experience does not let you skip them.
-2. **The Android round goes deep, not wide.** ViewModel internals and keeping state across configuration change came up again and again. So did coroutines. Interviewers ask "how does it work" and "what happens if", not "what is".
+2. **The Android round goes deep, not wide.** ViewModel internals and keeping state across configuration changes came up again and again. So did coroutines. Interviewers ask "how does it work" and "what happens if", not "what is".
 3. **Design starts early.** Even SDE-1 loops can have a design round. Topics included an image loading library, an analytics SDK, an infinite image grid and a shopping app.
 4. **Some companies add a machine coding round.** You build a small working app live in 45 to 60 minutes, or as a take-home.
-5. **AI has entered the interview.** As a topic (which tools you use, what MCP is, how you use AI at work). In May 2026, Google was also reported to be [piloting a round](https://careers.northeastern.edu/blog/2026/05/13/googles-ai-assisted-coding-interview-2026-guide/) where junior and mid-level candidates read, debug and improve existing code with Gemini.
+5. **AI has entered the interview.** It comes up as a topic (which tools you use, what MCP is, how you use AI at work). In May 2026, Google was also reported to be [piloting a round](https://careers.northeastern.edu/blog/2026/05/13/googles-ai-assisted-coding-interview-2026-guide/) where junior and mid-level candidates read, debug and improve existing code with Gemini.
 
 **How to prepare for each round**
 
