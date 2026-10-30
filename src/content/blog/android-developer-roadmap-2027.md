@@ -622,7 +622,7 @@ The posts will be here on the blog, and the videos on [YouTube](https://www.yout
 
 ## Frequently asked questions
 
-**Will AI replace Android developers?** I don't think the evidence points that way. AI tools write more of the code, but more developers distrust their accuracy than trust it ([46% vs 33%](https://survey.stackoverflow.co/2025/ai)). Someone still has to decide what to build, check that it works on real devices and own it in production. Some interviews are starting to move the same way: from writing code from scratch toward reading, checking and fixing it.
+**Will AI replace Android developers?** I don't think the evidence points that way. AI tools write more of the code, but more developers distrust their accuracy than trust it ([46% vs 33%](https://survey.stackoverflow.co/2025/ai#2-accuracy-of-ai-tools)). Someone still has to decide what to build, check that it works on real devices and own it in production. Some interviews are starting to move the same way: from writing code from scratch toward reading, checking and fixing it.
 
 **Do I need Kotlin Multiplatform to get an Android job?** Not for most native Android roles. It helps when a team shares code with iOS or the web. Learn it after you are solid in Kotlin, coroutines, architecture and testing, since KMP builds on all of them.
 
