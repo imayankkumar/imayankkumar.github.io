@@ -18,7 +18,7 @@ function stageLabel(stage: (typeof roadmapStages)[number]) {
   const count = stage.topics.filter((t) => published.has(t.id)).length
   if (count === stage.topics.length) return "Done"
   if (stage.number === currentStage) return "In progress"
-  return stage.when ?? "Planned"
+  return "Planned"
 }
 ---
 
@@ -48,7 +48,7 @@ function stageLabel(stage: (typeof roadmapStages)[number]) {
                 </div>
               </>
             ) : (
-              <p class="roadmap__count">Starting with Kotlin null safety in November 2026.</p>
+              <p class="roadmap__count">Starting with Kotlin null safety.</p>
             )
           }
           <p class="roadmap__note">
@@ -93,7 +93,6 @@ function stageLabel(stage: (typeof roadmapStages)[number]) {
                         ) : (
                           <li class="topic">
                             {topic.title}
-                            {topic.when && <span class="topic__when">{topic.when}</span>}
                           </li>
                         )
                       })}
@@ -300,11 +299,6 @@ function stageLabel(stage: (typeof roadmapStages)[number]) {
   .topic--done a {
     color: var(--color-primary);
     font-weight: 600;
-  }
-
-  .topic__when {
-    margin-left: var(--space-2);
-    font-size: 0.8rem;
   }
 
   .stage__list {

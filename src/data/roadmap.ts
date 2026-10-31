@@ -8,13 +8,11 @@
  *     topic: null-safety
  *
  * The hub then ticks and links that topic, and the post shows its stage.
- * `when` is the planned month; it is only shown while the topic is unpublished.
  */
 
 export interface RoadmapTopic {
   id: string
   title: string
-  when?: string
 }
 
 export interface RoadmapStage {
@@ -24,8 +22,6 @@ export interface RoadmapStage {
   doneWhen: string
   /** Heading id of this stage in the roadmap post. */
   anchor: string
-  /** Shown on the stage card while no topic in it is published. */
-  when?: string
   topics: RoadmapTopic[]
 }
 
@@ -38,19 +34,19 @@ export const roadmapStages: RoadmapStage[] = [
     doneWhen: "you can build and test a small Kotlin project and explain your choices.",
     anchor: "stage-1-kotlin-and-dsa-basics",
     topics: [
-      { id: "null-safety", title: "Null safety", when: "Nov" },
-      { id: "any-unit-nothing", title: "Any, Unit and Nothing", when: "Nov" },
-      { id: "data-classes", title: "Data class vs regular class", when: "Nov" },
-      { id: "sealed-vs-enum", title: "Sealed class vs enum", when: "Nov" },
-      { id: "value-classes", title: "Value classes", when: "Dec" },
-      { id: "objects-and-nested-classes", title: "object, companion object and inner classes", when: "Dec" },
-      { id: "properties", title: "val, var and backing properties", when: "Dec" },
-      { id: "lazy-vs-lateinit", title: "lazy vs lateinit", when: "Dec" },
-      { id: "higher-order-functions", title: "Higher-order functions and lambdas", when: "Jan" },
-      { id: "inline-and-reified", title: "inline and reified", when: "Jan" },
-      { id: "extensions-and-scope-functions", title: "Extension and scope functions", when: "Jan" },
-      { id: "collections-vs-sequences", title: "Collections vs Sequences", when: "Jan" },
-      { id: "dsa-in-kotlin", title: "DSA in Kotlin: 12 patterns", when: "Weekly" },
+      { id: "null-safety", title: "Null safety" },
+      { id: "any-unit-nothing", title: "Any, Unit and Nothing" },
+      { id: "data-classes", title: "Data class vs regular class" },
+      { id: "sealed-vs-enum", title: "Sealed class vs enum" },
+      { id: "value-classes", title: "Value classes" },
+      { id: "objects-and-nested-classes", title: "object, companion object and inner classes" },
+      { id: "properties", title: "val, var and backing properties" },
+      { id: "lazy-vs-lateinit", title: "lazy vs lateinit" },
+      { id: "higher-order-functions", title: "Higher-order functions and lambdas" },
+      { id: "inline-and-reified", title: "inline and reified" },
+      { id: "extensions-and-scope-functions", title: "Extension and scope functions" },
+      { id: "collections-vs-sequences", title: "Collections vs Sequences" },
+      { id: "dsa-in-kotlin", title: "DSA in Kotlin: 12 patterns" },
     ],
   },
   {
@@ -72,7 +68,6 @@ export const roadmapStages: RoadmapStage[] = [
     title: "Coroutines and Flow",
     doneWhen: "you can handle cancel, failure and two requests at once without bugs.",
     anchor: "stage-3-coroutines-and-flow",
-    when: "Feb 2027",
     topics: [
       { id: "structured-concurrency", title: "Structured concurrency" },
       { id: "cancellation", title: "Cancellation" },

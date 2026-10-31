@@ -87,7 +87,7 @@ const articleSchema = {
                 nextPost ? (
                   <p>Next in this stage: <a class="page__link" href={postUrl(nextPost)}>{nextTopic.title}</a></p>
                 ) : (
-                  <p>Coming next in this stage: {nextTopic.title}{nextTopic.when && ` (${nextTopic.when})`}</p>
+                  <p>Coming next in this stage: {nextTopic.title}</p>
                 )
               ) : (
                 <p>This is the last topic in this stage.</p>
