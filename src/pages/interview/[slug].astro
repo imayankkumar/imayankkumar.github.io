@@ -1,0 +1,418 @@
+---
+import { Code } from "astro:components"
+import BaseLayout from "../../layouts/BaseLayout.astro"
+import Container from "../../components/layout/Container.astro"
+import { interviewCards, type LadderCard } from "../../data/interview"
+import { findRoadmapTopic } from "../../data/roadmap"
+import { getRoadmapPosts, postUrl } from "../../lib/blog"
+
+export function getStaticPaths() {
+  return interviewCards
+    .filter((c): c is LadderCard & { page: NonNullable<LadderCard["page"]> } => c.kind === "ladder" && !!c.page)
+    .map((card) => ({ params: { slug: card.page.slug }, props: { card } }))
+}
+
+const { card } = Astro.props as { card: LadderCard & { page: NonNullable<LadderCard["page"]> } }
+const { page } = card
+const found = findRoadmapTopic(card.topic)
+const post = (await getRoadmapPosts()).get(card.topic)
+
+const words = [page.intro, page.sayIt, ...card.steps.flatMap((s) => [s.question, s.junior, s.senior, s.trap ?? ""])]
+  .join(" ")
+  .split(/\s+/).length
+const minutes = Math.max(1, Math.round(words / 200))
+---
+
+<BaseLayout title={`${page.title} · Mayank Kumar`} description={page.description}>
+  <main class="page">
+    <Container>
+      <article class="page__inner lp" data-card={card.id}>
+        <p class="page__eyebrow">
+          <a class="page__link" href="/interview/">Interview prep</a>
+          {found && <> · Stage {found.stage.number}: {found.stage.title}</>}
+        </p>
+        <h1 class="page__title">{page.title}</h1>
+        <p class="lp__meta">{card.level} · {card.steps.length} questions · {minutes} min read</p>
+        <p class="page__lead">{page.intro}</p>
+
+        <nav class="lp__toc" aria-label="The questions">
+          <p class="lp__toc-title">The ladder</p>
+          <ol>
+            {card.steps.map((step, i) => (
+              <li><a href={`#step-${i + 1}`}>{step.question}</a></li>
+            ))}
+          </ol>
+        </nav>
+
+        <div class="lp__mode">
+          <p>Try each question out loud before you open the answer.</p>
+          <button type="button" class="lp__toggle" data-toggle-all aria-pressed="false">Show all answers</button>
+        </div>
+
+        {card.steps.map((step, i) => (
+          <section class="lp__step" id={`step-${i + 1}`}>
+            <p class="lp__step-label">{i === 0 ? "Opening question" : `Follow-up ${i}`}</p>
+            <h2 class="lp__q">{step.question}</h2>
+
+            <details class="lp__reveal" data-reveal>
+              <summary>Show answer</summary>
+
+              {step.code && (
+                <div class="lp__code">
+                  <Code code={step.code} lang={step.codeLang ?? "kotlin"} theme="github-dark" />
+                </div>
+              )}
+
+              <div class="lp__answers">
+                <div class="lp__answer">
+                  <p class="lp__label">Junior answer</p>
+                  <p>{step.junior}</p>
+                </div>
+                <div class="lp__answer lp__answer--senior">
+                  <p class="lp__label">Senior answer</p>
+                  <p>{step.senior}</p>
+                </div>
+              </div>
+
+              {step.trap && (
+                <p class="lp__trap">
+                  <strong>What they're really checking:</strong> {step.trap}
+                </p>
+              )}
+            </details>
+          </section>
+        ))}
+
+        <section class="lp__say">
+          <h2>Say it in 30 seconds</h2>
+          <details class="lp__reveal" data-reveal>
+            <summary>Show the answer</summary>
+            <p>{page.sayIt}</p>
+          </details>
+        </section>
+
+        {card.story && (
+          <section class="lp__story">
+            <h2>Where this bit me</h2>
+            <p>{card.story}</p>
+          </section>
+        )}
+
+        <div class="lp__check" role="group" aria-label="How did you do?">
+          <span>How did you do?</span>
+          <button type="button" data-mark="knew" aria-pressed="false">Knew it</button>
+          <button type="button" data-mark="shaky" aria-pressed="false">Shaky</button>
+          <button type="button" data-mark="no" aria-pressed="false">No idea</button>
+        </div>
+
+        <div class="lp__next">
+          {found && (
+            <a class="lp__card" href={post ? postUrl(post) : `/roadmap/#stage-${found.stage.number}`}>
+              <span class="lp__card-title">{post ? "Learn it properly" : "On the roadmap"}</span>
+              <span class="lp__card-body">
+                {post ? post.data.title : `${found.topic.title}, Stage ${found.stage.number}. The full post is coming soon.`}
+              </span>
+            </a>
+          )}
+          <a class="lp__card" href="/interview/">
+            <span class="lp__card-title">More questions</span>
+            <span class="lp__card-body">Practise every ladder, and mark the ones you need to revisit.</span>
+          </a>
+        </div>
+      </article>
+    </Container>
+  </main>
+</BaseLayout>
+
+<script>
+  // Same marks as the /interview/ page, so progress is shared.
+  const KEY = "interview-marks-v1"
+  const root = document.querySelector<HTMLElement>("[data-card]")
+  const id = root?.dataset.card
+  let marks: Record<string, string> = {}
+  try {
+    marks = JSON.parse(localStorage.getItem(KEY) || "{}")
+  } catch {}
+
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-mark]"))
+  const paint = () => buttons.forEach((b) => b.setAttribute("aria-pressed", String(id && marks[id] === b.dataset.mark)))
+  buttons.forEach((b) =>
+    b.addEventListener("click", () => {
+      if (!id) return
+      if (marks[id] === b.dataset.mark) delete marks[id]
+      else marks[id] = b.dataset.mark!
+      try {
+        localStorage.setItem(KEY, JSON.stringify(marks))
+      } catch {}
+      paint()
+    }),
+  )
+  paint()
+
+  // "Show all answers" opens or folds every answer at once.
+  const toggle = document.querySelector<HTMLButtonElement>("[data-toggle-all]")
+  const reveals = Array.from(document.querySelectorAll<HTMLDetailsElement>("[data-reveal]"))
+  const syncToggle = () => {
+    const allOpen = reveals.every((d) => d.open)
+    toggle?.setAttribute("aria-pressed", String(allOpen))
+    if (toggle) toggle.textContent = allOpen ? "Hide all answers" : "Show all answers"
+  }
+  toggle?.addEventListener("click", () => {
+    const open = !reveals.every((d) => d.open)
+    reveals.forEach((d) => (d.open = open))
+    syncToggle()
+  })
+  reveals.forEach((d) => d.addEventListener("toggle", syncToggle))
+</script>
+
+<style>
+  .lp__meta {
+    margin-top: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-text-secondary);
+  }
+
+  .lp__toc {
+    margin-top: var(--space-8);
+    padding: var(--space-4) var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .lp__toc-title {
+    font-weight: 650;
+  }
+
+  .lp__toc ol {
+    margin: var(--space-2) 0 0;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .lp__toc a {
+    color: var(--color-primary);
+  }
+
+  .lp__mode {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    color: var(--color-text-secondary);
+  }
+
+  .lp__toggle {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--color-primary);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-primary);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .lp__toggle[aria-pressed="true"] {
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  .lp__reveal {
+    margin-top: var(--space-3);
+  }
+
+  .lp__reveal > summary {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border: 1px dashed var(--color-primary);
+    border-radius: var(--radius-md);
+    color: var(--color-primary);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .lp__reveal > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .lp__reveal[open] > summary {
+    display: none;
+  }
+
+  .lp__step {
+    margin-top: var(--space-12);
+    scroll-margin-top: 6rem;
+  }
+
+  .lp__step-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-primary);
+  }
+
+  .lp__q {
+    margin-top: var(--space-1);
+    font-size: var(--text-xl);
+    font-weight: 650;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+  }
+
+  .lp__code :global(pre) {
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+
+  .lp__answers {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+  }
+
+  .lp__answer {
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    line-height: 1.65;
+  }
+
+  .lp__answer--senior {
+    border-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
+  }
+
+  .lp__label {
+    margin-bottom: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-text-secondary);
+  }
+
+  .lp__answer--senior .lp__label {
+    color: var(--color-primary);
+  }
+
+  .lp__trap {
+    margin-top: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-left: 3px solid #d97706;
+    background: color-mix(in srgb, #d97706 8%, transparent);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    line-height: 1.65;
+  }
+
+  .lp__say,
+  .lp__story {
+    margin-top: var(--space-12);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    line-height: 1.7;
+  }
+
+  .lp__say {
+    border: 1px solid var(--color-primary);
+    box-shadow: var(--shadow-focus);
+  }
+
+  .lp__story {
+    border: 1px dashed var(--color-border);
+  }
+
+  .lp__say h2,
+  .lp__story h2 {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-xl);
+    font-weight: 650;
+  }
+
+  .lp__check {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-8);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .lp__check button {
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .lp__check button[data-mark="knew"][aria-pressed="true"] {
+    background: #16a34a;
+    border-color: #16a34a;
+    color: #fff;
+  }
+
+  .lp__check button[data-mark="shaky"][aria-pressed="true"] {
+    background: #d97706;
+    border-color: #d97706;
+    color: #fff;
+  }
+
+  .lp__check button[data-mark="no"][aria-pressed="true"] {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: #fff;
+  }
+
+  .lp__next {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+  }
+
+  .lp__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4) var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .lp__card:hover {
+    border-color: var(--color-primary);
+  }
+
+  .lp__card-title {
+    font-weight: 650;
+  }
+
+  .lp__card-body {
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .lp__answers,
+    .lp__next {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
