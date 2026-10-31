@@ -2,7 +2,7 @@ import type { APIRoute } from "astro"
 import { getPublishedPosts, postUrl } from "../lib/blog"
 
 // Static pages, plus every published post.
-const pages = ["/", "/about/", "/projects/", "/resume/", "/contact/"]
+const pages = ["/", "/about/", "/projects/", "/roadmap/", "/resume/", "/contact/"]
 
 export const GET: APIRoute = async ({ site }) => {
   const posts = await getPublishedPosts()

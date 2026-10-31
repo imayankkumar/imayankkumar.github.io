@@ -1,0 +1,369 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import Container from "../components/layout/Container.astro"
+import { roadmapStages, roadmapPostSlug } from "../data/roadmap"
+import { getRoadmapPosts, postUrl } from "../lib/blog"
+
+const published = await getRoadmapPosts()
+const roadmapPost = `/blog/${roadmapPostSlug}/`
+
+const total = roadmapStages.reduce((n, s) => n + s.topics.length, 0)
+const done = published.size
+const percent = Math.round((done / total) * 100)
+
+// The first stage that still has unpublished topics is the one being worked on.
+const currentStage = roadmapStages.find((s) => s.topics.some((t) => !published.has(t.id)))?.number
+
+function stageLabel(stage: (typeof roadmapStages)[number]) {
+  const count = stage.topics.filter((t) => published.has(t.id)).length
+  if (count === stage.topics.length) return "Done"
+  if (stage.number === currentStage) return "In progress"
+  return stage.when ?? "Planned"
+}
+---
+
+<BaseLayout
+  title="Android Roadmap · Mayank Kumar"
+  description="The complete Android path, from fundamentals to senior: nine stages in learning order, each topic explained simply with a repo to run and interview questions."
+>
+  <main class="page">
+    <Container>
+      <div class="page__inner roadmap">
+        <p class="page__eyebrow">Android Roadmap 2027</p>
+        <h1 class="page__title">The complete Android path, from fundamentals to senior</h1>
+        <p class="page__lead">
+          Nine stages in learning order. Every topic gets a simple explanation, a small repo you
+          can run, and interview questions to test yourself.
+        </p>
+
+        <div class="roadmap__progress">
+          {
+            done > 0 ? (
+              <>
+                <p class="roadmap__count">
+                  {done} of {total} topics published
+                </p>
+                <div class="roadmap__bar" role="progressbar" aria-valuemin="0" aria-valuemax={total} aria-valuenow={done} aria-label="Topics published">
+                  <span style={`width: ${Math.max(percent, 2)}%`} />
+                </div>
+              </>
+            ) : (
+              <p class="roadmap__count">Starting with Kotlin null safety in November 2026.</p>
+            )
+          }
+          <p class="roadmap__note">
+            A new topic every week ·{" "}
+            <a class="page__link" href={roadmapPost}>Read the full roadmap</a>
+          </p>
+        </div>
+
+        <ol class="roadmap__how">
+          <li><strong>Go in order.</strong> Each stage builds on the one before.</li>
+          <li><strong>Learn, then build.</strong> Read the post, run the repo, break it.</li>
+          <li><strong>Test yourself.</strong> Move on when you pass the "done when" check.</li>
+        </ol>
+
+        <ol class="roadmap__stages">
+          {
+            roadmapStages.map((stage) => {
+              const isCurrent = stage.number === currentStage
+              const label = stageLabel(stage)
+              return (
+                <li class:list={["stage", { "stage--current": isCurrent, "stage--later": currentStage !== undefined && stage.number > currentStage + 1 }]} id={`stage-${stage.number}`}>
+                  <div class="stage__head">
+                    <span class="stage__num" aria-hidden="true">{stage.number}</span>
+                    <h2 class="stage__title">
+                      <span class="visually-hidden">Stage {stage.number}: </span>
+                      {stage.title}
+                    </h2>
+                    <span class="stage__tag">{label}</span>
+                  </div>
+                  <p class="stage__done">
+                    <strong>You're done when</strong> {stage.doneWhen}{" "}
+                    <a class="stage__more" href={`${roadmapPost}#${stage.anchor}`}>What to learn</a>
+                  </p>
+                  {isCurrent ? (
+                    <ul class="stage__topics">
+                      {stage.topics.map((topic) => {
+                        const post = published.get(topic.id)
+                        return post ? (
+                          <li class="topic topic--done">
+                            <a href={postUrl(post)}>{topic.title}</a>
+                          </li>
+                        ) : (
+                          <li class="topic">
+                            {topic.title}
+                            {topic.when && <span class="topic__when">{topic.when}</span>}
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  ) : (
+                    <p class="stage__list">
+                      {stage.topics.map((topic, i) => {
+                        const post = published.get(topic.id)
+                        return (
+                          <>
+                            {i > 0 && " · "}
+                            {post ? <a class="page__link" href={postUrl(post)}>{topic.title}</a> : topic.title}
+                          </>
+                        )
+                      })}
+                    </p>
+                  )}
+                </li>
+              )
+            })
+          }
+        </ol>
+
+        <div class="roadmap__extra">
+          <a class="roadmap__card" href={`${roadmapPost}#where-does-ai-fit-in-an-android-roadmap`}>
+            <span class="roadmap__card-title">Where AI fits</span>
+            <span class="roadmap__card-body">Using AI as an engineer, and building AI into apps. It runs alongside every stage.</span>
+          </a>
+          <a class="roadmap__card" href={`${roadmapPost}#what-do-android-interviews-look-like-now`}>
+            <span class="roadmap__card-title">Interview prep</span>
+            <span class="roadmap__card-body">Every round, what it tests and how to prepare, mapped to these stages.</span>
+          </a>
+        </div>
+      </div>
+    </Container>
+  </main>
+</BaseLayout>
+
+<style>
+  .roadmap__progress {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-6);
+    margin-top: var(--space-8);
+    padding: var(--space-4) var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .roadmap__count {
+    font-weight: 650;
+  }
+
+  .roadmap__bar {
+    flex: 1 1 12rem;
+    height: 0.6rem;
+    border-radius: 999px;
+    background: var(--color-border);
+    overflow: hidden;
+  }
+
+  .roadmap__bar span {
+    display: block;
+    height: 100%;
+    background: var(--color-primary);
+  }
+
+  .roadmap__note {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .roadmap__how {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .roadmap__how li {
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  .roadmap__how strong {
+    display: block;
+    color: var(--color-text);
+    font-size: var(--text-base);
+  }
+
+  .roadmap__stages {
+    display: grid;
+    gap: var(--space-4);
+    margin: var(--space-12) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .stage {
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    scroll-margin-top: 6rem;
+  }
+
+  .stage--current {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-focus);
+  }
+
+  .stage__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .stage__num {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .stage--later .stage__num {
+    background: #93c5fd;
+    color: #0b1220;
+  }
+
+  .stage__title {
+    flex: 1;
+    font-size: var(--text-xl);
+    font-weight: 650;
+    letter-spacing: -0.015em;
+  }
+
+  .stage__tag {
+    flex: none;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .stage__done {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .stage__done strong {
+    color: var(--color-text);
+  }
+
+  a.stage__more {
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    white-space: nowrap;
+  }
+
+  a.stage__more::after {
+    content: " →";
+  }
+
+  .stage__topics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2) var(--space-6);
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .topic {
+    color: var(--color-text-secondary);
+  }
+
+  .topic::before {
+    content: "○";
+    margin-right: var(--space-2);
+  }
+
+  .topic--done::before {
+    content: "✓";
+    color: #16a34a;
+  }
+
+  .topic--done a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .topic__when {
+    margin-left: var(--space-2);
+    font-size: 0.8rem;
+  }
+
+  .stage__list {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+
+  .roadmap__extra {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+  }
+
+  .roadmap__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4) var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    transition: border-color 0.15s ease;
+  }
+
+  .roadmap__card:hover {
+    border-color: var(--color-primary);
+  }
+
+  .roadmap__card-title {
+    font-weight: 650;
+  }
+
+  .roadmap__card-body {
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .roadmap__how,
+    .stage__topics,
+    .roadmap__extra {
+      grid-template-columns: 1fr;
+    }
+
+    .stage {
+      padding: var(--space-4);
+    }
+  }
+</style>
