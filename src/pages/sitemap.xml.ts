@@ -1,13 +1,17 @@
 import type { APIRoute } from "astro"
 import { getPublishedPosts, postUrl } from "../lib/blog"
+import { interviewCards } from "../data/interview"
 
-// Static pages, plus every published post.
-const pages = ["/", "/about/", "/projects/", "/roadmap/", "/resume/", "/contact/"]
+// Static pages, interview ladder pages, plus every published post.
+const pages = ["/", "/about/", "/projects/", "/roadmap/", "/interview/", "/resume/", "/contact/"]
 
 export const GET: APIRoute = async ({ site }) => {
   const posts = await getPublishedPosts()
   const entries = [
     ...pages.map((path) => ({ path, lastmod: undefined as Date | undefined })),
+    ...interviewCards.flatMap((c) =>
+      c.kind === "ladder" && c.page ? [{ path: `/interview/${c.page.slug}/`, lastmod: undefined }] : [],
+    ),
     ...(posts.length ? [{ path: "/blog/", lastmod: posts[0].data.pubDate }] : []),
     ...posts.map((p) => ({ path: postUrl(p), lastmod: p.data.updatedDate ?? p.data.pubDate })),
   ]
