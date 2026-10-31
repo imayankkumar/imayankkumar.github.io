@@ -89,7 +89,7 @@ val forced = name!!.length           // NullPointerException if name is null`,
 val id = intent.getStringExtra("id")!!
 
 // Crashes with a message you can act on
-val id = requireNotNull(intent.getStringExtra("id")) {
+val checkedId = requireNotNull(intent.getStringExtra("id")) {
     "DetailActivity needs an id extra"
 }`,
         trap: "\"When I'm sure\" is the answer that gets a follow-up. They're checking whether you know requireNotNull, checkNotNull and error(), and whether you'd rather fix the type than force it.",
@@ -296,7 +296,7 @@ public class UserRepository {
       {
         question: "When does a value class get boxed?",
         junior: "Never.",
-        senior: "When it's used as a nullable type, as a generic type argument such as List<UserId>, or through an interface it implements. Then the wrapper object is created, so the saving is lost.",
+        senior: "When it's used as a generic type argument such as List<UserId>, through an interface it implements, or as a nullable type when it wraps a primitive like Int. Then the wrapper object is created, so the saving is lost.",
       },
     ],
   },
