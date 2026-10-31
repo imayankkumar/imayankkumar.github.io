@@ -441,7 +441,7 @@ This is where you stop asking "how do I build this screen" and start asking "wha
 - Logging, metrics and monitoring
 - Module boundaries and team ownership
 
-**Common design prompts**
+**Common design questions**
 
 Chat app, news or social feed, photo gallery, offline notes or to-do, cart with filters, map or ride tracking, video player, file upload, LRU cache, an SDK for other apps.
 
@@ -566,7 +566,7 @@ Based on recent Android interview experiences that developers shared publicly in
 | Coding (DSA) | Problem solving under time pressure | A few medium problems every week from month one. Explain your approach out loud before you code. |
 | Android and Kotlin deep dive | Stages 1 to 5 | Use the interview questions in each stage. Answer out loud, then check yourself against the docs. |
 | Machine coding | Clean, working code fast | Practice building a list, detail and search app in 60 minutes. Have a project template you know well. |
-| Mobile system design | Stages 6 to 9 | Practice the common prompts: requirements first, then data, API, caching, offline, failure cases. |
+| Mobile system design | Stages 6 to 9 | Practice the common design questions: requirements first, then data, API, caching, offline, failure cases. |
 | AI-assisted coding (where offered) | Reading code, checking AI output | Practice fixing bugs in code you didn't write, with AI, while explaining every change you accept. |
 | Hiring manager and behavioral | Ownership and judgment | Prepare four true stories: a hard bug, a disagreement, a mistake, something you led. |
 
