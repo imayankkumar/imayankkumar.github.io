@@ -27,6 +27,8 @@ const blog = defineCollection({
       /** Image shown on the post's card on the homepage. Path relative to the post file. */
       cover: image().optional(),
       coverAlt: z.string().optional(),
+      /** Puts the post on the /roadmap/ hub. `topic` is an id from src/data/roadmap.ts. */
+      roadmap: z.object({ topic: z.string() }).optional(),
     }),
 })
 

@@ -10,6 +10,6 @@ const base = [
 export async function getNavigation() {
   const hasPosts = (await getPublishedPosts()).length > 0
   return hasPosts
-    ? [base[0], base[1], { title: "Blog", href: "/blog/" }, base[2]]
+    ? [base[0], base[1], { title: "Blog", href: "/blog/" }, { title: "Roadmap", href: "/roadmap/" }, base[2]]
     : base
 }

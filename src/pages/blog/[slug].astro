@@ -2,7 +2,8 @@
 import { render } from "astro:content"
 import BaseLayout from "../../layouts/BaseLayout.astro"
 import Container from "../../components/layout/Container.astro"
-import { getPublishedPosts, postUrl, formatDate, readingTime, type Post } from "../../lib/blog"
+import { getPublishedPosts, getRoadmapPosts, postUrl, formatDate, readingTime, type Post } from "../../lib/blog"
+import { findRoadmapTopic } from "../../data/roadmap"
 import { site } from "../../data/site"
 import AuthorNote from "../../components/blog/AuthorNote.astro"
 
@@ -19,6 +20,11 @@ const { post, newer, older } = Astro.props as { post: Post; newer?: Post; older?
 const { Content } = await render(post)
 const url = new URL(postUrl(post), Astro.site).href
 const ogImage = post.data.ogImage ?? "/og-image.jpg"
+
+// Roadmap posts show their stage and the next topic in that stage.
+const roadmap = post.data.roadmap ? findRoadmapTopic(post.data.roadmap.topic) : undefined
+const nextTopic = roadmap?.stage.topics[roadmap.index + 1]
+const nextPost = nextTopic ? (await getRoadmapPosts()).get(nextTopic.id) : undefined
 
 // "Main title: subtitle" titles show the subtitle on its own line.
 const colonAt = post.data.title.indexOf(": ")
@@ -52,7 +58,13 @@ const articleSchema = {
   <main class="page">
     <Container>
       <article class="page__inner">
-        <p class="page__eyebrow"><a href="/blog/">Blog</a></p>
+        <p class="page__eyebrow">
+          {roadmap ? (
+            <a href={`/roadmap/#stage-${roadmap.stage.number}`}>Roadmap · Stage {roadmap.stage.number}: {roadmap.stage.title}</a>
+          ) : (
+            <a href="/blog/">Blog</a>
+          )}
+        </p>
         <h1 class="page__title">
           {titleMain}
           {titleSub && <span class="page__title-sub"> {titleSub}</span>}
@@ -66,6 +78,24 @@ const articleSchema = {
         <div class="prose">
           <Content />
         </div>
+
+        {
+          roadmap && (
+            <aside class="post-stage" aria-label="Android roadmap">
+              <p class="post-stage__label">Stage {roadmap.stage.number}: {roadmap.stage.title}</p>
+              {nextTopic ? (
+                nextPost ? (
+                  <p>Next in this stage: <a class="page__link" href={postUrl(nextPost)}>{nextTopic.title}</a></p>
+                ) : (
+                  <p>Coming next in this stage: {nextTopic.title}</p>
+                )
+              ) : (
+                <p>This is the last topic in this stage.</p>
+              )}
+              <p><a class="page__link" href="/roadmap/">See the full roadmap</a></p>
+            </aside>
+          )
+        }
 
         <AuthorNote />
 
@@ -110,6 +140,23 @@ const articleSchema = {
 <style>
   .post__meta {
     margin-top: var(--space-4);
+  }
+
+  .post-stage {
+    display: grid;
+    gap: var(--space-1);
+    margin-top: var(--space-12);
+    padding: var(--space-4) var(--space-6);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+  }
+
+  .post-stage__label {
+    font-weight: 650;
+    color: var(--color-text);
   }
 
   .post-nav {
