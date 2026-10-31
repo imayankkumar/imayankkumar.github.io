@@ -3,6 +3,8 @@ title: "Android Developer Roadmap 2027: What to Learn, What Interviews Ask, and 
 seoTitle: "Android Developer Roadmap 2027: Skills, Interviews and AI"
 description: "A complete Android roadmap for 2027: nine stages in learning order, what to know in each, common interview questions, what changed in 2026, and where AI fits."
 pubDate: 2026-10-30
+linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7522228096511598592/"
+xUrl: "https://x.com/bymayankkumar/status/2116464287967572361"
 tags: ["android", "kotlin", "roadmap", "interviews", "ai"]
 ogImage: "/og/android-developer-roadmap-2027.jpg"
 ogImageAlt: "Android Developer Roadmap 2027: nine stages in learning order, plus AI at every stage."
