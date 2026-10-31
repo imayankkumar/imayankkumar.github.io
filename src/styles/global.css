@@ -282,8 +282,24 @@ a.page__link:hover {
 
 /* Keep anchor targets clear of the sticky header. */
 .prose h2,
-.prose h3 {
+.prose h3,
+.prose #contents {
   scroll-margin-top: 5rem;
+}
+
+/* "Back to contents" link at the end of each section of long posts
+   (added by src/lib/back-to-contents.mjs). */
+.prose .back-to-contents {
+  margin-top: var(--space-6);
+  font-size: var(--text-sm);
+}
+
+.prose .back-to-contents a {
+  color: var(--color-text-secondary);
+}
+
+.prose .back-to-contents a:hover {
+  color: var(--color-primary);
 }
 
 .prose h2 {
