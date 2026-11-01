@@ -74,6 +74,17 @@ const articleSchema = {
           {" · "}{readingTime(post)}
           {post.data.updatedDate && <> · Updated {formatDate(post.data.updatedDate)}</>}
         </p>
+        {post.data.featuredIn.length > 0 && (
+          <p class="post__featured">
+            Featured in{" "}
+            {post.data.featuredIn.map((f, i) => (
+              <>
+                {i > 0 && ", "}
+                <a class="page__link" href={f.url} rel="noopener">{f.name}</a>
+              </>
+            ))}
+          </p>
+        )}
 
         <div class="prose">
           <Content />
@@ -140,6 +151,22 @@ const articleSchema = {
 <style>
   .post__meta {
     margin-top: var(--space-4);
+  }
+
+  .post__featured {
+    display: inline-block;
+    margin-top: var(--space-3);
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-surface);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .post__featured::before {
+    content: "★ ";
+    color: #d97706;
   }
 
   .post-stage {
