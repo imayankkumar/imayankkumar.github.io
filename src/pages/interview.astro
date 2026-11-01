@@ -2,304 +2,128 @@
 import BaseLayout from "../layouts/BaseLayout.astro"
 import Container from "../components/layout/Container.astro"
 import { roadmapStages } from "../data/roadmap"
-import { interviewCards, type InterviewCard } from "../data/interview"
+import { interviewCards, type LadderCard } from "../data/interview"
 import { getRoadmapPosts, postUrl } from "../lib/blog"
+
+type PageLadder = LadderCard & { page: NonNullable<LadderCard["page"]> }
 
 const published = await getRoadmapPosts()
 
-// Group cards by roadmap stage, keeping roadmap topic order.
+// Only ladders with a finished full page are listed. Other cards in
+// src/data/interview.ts stay hidden until their page is written.
+const ladders = interviewCards.filter((c): c is PageLadder => c.kind === "ladder" && !!c.page)
+
 const groups = roadmapStages
   .map((stage) => {
     const order = stage.topics.map((t) => t.id)
-    const cards = interviewCards
-      .filter((c) => order.includes(c.topic))
+    const items = ladders
+      .filter((l) => order.includes(l.topic))
       .sort((a, b) => order.indexOf(a.topic) - order.indexOf(b.topic))
-    return { stage, cards }
+    return { stage, items }
   })
-  .filter((g) => g.cards.length > 0)
+  .filter((g) => g.items.length > 0)
+
+const questionCount = ladders.reduce((n, l) => n + l.steps.length, 0)
+
+// The next few roadmap topics that don't have a page yet, in roadmap order.
+const done = new Set(ladders.map((l) => l.topic))
+const comingNext = roadmapStages
+  .flatMap((s) => s.topics)
+  .filter((t) => !done.has(t.id))
+  .slice(0, 3)
 
 const topicTitle = new Map(roadmapStages.flatMap((s) => s.topics.map((t) => [t.id, t.title] as const)))
-const ladders = interviewCards.filter((c) => c.kind === "ladder").length
-const outputs = interviewCards.length - ladders
-
-function topicHref(card: InterviewCard) {
-  const post = published.get(card.topic)
-  return post ? postUrl(post) : undefined
-}
 ---
 
 <BaseLayout
-  title="Android Interview Questions · Mayank Kumar"
-  description="Android and Kotlin interview questions the way interviews really go: one question, then the follow-ups, with a junior answer and a senior answer for each."
+  title="Android Interview Questions, With Follow-ups · Mayank Kumar"
+  description="Android and Kotlin interview questions the way interviews really go: one question, then the follow-ups, with a junior answer, a senior answer and code for each step."
 >
   <main class="page">
     <Container>
       <div class="page__inner iv">
         <p class="page__eyebrow">Interview prep</p>
-        <h1 class="page__title">The follow-up ladder</h1>
+        <h1 class="page__title">Android interview questions, with the follow-ups</h1>
         <p class="page__lead">
-          Interviews don't stop at the first question. Each card starts with one question, then
-          climbs through the follow-ups an interviewer asks next. Try each step out loud before
-          you open the answers.
+          Interviews don't stop at the first question. Each page starts with one question and
+          climbs through the follow-ups an interviewer asks next, with code, a junior answer, a
+          senior answer, and what the interviewer is really checking.
         </p>
 
-        <div class="iv__bar">
-          <p class="iv__count">
-            {ladders} ladders · {outputs} "what does this print?" cards ·{" "}
-            <a class="page__link" href="/roadmap/">Follows the roadmap</a>
-          </p>
-          <div class="iv__filters" role="group" aria-label="Filter by level">
-            {["All", "Junior", "Mid", "Senior"].map((level) => (
-              <button type="button" class="iv__chip" data-level={level} aria-pressed={level === "All" ? "true" : "false"}>
-                {level}
-              </button>
-            ))}
-            <button type="button" class="iv__chip" data-shaky aria-pressed="false">Shaky first</button>
-          </div>
-          <p class="iv__progress" data-progress></p>
-        </div>
+        <p class="iv__count">
+          {ladders.length} {ladders.length === 1 ? "topic" : "topics"} · {questionCount} questions ·
+          A new topic with each <a class="page__link" href="/roadmap/">roadmap</a> post
+        </p>
 
         {
-          groups.map(({ stage, cards }) => (
+          groups.map(({ stage, items }) => (
             <section class="iv__stage" aria-labelledby={`iv-stage-${stage.number}`}>
               <h2 class="iv__stage-title" id={`iv-stage-${stage.number}`}>
                 <span class="iv__stage-num" aria-hidden="true">{stage.number}</span>
                 {stage.title}
               </h2>
-              <ol class="iv__cards" data-list>
-                {cards.map((card) => {
-                  const href = topicHref(card)
+
+              <ul class="iv__list">
+                {items.map((l) => {
+                  const post = published.get(l.topic)
+                  const href = `/interview/${l.page.slug}/`
                   return (
-                    <li class="card" data-card={card.id} data-card-level={card.level}>
-                      <div class="card__meta">
-                        <span class="card__kind">{card.kind === "ladder" ? `Ladder · ${card.steps.length} steps` : "What does this print?"}</span>
-                        <span class="card__level">{card.level}</span>
-                        <span class="card__topic">
-                          {href ? <a class="page__link" href={href}>{topicTitle.get(card.topic)}</a> : topicTitle.get(card.topic)}
-                        </span>
+                    <li class="lad">
+                      <div class="lad__meta">
+                        <span>{topicTitle.get(l.topic)}</span>
+                        <span class="lad__level">{l.level}</span>
+                        <span>{l.steps.length} questions</span>
                       </div>
-
-                      {card.kind === "ladder" ? (
-                        <ol class="ladder">
-                          {card.steps.map((step, i) => (
-                            <li class="ladder__step" data-step={i} hidden={i > 0}>
-                              <p class="ladder__q">
-                                <span class="ladder__n">{i === 0 ? "Q" : `↳ ${i}`}</span>
-                                {step.question}
-                              </p>
-                              <details class="ladder__answers">
-                                <summary>Show answers</summary>
-                                <div class="answers">
-                                  <div class="answer answer--junior">
-                                    <p class="answer__label">Junior answer</p>
-                                    <p>{step.junior}</p>
-                                  </div>
-                                  <div class="answer answer--senior">
-                                    <p class="answer__label">Senior answer</p>
-                                    <p>{step.senior}</p>
-                                  </div>
-                                </div>
-                              </details>
-                            </li>
-                          ))}
-                          <li class="ladder__next-wrap">
-                            <button type="button" class="ladder__next" data-next>
-                              Next follow-up →
-                            </button>
-                          </li>
-                        </ol>
-                      ) : (
-                        <div class="output">
-                          <p class="ladder__q">{card.question}</p>
-                          <pre class="output__code"><code>{card.code}</code></pre>
-                          <details class="ladder__answers">
-                            <summary>Show output</summary>
-                            <pre class="output__code output__code--result"><code>{card.output}</code></pre>
-                            <p class="output__why">{card.why}</p>
-                          </details>
-                        </div>
-                      )}
-
-                      {card.kind === "ladder" && card.page && (
-                        <a class="card__full" href={`/interview/${card.page.slug}/`}>
-                          Read the full answer with code →
-                        </a>
-                      )}
-
-                      {card.story && (
-                        <details class="card__story">
-                          <summary>Where this bit me</summary>
-                          <p>{card.story}</p>
-                        </details>
-                      )}
-
-                      <div class="card__check" role="group" aria-label="How did you do?">
-                        <span>How did you do?</span>
-                        <button type="button" data-mark="knew" aria-pressed="false">Knew it</button>
-                        <button type="button" data-mark="shaky" aria-pressed="false">Shaky</button>
-                        <button type="button" data-mark="no" aria-pressed="false">No idea</button>
+                      <h3 class="lad__title">
+                        <a href={href}>{l.steps[0].question}</a>
+                      </h3>
+                      <ol class="lad__steps" aria-label="Follow-ups">
+                        {l.steps.slice(1).map((s) => (
+                          <li>{s.question}</li>
+                        ))}
+                      </ol>
+                      <div class="lad__links">
+                        <a class="lad__start" href={href}>Start the ladder →</a>
+                        {post && (
+                          <a class="page__link" href={postUrl(post)}>Read the post first</a>
+                        )}
                       </div>
                     </li>
                   )
                 })}
-              </ol>
+              </ul>
             </section>
           ))
         }
 
-        <p class="iv__note">
-          Your marks stay in this browser only. "Shaky first" brings the cards you marked shaky or
-          no idea to the top.
-        </p>
+        {
+          comingNext.length > 0 && (
+            <section class="iv__next">
+              <h2>Coming next</h2>
+              <p>
+                {comingNext.map((t, i) => (
+                  <>
+                    {i > 0 && " · "}
+                    {t.title}
+                  </>
+                ))}
+              </p>
+              <p class="iv__next-note">
+                Each topic gets its interview page when its roadmap post goes out.
+              </p>
+            </section>
+          )
+        }
       </div>
     </Container>
   </main>
 </BaseLayout>
 
-<script>
-  const KEY = "interview-marks-v1"
-
-  function load(): Record<string, string> {
-    try {
-      return JSON.parse(localStorage.getItem(KEY) || "{}")
-    } catch {
-      return {}
-    }
-  }
-
-  function save(marks: Record<string, string>) {
-    try {
-      localStorage.setItem(KEY, JSON.stringify(marks))
-    } catch {
-      /* storage blocked: marks last for this visit only */
-    }
-  }
-
-  const marks = load()
-  const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-card]"))
-  const progress = document.querySelector<HTMLElement>("[data-progress]")
-
-  function paintMarks(card: HTMLElement) {
-    const mark = marks[card.dataset.card!]
-    card.dataset.mark = mark ?? ""
-    card.querySelectorAll<HTMLButtonElement>("[data-mark]").forEach((b) => {
-      b.setAttribute("aria-pressed", String(b.dataset.mark === mark))
-    })
-  }
-
-  function paintProgress() {
-    if (!progress) return
-    const done = cards.filter((c) => marks[c.dataset.card!]).length
-    const knew = cards.filter((c) => marks[c.dataset.card!] === "knew").length
-    progress.textContent = done ? `You've tried ${done} of ${cards.length} · knew ${knew}` : ""
-  }
-
-  cards.forEach((card) => {
-    paintMarks(card)
-
-    // Reveal follow-ups one at a time.
-    const next = card.querySelector<HTMLButtonElement>("[data-next]")
-    const steps = Array.from(card.querySelectorAll<HTMLElement>("[data-step]"))
-    const syncNext = () => {
-      if (next) next.parentElement!.hidden = steps.every((s) => !s.hidden)
-    }
-    next?.addEventListener("click", () => {
-      steps.find((s) => s.hidden)?.removeAttribute("hidden")
-      syncNext()
-    })
-    syncNext()
-
-    card.querySelectorAll<HTMLButtonElement>("[data-mark]").forEach((b) => {
-      b.addEventListener("click", () => {
-        const id = card.dataset.card!
-        if (marks[id] === b.dataset.mark) delete marks[id]
-        else marks[id] = b.dataset.mark!
-        save(marks)
-        paintMarks(card)
-        paintProgress()
-      })
-    })
-  })
-  paintProgress()
-
-  // Level filter and "Shaky first".
-  let level = "All"
-  let shakyFirst = false
-  const rank = (c: HTMLElement) => ({ no: 0, shaky: 1, "": 2, knew: 3 })[marks[c.dataset.card!] ?? ""] ?? 2
-
-  function apply() {
-    document.querySelectorAll<HTMLElement>("[data-list]").forEach((list) => {
-      const items = Array.from(list.children) as HTMLElement[]
-      items.forEach((c, i) => (c.dataset.order ??= String(i)))
-      items
-        .sort((a, b) => (shakyFirst ? rank(a) - rank(b) : 0) || Number(a.dataset.order) - Number(b.dataset.order))
-        .forEach((c) => list.appendChild(c))
-      items.forEach((c) => (c.hidden = level !== "All" && c.dataset.cardLevel !== level))
-      const section = list.closest("section")
-      if (section) section.hidden = items.every((c) => c.hidden)
-    })
-  }
-
-  document.querySelectorAll<HTMLButtonElement>("[data-level]").forEach((b) => {
-    b.addEventListener("click", () => {
-      level = b.dataset.level!
-      document.querySelectorAll("[data-level]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)))
-      apply()
-    })
-  })
-
-  const shakyBtn = document.querySelector<HTMLButtonElement>("[data-shaky]")
-  shakyBtn?.addEventListener("click", () => {
-    shakyFirst = !shakyFirst
-    shakyBtn.setAttribute("aria-pressed", String(shakyFirst))
-    apply()
-  })
-</script>
-
 <style>
-  .iv__bar {
-    display: grid;
-    gap: var(--space-3);
-    margin-top: var(--space-8);
-    padding: var(--space-4) var(--space-6);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
-  }
-
-  .iv__count,
-  .iv__progress,
-  .iv__note {
+  .iv__count {
+    margin-top: var(--space-6);
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
-  }
-
-  .iv__progress:empty {
-    display: none;
-  }
-
-  .iv__filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-  }
-
-  .iv__chip,
-  .card__check button {
-    padding: 0.3rem 0.8rem;
-    border: 1px solid var(--color-border);
-    border-radius: 999px;
-    background: transparent;
-    color: var(--color-text);
-    font: inherit;
-    font-size: var(--text-sm);
-    cursor: pointer;
-  }
-
-  .iv__chip[aria-pressed="true"] {
-    border-color: var(--color-primary);
-    background: var(--color-primary);
-    color: #fff;
   }
 
   .iv__stage {
@@ -310,9 +134,9 @@ function topicHref(card: InterviewCard) {
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    font-size: var(--text-xl);
-    font-weight: 650;
-    letter-spacing: -0.015em;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
   .iv__stage-num {
@@ -323,218 +147,113 @@ function topicHref(card: InterviewCard) {
     border-radius: 50%;
     background: var(--color-primary);
     color: #fff;
-    font-weight: 700;
+    font-size: var(--text-base);
   }
 
-  .iv__cards {
+  .iv__list {
     display: grid;
     gap: var(--space-4);
-    margin: var(--space-4) 0 0;
+    margin: var(--space-6) 0 0;
     padding: 0;
     list-style: none;
   }
 
-  .card {
+  .lad {
     padding: var(--space-6);
     border: 1px solid var(--color-border);
-    border-left: 4px solid var(--color-border);
     border-radius: var(--radius-md);
+    background: var(--color-surface);
+    transition: border-color 0.15s ease;
   }
 
-  .card[data-mark="knew"] {
-    border-left-color: #16a34a;
+  .lad:hover {
+    border-color: var(--color-primary);
   }
 
-  .card[data-mark="shaky"] {
-    border-left-color: #d97706;
-  }
-
-  .card[data-mark="no"] {
-    border-left-color: #dc2626;
-  }
-
-  .card__meta {
+  .lad__meta {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2) var(--space-4);
+    gap: var(--space-2) var(--space-3);
     font-family: var(--font-mono);
     font-size: 0.75rem;
-    text-transform: uppercase;
     letter-spacing: 0.03em;
+    text-transform: uppercase;
     color: var(--color-text-secondary);
   }
 
-  .card__level {
+  .lad__level {
     color: var(--color-primary);
   }
 
-  .card__topic {
-    text-transform: none;
-    letter-spacing: 0;
-    font-family: inherit;
+  .lad__title {
+    margin-top: var(--space-2);
+    font-size: var(--text-xl);
+    font-weight: 650;
+    line-height: 1.4;
   }
 
-  .ladder {
+  .lad__title a:hover {
+    color: var(--color-primary);
+  }
+
+  .lad__steps {
     display: grid;
-    gap: var(--space-4);
-    margin: var(--space-4) 0 0;
+    gap: var(--space-1);
+    margin: var(--space-3) 0 0;
     padding: 0;
     list-style: none;
-  }
-
-  .ladder__step + .ladder__step {
-    padding-left: var(--space-4);
-    border-left: 2px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
-  }
-
-  .ladder__q {
-    font-size: var(--text-lg, 1.125rem);
-    font-weight: 600;
-    line-height: 1.5;
-  }
-
-  .ladder__n {
-    display: inline-block;
-    min-width: 2rem;
-    margin-right: var(--space-2);
-    font-family: var(--font-mono);
-    color: var(--color-primary);
-  }
-
-  .ladder__answers,
-  .card__story {
-    margin-top: var(--space-2);
-  }
-
-  .ladder__answers summary,
-  .card__story summary {
-    cursor: pointer;
-    font-size: var(--text-sm);
-    color: var(--color-primary);
-  }
-
-  .answers {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-3);
-    margin-top: var(--space-3);
-  }
-
-  .answer {
-    padding: var(--space-4);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
-    font-size: var(--text-sm);
-    line-height: 1.65;
-  }
-
-  .answer--senior {
-    border: 1px solid color-mix(in srgb, var(--color-primary) 45%, transparent);
-  }
-
-  .answer__label {
-    margin-bottom: var(--space-1);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
     color: var(--color-text-secondary);
+    line-height: 1.55;
   }
 
-  .answer--senior .answer__label {
+  .lad__steps li::before {
+    content: "↳ ";
     color: var(--color-primary);
   }
 
-  .ladder__next {
-    padding: 0.45rem 1rem;
-    border: 1px dashed var(--color-primary);
-    border-radius: var(--radius-md);
-    background: transparent;
-    color: var(--color-primary);
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .output {
-    margin-top: var(--space-4);
-  }
-
-  .output__code {
-    margin-top: var(--space-3);
-    padding: var(--space-4);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    line-height: 1.6;
-    overflow-x: auto;
-  }
-
-  .output__code--result {
-    border-color: #16a34a;
-  }
-
-  .output__why,
-  .card__story p {
-    margin-top: var(--space-2);
-    font-size: var(--text-sm);
-    line-height: 1.65;
-    color: var(--color-text-secondary);
-  }
-
-  .card__full {
-    display: inline-block;
-    margin-top: var(--space-4);
-    font-weight: 600;
-    color: var(--color-primary);
-  }
-
-  .card__check {
+  .lad__links {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-2);
-    margin-top: var(--space-6);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--color-border);
+    gap: var(--space-2) var(--space-6);
+    margin-top: var(--space-4);
     font-size: var(--text-sm);
+  }
+
+  .lad__start {
+    padding: 0.45rem 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .lad__start:hover {
+    background: var(--color-primary-hover);
+  }
+
+  .iv__next {
+    margin-top: var(--space-12);
+    padding: var(--space-6);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
     color: var(--color-text-secondary);
+    line-height: 1.7;
   }
 
-  .card__check button[data-mark="knew"][aria-pressed="true"] {
-    background: #16a34a;
-    border-color: #16a34a;
-    color: #fff;
+  .iv__next h2 {
+    margin-bottom: var(--space-1);
+    font-size: var(--text-lg);
+    font-weight: 650;
+    color: var(--color-text);
   }
 
-  .card__check button[data-mark="shaky"][aria-pressed="true"] {
-    background: #d97706;
-    border-color: #d97706;
-    color: #fff;
-  }
-
-  .card__check button[data-mark="no"][aria-pressed="true"] {
-    background: #dc2626;
-    border-color: #dc2626;
-    color: #fff;
-  }
-
-  .iv__note {
-    margin-top: var(--space-8);
-  }
-
-  [hidden] {
-    display: none !important;
+  .iv__next-note {
+    font-size: var(--text-sm);
   }
 
   @media (max-width: 640px) {
-    .answers {
-      grid-template-columns: 1fr;
-    }
-
-    .card {
+    .lad {
       padding: var(--space-4);
     }
   }
