@@ -6,6 +6,9 @@ pubDate: 2026-10-30
 linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7522228096511598592/"
 xUrl: "https://x.com/bymayankkumar/status/2116464287967572361"
 tags: ["android", "kotlin", "roadmap", "interviews", "ai"]
+featuredIn:
+  - name: "Android Weekly #751"
+    url: "https://androidweekly.net/issues/issue-751"
 ogImage: "/og/android-developer-roadmap-2027.jpg"
 ogImageAlt: "Android Developer Roadmap 2027: nine stages in learning order, plus AI at every stage."
 cover: "../../assets/blog/android-roadmap-2027.png"

@@ -21,6 +21,8 @@ const blog = defineCollection({
       /** Links to where the post was shared, shown at the end of the article. */
       linkedinUrl: z.string().url().optional(),
       xUrl: z.string().url().optional(),
+      /** Newsletters or sites that featured the post, shown under the title. */
+      featuredIn: z.array(z.object({ name: z.string(), url: z.string().url() })).default([]),
       /** Link-preview image for this post, a root-relative path under public/ (1200×630). */
       ogImage: z.string().startsWith("/").optional(),
       ogImageAlt: z.string().optional(),

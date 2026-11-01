@@ -73,6 +73,9 @@ const articleSchema = {
           <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
           {" · "}{readingTime(post)}
           {post.data.updatedDate && <> · Updated {formatDate(post.data.updatedDate)}</>}
+          {post.data.featuredIn.map((f) => (
+            <> · Featured in <a class="page__link" style="white-space: nowrap" href={f.url} target="_blank" rel="noopener noreferrer">{f.name}</a></>
+          ))}
         </p>
 
         <div class="prose">
