@@ -5,9 +5,9 @@ description: "How Kotlin stops NullPointerException before your app runs: nullab
 pubDate: 2026-11-04
 tags: ["kotlin", "android", "null-safety", "basics"]
 ogImage: "/og/kotlin-null-safety.jpg"
-ogImageAlt: "Diagram: four ways to handle a nullable value in Kotlin, and which one can still crash."
+ogImageAlt: "Diagram: five ways to use a nullable value in Kotlin. Four are safe; only !! can still crash."
 cover: "../../assets/blog/kotlin-null-safety.png"
-coverAlt: "Diagram: four ways to handle a nullable value in Kotlin, and which one can still crash."
+coverAlt: "Diagram: five ways to use a nullable value in Kotlin. Four are safe; only !! can still crash."
 roadmap:
   topic: null-safety
 ---
@@ -108,7 +108,7 @@ So treat values from Java as nullable unless you know better. "Knowing better" m
 | `String?` | This value can be null | The value can really be missing |
 | `if (x != null)` | Check, then use it as non-null | You need several steps with the value |
 | `x?.total` | Total, or null if `x` is null | Null is fine for the result too |
-| `x ?: default` | Use a default when null | You have a sensible fallback, or want to return early |
+| `x ?: default` | Use a default when null | You have a good fallback, or want to return early |
 | `x?.let { }` | Run the block only when not null | One action that needs the value |
 | `x as? Type` | Cast, or null if it fails | You are not sure of the type |
 | `x!!` | Crash if null | Almost never; prefer a check or `requireNotNull` |
@@ -128,7 +128,7 @@ No, but it should be rare. In tests it can be fine, because a crash there just f
 
 Kotlin does not remove null. It makes you say, in the type, where null is allowed. Then the compiler checks every place you use it.
 
-Most null crashes in a Kotlin codebase now come from two doors: `!!` and Java. Keep both small and visible.
+In everyday Kotlin code, watch two doors: `!!` and Java. Keep both small and easy to see.
 
 If you want to test yourself, try the [null safety interview questions](/interview/kotlin-null-safety/). This post is the first topic in Stage 1 of my [Android roadmap](/roadmap/).
 
