@@ -42,6 +42,8 @@ pre,
 kbd,
 samp {
   font-family: var(--font-mono);
+  /* Show code exactly as typed: no != to ≠ style ligatures. */
+  font-variant-ligatures: none;
 }
 
 h1,
@@ -403,6 +405,11 @@ a.page__link:hover {
 
 .prose td:first-child {
   font-weight: 650;
+}
+
+/* Keep short code in the first column on one line. */
+.prose td:first-child code {
+  white-space: nowrap;
 }
 
 @media (max-width: 40rem) {
