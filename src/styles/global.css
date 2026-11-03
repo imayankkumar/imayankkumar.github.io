@@ -78,6 +78,8 @@ p {
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.15;
+  /* Even line lengths, so a short last word is not left alone on a line. */
+  text-wrap: balance;
 }
 
 .page__title-sub {
