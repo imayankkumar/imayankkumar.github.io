@@ -82,6 +82,14 @@ p {
   text-wrap: balance;
 }
 
+/* Short page titles that should stay on one line on wide screens.
+   They may run past the text column into the empty space on the right. */
+@media (min-width: 64rem) {
+  .page__title--one-line {
+    white-space: nowrap;
+  }
+}
+
 .page__title-sub {
   display: block;
 }
