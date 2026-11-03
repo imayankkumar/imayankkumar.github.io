@@ -38,7 +38,8 @@ Non-nullable is the default. If you try `var restaurant: String = null`, the bui
 The rule for `String?` is just as strict. If `deliveryNote` is a `String?`, then `deliveryNote.length` does not compile:
 
 ```text
-Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'String?'.
+Only safe (?.) or non-null asserted (!!.) calls are allowed
+on a nullable receiver of type 'String?'.
 ```
 
 So you decide what happens when the value is missing. You decide it while writing the code, not at 2 AM from a crash report.
@@ -71,16 +72,17 @@ There are four everyday tools.
 When the compiler shows a red line, adding `!!` is the fastest way to make it go away. That is true whether you, a teammate or an AI tool writes the fix. Here is what that looks like:
 
 ```kotlin
-// Almost right: it compiles, and it crashes when the order is not found
+// Almost right: compiles, but crashes when the order is not found
 fun orderTitle(orderId: String): String {
-    val order = findOrder(orderId)            // type: Order?
-    return "Order total: " + order!!.total    // NullPointerException if order is null
+    val order = findOrder(orderId)          // can be null
+    return "Order total: " + order!!.total  // crashes if null
 }
 
 // Right: the "not found" case has an answer
 fun orderTitle(orderId: String): String {
     val order = findOrder(orderId) ?: return "Order not found"
-    return "Order total: " + order.total      // order is Order here, not Order?
+    // From here, order can't be null, so no ?. or !! is needed
+    return "Order total: " + order.total
 }
 ```
 
