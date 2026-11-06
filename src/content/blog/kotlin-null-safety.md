@@ -3,6 +3,8 @@ title: "Kotlin Null Safety Explained Simply: ?, ?., ?:, !! and Platform Types"
 seoTitle: "Kotlin Null Safety Explained: ?., ?:, !! and Platform Types"
 description: "How Kotlin stops NullPointerException before your app runs: nullable types, safe calls, the Elvis operator, why !! is risky, and where Java can still crash you."
 pubDate: 2026-11-04
+linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7523693169323163648/"
+xUrl: "https://x.com/bymayankkumar/status/2117709559993380887"
 tags: ["kotlin", "android", "null-safety", "basics"]
 ogImage: "/og/kotlin-null-safety.jpg"
 ogImageAlt: "Diagram: five ways to use a nullable value in Kotlin. Four are safe; only !! can still crash."
