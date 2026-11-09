@@ -6,9 +6,9 @@ tags: ["kotlin", "android", "type-system", "basics"]
 ogImage: "/og/kotlin-any-unit-nothing.jpg"
 linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7525548676300136448/"
 xUrl: "https://x.com/bymayankkumar/status/2119781795902419150"
-ogImageAlt: "Diagram: Kotlin's type ladder. Any? at the top, Any below it, your own types in the middle, and Nothing at the bottom."
-cover: "../../assets/blog/kotlin-any-unit-nothing.png"
-coverAlt: "Diagram: Kotlin's type ladder. Any? at the top, Any below it, your own types in the middle, and Nothing at the bottom."
+ogImageAlt: "Title card: Any, Unit and Nothing. Tags: Any?, Any, Unit and Nothing."
+cover: "../../assets/blog/covers/kotlin-any-unit-nothing.png"
+coverAlt: "Title card: Any, Unit and Nothing. Tags: Any?, Any, Unit and Nothing."
 roadmap:
   topic: any-unit-nothing
 ---

@@ -10,9 +10,9 @@ featuredIn:
     url: "https://androidweekly.net/issues/issue-751"
 tags: ["android", "kotlin", "roadmap", "interviews", "ai"]
 ogImage: "/og/android-developer-roadmap-2027.jpg"
-ogImageAlt: "Android Developer Roadmap 2027: nine stages in learning order, plus AI at every stage."
-cover: "../../assets/blog/android-roadmap-2027.png"
-coverAlt: "Android Developer Roadmap 2027 diagram: nine stages in three rows, with two AI tracks under them."
+ogImageAlt: "Title card: Android Developer Roadmap 2027. Tags: 9 stages, 6 months, interviews, AI."
+cover: "../../assets/blog/covers/android-developer-roadmap-2027.png"
+coverAlt: "Title card: Android Developer Roadmap 2027. Tags: 9 stages, 6 months, interviews, AI."
 ---
 
 If you are an Android developer right now, you are probably asking three questions:
