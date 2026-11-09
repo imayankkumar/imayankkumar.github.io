@@ -114,7 +114,7 @@ fun stopOrder(id: String): Nothing {
 
 In the first version, `stopOrder` returns `Unit`. The compiler thinks the code can continue after it, with `order` still null. So you get "Only safe (?.) or non-null asserted (!!.) calls are allowed", and the quick fix is `order!!`. With `: Nothing`, the compiler knows the code after that line only runs when `order` is not null. So it changes the type of `order` from `Order?` to `Order` for you. No `!!` needed.
 
-## Why can a loading state be UiState<Nothing>?
+## Why can a loading state be `UiState<Nothing>`?
 
 This is a common place to see `Nothing` in Android code. Many apps call this class `UiState`. Here it is `OrderState`:
 
