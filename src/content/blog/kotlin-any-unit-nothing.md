@@ -89,7 +89,7 @@ fun findOrder(id: String): Order? = orders[id]   // null when not found
 val order: Order = findOrder(orderId) ?: error("Order $orderId not loaded")
 ```
 
-The left side gives an `Order`. The right side gives `Nothing`, which fits into `Order`. So the whole line is an `Order`.
+If `findOrder()` finds the order, `?:` hands back a non-null `Order`. If it returns null, `error()` throws, and since its type is `Nothing`, it fits where an `Order` is expected. Either way, the line can only finish with an `Order`, so the type is `Order`, not `Order?`.
 
 The return type matters when you write your own helper:
 
