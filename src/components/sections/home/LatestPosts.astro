@@ -54,6 +54,15 @@ const tones = ["blue", "violet", "green"] as const
 }
 
 <style>
+  /* Keep cards the same height: summary shows at most 3 lines. */
+  .post__body {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+
   .posts {
     display: grid;
     gap: var(--space-4);

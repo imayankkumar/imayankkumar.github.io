@@ -72,6 +72,16 @@ const posts = await getPublishedPosts()
     list-style: none;
   }
 
+
+  /* Keep cards the same height: summary shows at most 3 lines. */
+  .post-list .card__body {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+
   .post-list > li {
     margin: 0;
   }
