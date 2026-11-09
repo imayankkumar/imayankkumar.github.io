@@ -9,9 +9,9 @@ featuredIn:
   - name: "Android Weekly #750"
     url: "https://androidweekly.net/issues/issue-750"
 ogImage: "/og/ai-can-write-my-kotlin.jpg"
-ogImageAlt: "Diagram: tests pass in the repository, but Android bugs live on the device at runtime."
-cover: "../../assets/blog/verification-gap.png"
-coverAlt: "Diagram: tests pass in the repository, but Android bugs live on the device at runtime."
+ogImageAlt: "Title card: AI can write my Kotlin. Who debugs it at 2 AM? Tags: tests pass, process death, R8, OEM limits."
+cover: "../../assets/blog/covers/ai-can-write-my-kotlin.png"
+coverAlt: "Title card: AI can write my Kotlin. Who debugs it at 2 AM? Tags: tests pass, process death, R8, OEM limits."
 ---
 
 It's 2:07 AM, and Crashlytics has opinions. The crash is in a ViewModel that `git blame` says you wrote. You didn't. An agent did, and its pull request said "all tests pass." They do. The agent updated the expected values to match its new behaviour.

@@ -7,9 +7,9 @@ linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7523693169323
 xUrl: "https://x.com/bymayankkumar/status/2117709559993380887"
 tags: ["kotlin", "android", "null-safety", "basics"]
 ogImage: "/og/kotlin-null-safety.jpg"
-ogImageAlt: "Diagram: five ways to use a nullable value in Kotlin. Four are safe; only !! can still crash."
-cover: "../../assets/blog/kotlin-null-safety.png"
-coverAlt: "Diagram: five ways to use a nullable value in Kotlin. Four are safe; only !! can still crash."
+ogImageAlt: "Title card: Null safety in Kotlin. Tags: String?, ?., ?: and !!."
+cover: "../../assets/blog/covers/kotlin-null-safety.png"
+coverAlt: "Title card: Null safety in Kotlin. Tags: String?, ?., ?: and !!."
 roadmap:
   topic: null-safety
 ---
