@@ -208,21 +208,61 @@ public class UserRepository {
     kind: "ladder",
     topic: "any-unit-nothing",
     level: "Mid",
+    page: {
+      slug: "kotlin-any-unit-nothing",
+      title: "Kotlin Any, Unit and Nothing interview questions, with follow-ups",
+      description: "Interview questions on Kotlin's Any, Unit and Nothing: Unit vs void, why a throwing helper should return Nothing, and why UiState<Nothing> works, with junior and senior answers.",
+      intro: "The opener sounds like a definitions question, and most people answer it with \"Any is Object, Unit is void\". The follow-ups check if you know why Unit is a real type, how Nothing helps the compiler, and why a loading state can be UiState<Nothing>.",
+      sayIt: "Any is the parent of every non-null type, and Any? is the top of the whole type system. Unit is a real type with one value, Unit. A function that returns it finishes but has no useful result, and because it's a real type it works in generics like () -> Unit or Result<Unit>. On the JVM it still compiles to void. Nothing has no values. It's the type of throw, error() and TODO(), and it sits under every other type. That's why ?: throw compiles, why a helper that always throws should return Nothing so smart casts keep working, and why a Loading object can be UiState<Nothing> when T is declared out.",
+    },
     steps: [
       {
-        question: "What are Any, Unit and Nothing?",
-        junior: "Any is like Object, Unit is like void, Nothing means no value.",
-        senior: "Any is the root of every non-null type. Unit is a real type with one value, used when a function returns nothing useful. Nothing has no values at all: a function returning Nothing never returns normally.",
+        question: "What are Any, Unit and Nothing in Kotlin?",
+        junior: "Any is like Object, Unit is like void, and Nothing means there is no value.",
+        senior: "They are the top, a normal type, and the bottom of Kotlin's types. Any is the parent of every non-null type, and Any? is above everything, null included. Unit is a type with exactly one value, used when a function has no useful result. Nothing has no values at all, so code of type Nothing never finishes normally.",
+        code: `val anything: Any? = null              // Any? accepts every value, even null
+val done: Unit = clearCart()           // a real value: kotlin.Unit
+val never: Nothing = error("stop")     // never gets a value: it throws`,
+        trap: "\"Like Object, like void\" is a fine start but it's where the follow-ups begin. They want to hear that Unit is a real value and that Nothing is the bottom type, not just \"no value\".",
       },
       {
-        question: "What is the type of a throw expression?",
-        junior: "It doesn't have one.",
-        senior: "Nothing. Because Nothing is a subtype of every type, you can write val name = input ?: throw IllegalArgumentException() and name is still a String.",
+        question: "How is Unit different from Java's void?",
+        junior: "Unit is Kotlin's name for void.",
+        senior: "void means there is no value at all, so Java can't use it as a type argument. Unit is a real type with one value, so it works in generics: () -> Unit, Result<Unit>, MutableSharedFlow<Unit>. It costs nothing for normal functions, because a Unit-returning function compiles to a void method on the JVM.",
+        code: `fun clearCart() { cartItems.clear() }   // JVM: public void clearCart()
+
+val onClick: () -> Unit = { clearCart() }
+suspend fun cancelOrder(id: String): Result<Unit> =
+    runCatching { api.cancel(id) }
+val orderPlaced = MutableSharedFlow<Unit>()  // an event with no data`,
+        trap: "They're checking if you can name a place where void fails and Unit works. Java needs Callable<Void> and return null for the same thing.",
       },
       {
-        question: "Why does TODO() compile inside a function that must return a String?",
-        junior: "It's a special keyword.",
-        senior: "It's a normal function that returns Nothing. Nothing fits wherever a String is expected, and the compiler knows the code after it can't run.",
+        question: "A helper always throws, but after calling it the compiler still says the value can be null. Why?",
+        junior: "Add !! after the call.",
+        senior: "The helper returns Unit, so the compiler thinks code can continue after it with the value still null. Declare the return type as Nothing. Then the compiler knows the call never comes back, and it smart casts the value to non-null on the next line. throw, error() and TODO() all have type Nothing for the same reason.",
+        code: `fun stopOrder(id: String): Nothing =
+    throw IllegalStateException("Order $id not loaded")
+
+fun orderTotal(id: String): Int {
+    val order = findOrder(id)              // Order?
+    if (order == null) stopOrder(id)
+    return order.total                     // smart cast to Order: compiles
+}`,
+        trap: "!! is the answer they're hoping you won't give. This step checks if you know that the return type of a function changes how the compiler reads the code after the call.",
+      },
+      {
+        question: "Why can a Loading object be UiState<Nothing> and still be used as UiState<Order>?",
+        junior: "Because Loading has no data.",
+        senior: "Nothing is a subtype of every type, so it's a subtype of Order. With T declared out, UiState is covariant, which makes UiState<Nothing> a subtype of UiState<Order>. So one Loading object works for every T. Without out, the assignment fails with a type mismatch.",
+        code: `sealed interface UiState<out T> {
+    data object Loading : UiState<Nothing>
+    data class Ready<T>(val data: T) : UiState<T>
+    data class Failed(val message: String) : UiState<Nothing>
+}
+
+val state: UiState<Order> = UiState.Loading   // compiles only because of out`,
+        trap: "This is the senior step. They want both halves: Nothing is the bottom type, and out (covariance) is what lets UiState<Nothing> fit into UiState<Order>.",
       },
     ],
   },
