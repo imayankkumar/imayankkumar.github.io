@@ -1,6 +1,6 @@
 ---
 import Button from "../../ui/Button.astro"
-import { profile } from "../../../data/profile"
+import { hero } from "../../../data/home"
 
 interface Props {
   class?: string
@@ -11,7 +11,7 @@ const { class: className } = Astro.props
 
 <div class:list={["cta-buttons", className]}>
   {
-    profile.ctas.map((cta) => (
+    hero.ctas.map((cta) => (
       <Button href={cta.href} variant={cta.variant}>
         {cta.label}
         <svg

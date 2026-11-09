@@ -6,43 +6,6 @@ import type { IconName } from "../components/ui/Icon.astro"
 import { contact, framePulse, patent } from "./career"
 import { profile } from "./profile"
 
-export interface Highlight {
-  icon: IconName
-  tone: "blue" | "green" | "violet"
-  title: string
-  body: string
-  link?: { label: string; href: string; external?: boolean }
-}
-
-export const highlights: Highlight[] = [
-  {
-    icon: "shield",
-    tone: "blue",
-    title: "USPTO Patent",
-    body: "Co-inventor on a granted United States patent",
-    link: { label: "View patent", href: patent.href, external: true },
-  },
-  {
-    icon: "calendar",
-    tone: "green",
-    title: `${profile.yearsInAndroid} Years`,
-    body: `Of Android development, ${profile.yearsInSoftware} years in software overall`,
-  },
-  {
-    icon: "pulse",
-    tone: "blue",
-    title: framePulse.name,
-    body: "Open-source Android frame pacing and jank analysis",
-    link: { label: "View on GitHub", href: framePulse.href, external: true },
-  },
-  {
-    icon: "sparkles",
-    tone: "violet",
-    title: "AI-Assisted Engineering",
-    body: "Agent workflows for Android SDK upgrades and migrations",
-  },
-]
-
 export interface FeaturedProject {
   icon: IconName
   tone: "blue" | "violet"
@@ -73,34 +36,43 @@ export const featuredProjects: FeaturedProject[] = [
   },
 ]
 
-export interface Milestone {
-  year: string
-  text: string
+/** Home hero: written for the learner, not the hiring manager. */
+export const hero = {
+  badge: "Android Roadmap 2027 · New topic every week",
+  lines: [
+    [{ text: "Learn " }, { text: "Android", highlight: true }],
+    [{ text: "the way it works" }],
+    [{ text: "in production." }],
+  ],
+  bio: `Plain explanations, code checked on the current Kotlin version, and the interview follow-ups for every topic. I'm Mayank Kumar, a Senior Android Engineer with ${profile.yearsInAndroid} years building Android apps.`,
+  ctas: [
+    { label: "Start the roadmap", href: "/roadmap/", variant: "primary" as const },
+    { label: "Practice interview questions", href: "/interview/", variant: "secondary" as const },
+  ],
+  /** Android Weekly issues that featured a post. */
+  featuredIn: [
+    { label: "750", href: "https://androidweekly.net/issues/issue-750" },
+    { label: "751", href: "https://androidweekly.net/issues/issue-751" },
+    { label: "752", href: "https://androidweekly.net/issues/issue-752" },
+  ],
 }
 
-export const journey: Milestone[] = [
-  { year: "2017", text: "Joined Tata Elxsi, starting in test automation" },
-  { year: "2019", text: "Senior Engineer: Android TV and device tooling" },
-  { year: "2023", text: "Joined Zebra Technologies, enterprise messaging" },
-  { year: "2025", text: "Promoted to Senior Software Engineer I" },
-  { year: "2026", text: "US patent granted; building FramePulse in public" },
-]
-
 export const callToAction = {
-  title: "Let's build something together",
-  body: "I'm always happy to talk about Android, performance, AI-assisted engineering, or a role where those matter.",
-  label: "Get In Touch",
-  href: "/contact/",
+  title: "One new Android topic every week",
+  body: "Each one comes with a plain explanation, checked code and the interview follow-ups. Follow along on LinkedIn to get them as they come out.",
+  label: "Follow on LinkedIn",
+  href: "https://linkedin.com/in/mayankkumar-mk",
 }
 
 export const footerColumns = [
   {
     title: "Navigate",
     links: [
+      { label: "Roadmap", href: "/roadmap/" },
+      { label: "Interview prep", href: "/interview/" },
+      { label: "Blog", href: "/blog/" },
       { label: "About", href: "/about/" },
       { label: "Projects", href: "/projects/" },
-      { label: "Blog", href: "/blog/" },
-      { label: "Roadmap", href: "/roadmap/" },
       { label: "Resume", href: "/resume/" },
       { label: "Contact", href: "/contact/" },
     ],

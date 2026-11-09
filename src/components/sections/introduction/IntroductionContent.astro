@@ -1,5 +1,6 @@
 ---
 import { profile } from "../../../data/profile"
+import { hero } from "../../../data/home"
 import StatusBadge from "./StatusBadge.astro"
 import CTAButtons from "./CTAButtons.astro"
 
@@ -11,11 +12,11 @@ const { class: className } = Astro.props
 ---
 
 <div class:list={["introduction-content", className]}>
-  <StatusBadge label={profile.role} variant="role" />
+  <StatusBadge label={hero.badge} variant="role" />
 
   <h1 id="introduction-heading" class="introduction-content__title">
     {
-      profile.taglineLines.map((line) => (
+      hero.lines.map((line) => (
         <span class="introduction-content__line">
           {line.map((part) =>
             part.highlight ? (
@@ -29,9 +30,21 @@ const { class: className } = Astro.props
     }
   </h1>
 
-  <p class="introduction-content__bio">{profile.bio}</p>
+  <p class="introduction-content__bio">{hero.bio}</p>
 
   <CTAButtons />
+
+  <p class="introduction-content__proof">
+    Featured in Android Weekly, issues{" "}
+    {
+      hero.featuredIn.map((issue, i) => (
+        <>
+          <a href={issue.href} target="_blank" rel="noopener noreferrer">{issue.label}</a>
+          {i < hero.featuredIn.length - 2 ? ", " : i === hero.featuredIn.length - 2 ? " and " : ""}
+        </>
+      ))
+    }
+  </p>
 
   <div class="introduction-content__connect">
     <p class="introduction-content__connect-label">{profile.connectLabel}</p>
@@ -151,6 +164,22 @@ const { class: className } = Astro.props
     line-height: 1.65;
     color: var(--color-text-secondary);
     text-wrap: pretty;
+  }
+
+  .introduction-content__proof {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .introduction-content__proof a {
+    color: var(--color-text);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .introduction-content__proof a:hover {
+    color: var(--color-primary);
   }
 
   .introduction-content__connect {
