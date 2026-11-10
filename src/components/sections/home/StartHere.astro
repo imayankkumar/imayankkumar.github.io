@@ -5,13 +5,13 @@ import Icon from "../../ui/Icon.astro"
 import SectionHeader from "./SectionHeader.astro"
 import { roadmapStages } from "../../../data/roadmap"
 import { interviewCards } from "../../../data/interview"
-import { getPublishedPosts, getRoadmapPosts, postUrl } from "../../../lib/blog"
+import { getPublishedPosts, getRoadmapPosts } from "../../../lib/blog"
 
 // Real counts from the data, so the cards never claim more than is published.
 const totalTopics = roadmapStages.reduce((n, s) => n + s.topics.length, 0)
 const publishedTopics = (await getRoadmapPosts()).size
 const ladders = interviewCards.filter((c) => c.kind === "ladder" && c.page).length
-const latest = (await getPublishedPosts())[0]
+const postCount = (await getPublishedPosts()).length
 
 const cards = [
   {
@@ -28,17 +28,13 @@ const cards = [
     body: `One question, then the follow-ups interviewers ask next, with a junior and a senior answer. ${ladders} topic${ladders === 1 ? "" : "s"} so far.`,
     link: { label: "Try a question", href: "/interview/" },
   },
-  ...(latest
-    ? [
-        {
-          icon: "pulse" as const,
-          tone: "green",
-          title: "Read the latest post",
-          body: latest.data.title,
-          link: { label: "Read it", href: postUrl(latest) },
-        },
-      ]
-    : []),
+  {
+    icon: "pulse" as const,
+    tone: "green",
+    title: "Browse all posts",
+    body: `${postCount} post${postCount === 1 ? "" : "s"} on Kotlin, Android and AI, grouped by roadmap stage.`,
+    link: { label: "See all posts", href: "/blog/" },
+  },
 ]
 ---
 

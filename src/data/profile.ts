@@ -1,5 +1,4 @@
-import { site } from "./site"
-import { contact, patent, framePulse } from "./career"
+import { patent, framePulse } from "./career"
 
 /** Experience figures: total software (since Oct 2017) and Android specifically. */
 const yearsInSoftware = "9+"
@@ -52,24 +51,6 @@ export const profile = {
       label: "Get In Touch",
       href: "/contact/",
       variant: "secondary" as const,
-    },
-  ],
-  connectLabel: "Let's connect",
-  connect: [
-    {
-      name: "GitHub",
-      href: site.github,
-      external: true,
-    },
-    {
-      name: "LinkedIn",
-      href: site.linkedin,
-      external: true,
-    },
-    {
-      name: "Email",
-      href: `mailto:${contact.email}`,
-      external: false,
     },
   ],
 }
