@@ -40,9 +40,8 @@ export const featuredProjects: FeaturedProject[] = [
 export const hero = {
   badge: "Android Roadmap 2027 · New topic every week",
   lines: [
-    [{ text: "Learn " }, { text: "Android", highlight: true }],
-    [{ text: "the way it works" }],
-    [{ text: "in production." }],
+    [{ text: "Learn " }, { text: "Android", highlight: true }, { text: " the way" }],
+    [{ text: "it works in production." }],
   ],
   bio: `Plain explanations, code checked on the current Kotlin version, and the interview follow-ups for every topic. I'm Mayank Kumar, a Senior Android Engineer with ${profile.yearsInAndroid} years building Android apps.`,
   ctas: [
