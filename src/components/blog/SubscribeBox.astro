@@ -1,0 +1,107 @@
+---
+// Newsletter signup. Links to the Substack subscribe page instead of embedding
+// Substack's iframe, so it matches the site (light and dark) and loads no third-party script.
+import { site } from "../../data/site"
+
+interface Props {
+  title?: string
+  class?: string
+}
+
+const { title = "Get new topics by email", class: className } = Astro.props
+---
+
+<aside class:list={["subscribe", className]} aria-label="Newsletter">
+  <div class="subscribe__text">
+    <p class="subscribe__title">{title}</p>
+    <p class="subscribe__body">
+      One email a week with the new posts and their interview questions. Free,
+      and you can unsubscribe any time.
+    </p>
+  </div>
+  <a
+    class="subscribe__button"
+    href={site.newsletter}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Subscribe
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M5 12h14M13 6l6 6-6 6"
+        stroke="currentColor"
+        stroke-width="1.75"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
+    </svg>
+  </a>
+</aside>
+
+<style>
+  .subscribe {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+    padding: var(--space-6);
+    border: 1px solid
+      color-mix(in srgb, var(--color-primary) 18%, var(--color-border));
+    border-radius: var(--radius-md);
+    background: color-mix(
+      in srgb,
+      var(--color-primary) 6%,
+      var(--color-background)
+    );
+  }
+
+  @media (min-width: 640px) {
+    .subscribe {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .subscribe__title {
+    font-size: var(--text-lg);
+    font-weight: 650;
+    color: var(--color-text);
+  }
+
+  .subscribe__body {
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  .subscribe__button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-shrink: 0;
+    padding: 0.625rem 1.125rem;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: #fff;
+    background: var(--color-primary);
+    text-decoration: none;
+    transition: background-color 150ms ease;
+  }
+
+  .subscribe__button:hover {
+    background: color-mix(in srgb, var(--color-primary) 85%, black);
+  }
+
+  .subscribe__button:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+</style>

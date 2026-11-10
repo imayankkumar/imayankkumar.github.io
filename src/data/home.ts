@@ -5,6 +5,7 @@
 import type { IconName } from "../components/ui/Icon.astro"
 import { contact, framePulse, patent } from "./career"
 import { profile } from "./profile"
+import { site } from "./site"
 
 export interface FeaturedProject {
   icon: IconName
@@ -38,7 +39,7 @@ export const featuredProjects: FeaturedProject[] = [
 
 /** Home hero: written for the learner, not the hiring manager. */
 export const hero = {
-  badge: "Android Roadmap 2027 · New topic every week",
+  badge: "Android Roadmap 2027 · New topics every week",
   lines: [
     [
       { text: "Learn " },
@@ -63,10 +64,10 @@ export const hero = {
 }
 
 export const callToAction = {
-  title: "One new Android topic every week",
-  body: "Each one comes with a plain explanation, checked code and the interview follow-ups. Follow along on LinkedIn to get them as they come out.",
-  label: "Follow on LinkedIn",
-  href: "https://linkedin.com/in/mayankkumar-mk",
+  title: "New Android topics every week",
+  body: "Each one comes with a plain explanation, checked code and the interview follow-ups. Get them by email: one email a week, free.",
+  label: "Subscribe",
+  href: site.newsletter,
 }
 
 export const footerColumns = [
@@ -103,6 +104,7 @@ export const footerColumns = [
         external: true,
       },
       { label: "X", href: "https://x.com/bymayankkumar", external: true },
+      { label: "Newsletter", href: site.newsletter, external: true },
       { label: "Email", href: `mailto:${contact.email}` },
     ],
   },

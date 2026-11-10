@@ -12,4 +12,6 @@ export const site = {
   x: "https://x.com/bymayankkumar",
 
   resume: "/resume/",
+
+  newsletter: "https://imayankkumar.substack.com/subscribe",
 }

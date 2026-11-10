@@ -20,6 +20,8 @@ function stageLabel(stage: (typeof roadmapStages)[number]) {
   if (stage.number === currentStage) return "In progress"
   return "Planned"
 }
+import SubscribeBox from "../components/blog/SubscribeBox.astro"
+import { site } from "../data/site"
 ---
 
 <BaseLayout
@@ -69,7 +71,8 @@ function stageLabel(stage: (typeof roadmapStages)[number]) {
             )
           }
           <p class="roadmap__note">
-            A new topic every week ·{" "}
+            New topics every week ·{" "}
+            <a class="page__link" href={site.newsletter} target="_blank" rel="noopener noreferrer">Get them by email</a> ·{" "}
             <a class="page__link" href={roadmapPost}>Read the full roadmap</a>
           </p>
         </div>
@@ -143,6 +146,8 @@ function stageLabel(stage: (typeof roadmapStages)[number]) {
             <span class="roadmap__card-body">Practice questions for each stage, with the follow-ups interviewers ask next.</span>
           </a>
         </div>
+
+        <SubscribeBox title="Get each new roadmap topic by email" />
       </div>
     </Container>
   </main>
