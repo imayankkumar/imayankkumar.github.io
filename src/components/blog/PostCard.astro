@@ -1,0 +1,93 @@
+---
+// One post in the /blog/ list: cover, title, date, reading time and a 3-line summary.
+import { Image } from "astro:assets"
+import { postUrl, formatDate, readingTime, type Post } from "../../lib/blog"
+
+interface Props {
+  post: Post
+}
+
+const { post } = Astro.props
+---
+
+<li class:list={["card", { "post-card--cover": post.data.cover }]}>
+  {
+    post.data.cover && (
+      <a
+        class="post-card__media"
+        href={postUrl(post)}
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <Image
+          class="post-card__cover"
+          src={post.data.cover}
+          alt=""
+          widths={[400, 800]}
+          sizes="(min-width: 720px) 280px, 100vw"
+        />
+      </a>
+    )
+  }
+  <div class="post-card__text">
+    <a class="post-card__link" href={postUrl(post)}>
+      <h3 class="card__title">{post.data.title}</h3>
+    </a>
+    <p class="card__meta">
+      <time datetime={post.data.pubDate.toISOString()}
+        >{formatDate(post.data.pubDate)}</time
+      > ·{" "}
+      {readingTime(post)}
+    </p>
+    <p class="card__body post-card__summary">{post.data.description}</p>
+  </div>
+</li>
+
+<style>
+  li {
+    margin: 0;
+  }
+
+  /* Keep cards the same height: summary shows at most 3 lines. */
+  .post-card__summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+
+  .post-card--cover {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 720px) {
+    .post-card--cover {
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: var(--space-6);
+      align-items: start;
+    }
+  }
+
+  .post-card__cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    object-position: top left;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .post-card__link:hover .card__title {
+    color: var(--color-primary);
+  }
+
+  .post-card__link:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-sm);
+  }
+</style>

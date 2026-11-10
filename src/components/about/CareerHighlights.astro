@@ -1,47 +1,37 @@
 ---
-import Container from "../../layout/Container.astro"
-import Section from "../../layout/Section.astro"
-import Icon from "../../ui/Icon.astro"
-import SectionHeader from "./SectionHeader.astro"
-import { highlights } from "../../../data/home"
+import Icon from "../ui/Icon.astro"
+import { highlights } from "../../data/about"
 ---
 
-<Section id="highlights" class="home-section" aria-labelledby="highlights-heading">
-  <Container>
-    <SectionHeader
-      id="highlights-heading"
-      title="Career Highlights"
-      link={{ label: "View all", href: "/about/" }}
-    />
-
-    <ul class="highlights">
-      {
-        highlights.map((item) => (
-          <li class="highlight">
-            <span class:list={["icon-tile", `icon-tile--${item.tone}`]}>
-              <Icon name={item.icon} size={22} />
-            </span>
-            <div class="highlight__text">
-              <h3 class="highlight__title">{item.title}</h3>
-              <p class="highlight__body">{item.body}</p>
-              {item.link && (
-                <a
-                  href={item.link.href}
-                  class="highlight__link"
-                  target={item.link.external ? "_blank" : undefined}
-                  rel={item.link.external ? "noopener noreferrer" : undefined}
-                >
-                  {item.link.label}
-                  <Icon name="arrow-right" size={14} />
-                </a>
-              )}
-            </div>
-          </li>
-        ))
-      }
-    </ul>
-  </Container>
-</Section>
+<section class="page__section" aria-labelledby="highlights-heading">
+  <h2 id="highlights-heading" class="page__section-title">Career highlights</h2>
+  <ul class="highlights">
+    {
+      highlights.map((item) => (
+        <li class="highlight">
+          <span class:list={["icon-tile", `icon-tile--${item.tone}`]}>
+            <Icon name={item.icon} size={22} />
+          </span>
+          <div class="highlight__text">
+            <h3 class="highlight__title">{item.title}</h3>
+            <p class="highlight__body">{item.body}</p>
+            {item.link && (
+              <a
+                href={item.link.href}
+                class="highlight__link"
+                target={item.link.external ? "_blank" : undefined}
+                rel={item.link.external ? "noopener noreferrer" : undefined}
+              >
+                {item.link.label}
+                <Icon name="arrow-right" size={14} />
+              </a>
+            )}
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>
 
 <style>
   .highlights {

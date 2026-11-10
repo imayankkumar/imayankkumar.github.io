@@ -3,7 +3,13 @@ import BaseLayout from "../layouts/BaseLayout.astro"
 import Container from "../components/layout/Container.astro"
 import ExperienceTimeline from "../components/career/ExperienceTimeline.astro"
 import PatentCard from "../components/career/PatentCard.astro"
+import AboutHero from "../components/about/AboutHero.astro"
+import CareerHighlights from "../components/about/CareerHighlights.astro"
 import { awards, education } from "../data/career"
+
+// Kept as its own line: it is a summary, not a single dated award.
+const gemRecognition =
+  "Received 17 leadership recognitions through Zebra's GEM program for AI innovation, enterprise feature delivery, customer-first execution, patent contributions, and engineering excellence"
 ---
 
 <BaseLayout
@@ -12,32 +18,38 @@ import { awards, education } from "../data/career"
 >
   <main class="page">
     <Container>
-      <div class="page__inner">
-        <p class="page__eyebrow">About</p>
-        <h1 class="page__title">
-          Android engineer with 9+ years in software, 6+ on Android
-        </h1>
+      <div class="about-top">
+        <AboutHero />
 
-        <div class="page__prose page__lead">
-          <p>
-            I started in 2017 testing Zebra's enterprise devices at Tata Elxsi,
-            moved into Android development on Zebra's Device Diagnostic Tool,
-            and then built the onboarding app for an Android TV set-top box,
-            including time onsite in Dubai for its MVP release.
-          </p>
-          <p>
-            Since 2023 I've been at Zebra Technologies, working on the Android
-            client of an enterprise push-to-talk and messaging app used in
-            retail, healthcare and logistics.
-          </p>
-          <p>
-            Outside the day job my attention goes to two things: how Android
-            rendering actually works, which I'm exploring in the open with{" "}
-            <a class="page__link" href="/projects/">FramePulse</a>, and using AI
-            agents on the large, tedious parts of Android work, like SDK
-            upgrades.
-          </p>
-        </div>
+        <CareerHighlights />
+      </div>
+
+      <div class="page__inner">
+        <section class="page__section" aria-labelledby="story-heading">
+          <h2 id="story-heading" class="page__section-title">How I got here</h2>
+          <div class="page__prose page__lead">
+            <p>
+              I started in 2017 testing Zebra's enterprise devices at Tata
+              Elxsi, moved into Android development on Zebra's Device Diagnostic
+              Tool, and then built the onboarding app for an Android TV set-top
+              box, including time onsite in Dubai for its MVP release.
+            </p>
+            <p>
+              Since 2023 I've been at Zebra Technologies, working on the Android
+              client of an enterprise push-to-talk and messaging app used in
+              retail, healthcare and logistics.
+            </p>
+            <p>
+              Outside the day job my attention goes to two things: how Android
+              rendering actually works, which I'm exploring in the open with{
+                " "
+              }
+              <a class="page__link" href="/projects/">FramePulse</a>, and using
+              AI agents on the large, tedious parts of Android work, like SDK
+              upgrades.
+            </p>
+          </div>
+        </section>
 
         <section class="page__section" aria-labelledby="career-heading">
           <h2 id="career-heading" class="page__section-title">Career</h2>
@@ -54,6 +66,7 @@ import { awards, education } from "../data/career"
             Recognition & education
           </h2>
           <ul class="list">
+            <li>{gemRecognition}</li>
             {
               awards.map((award) => (
                 <li>
@@ -68,3 +81,10 @@ import { awards, education } from "../data/career"
     </Container>
   </main>
 </BaseLayout>
+
+<style>
+  /* Hero and highlight cards need more room than the reading column. */
+  .about-top {
+    max-width: 64rem;
+  }
+</style>

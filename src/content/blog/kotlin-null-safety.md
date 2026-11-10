@@ -5,6 +5,9 @@ description: "How Kotlin stops NullPointerException before your app runs: nullab
 pubDate: 2026-11-04
 linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7523693169323163648/"
 xUrl: "https://x.com/bymayankkumar/status/2117709559993380887"
+featuredIn:
+  - name: "Android Weekly #752"
+    url: "https://androidweekly.net/issues/issue-752"
 tags: ["kotlin", "android", "null-safety", "basics"]
 ogImage: "/og/kotlin-null-safety.jpg"
 ogImageAlt: "Title card: Null safety in Kotlin. Tags: String?, ?., ?: and !!."

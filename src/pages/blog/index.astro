@@ -1,61 +1,97 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro"
-import { Image } from "astro:assets"
 import Container from "../../components/layout/Container.astro"
-import { getPublishedPosts, postUrl, formatDate, readingTime } from "../../lib/blog"
+import PostCard from "../../components/blog/PostCard.astro"
+import { getPublishedPosts, getRoadmapPosts } from "../../lib/blog"
+import { roadmapStages } from "../../data/roadmap"
 
 const posts = await getPublishedPosts()
+const roadmapPosts = await getRoadmapPosts()
+
+// Roadmap posts are grouped by stage, in learning order. Everything else is newest first.
+const stageGroups = roadmapStages
+  .map((stage) => ({
+    stage,
+    posts: stage.topics.flatMap((t) => roadmapPosts.get(t.id) ?? []),
+  }))
+  .filter((group) => group.posts.length > 0)
+const inStages = new Set(stageGroups.flatMap((g) => g.posts.map((p) => p.id)))
+const otherPosts = posts.filter((p) => !inStages.has(p.id))
 ---
 
 <BaseLayout
   title="Blog · Mayank Kumar"
-  description="Short, practical posts by Mayank Kumar on Android engineering, performance, and building Android apps with AI."
+  description="Android and Kotlin explained simply: one question per post, code checked on the current Kotlin version, and interview questions to test yourself."
 >
   {posts.length === 0 && <meta slot="head" name="robots" content="noindex" />}
-  <link slot="head" rel="alternate" type="application/rss+xml" title="Mayank Kumar · Blog" href="/rss.xml" />
+  <link
+    slot="head"
+    rel="alternate"
+    type="application/rss+xml"
+    title="Mayank Kumar · Blog"
+    href="/rss.xml"
+  />
   <main class="page">
     <Container>
       <div class="page__inner">
         <p class="page__eyebrow">Blog</p>
-        <h1 class="page__title page__title--one-line">Notes on Android, performance and AI</h1>
+        <h1 class="page__title page__title--one-line">
+          Android and Kotlin, explained simply
+        </h1>
         <p class="page__lead">
-          Short, practical posts on Android engineering and building with AI, including the
-          experiments that don't work.
+          Each post answers one question, with a plain explanation and code
+          checked on the current Kotlin version. Roadmap posts also come with
+          interview questions to test yourself.
         </p>
 
         {
           posts.length === 0 ? (
-            <p class="page__section card__body">The first post is on its way.</p>
+            <p class="page__section card__body">
+              The first post is on its way.
+            </p>
           ) : (
-            <ul class="page__section post-list">
-              {posts.map((post) => (
-                <li class:list={["card", { "post-card--cover": post.data.cover }]}>
-                  {post.data.cover && (
-                    <a class="post-card__media" href={postUrl(post)} tabindex="-1" aria-hidden="true">
-                      <Image
-                        class="post-card__cover"
-                        src={post.data.cover}
-                        alt=""
-                        widths={[400, 800]}
-                        sizes="(min-width: 720px) 280px, 100vw"
-                      />
+            <>
+              {stageGroups.map(({ stage, posts: stagePosts }) => (
+                <section
+                  class="page__section"
+                  aria-labelledby={`stage-${stage.number}-heading`}
+                >
+                  <h2
+                    id={`stage-${stage.number}-heading`}
+                    class="page__section-title"
+                  >
+                    Android Roadmap · Stage {stage.number}: {stage.title}
+                  </h2>
+                  <p class="post-group__meta">
+                    In learning order · {stagePosts.length} of{" "}
+                    {stage.topics.length} topics published ·{" "}
+                    <a
+                      class="page__link"
+                      href={`/roadmap/#stage-${stage.number}`}
+                    >
+                      See the stage
                     </a>
-                  )}
-                  <div class="post-card__text">
-                    <a class="post-list__link" href={postUrl(post)}>
-                      <h2 class="card__title">{post.data.title}</h2>
-                    </a>
-                    <p class="card__meta">
-                      <time datetime={post.data.pubDate.toISOString()}>
-                        {formatDate(post.data.pubDate)}
-                      </time>{" "}
-                      · {readingTime(post)}
-                    </p>
-                    <p class="card__body">{post.data.description}</p>
-                  </div>
-                </li>
+                  </p>
+                  <ul class="post-list">
+                    {stagePosts.map((post) => (
+                      <PostCard post={post} />
+                    ))}
+                  </ul>
+                </section>
               ))}
-            </ul>
+              {otherPosts.length > 0 && (
+                <section class="page__section" aria-labelledby="other-heading">
+                  <h2 id="other-heading" class="page__section-title">
+                    {stageGroups.length > 0 ? "Other posts" : "All posts"}
+                  </h2>
+                  <ul class="post-list">
+                    {otherPosts.map((post) => (
+                      <PostCard post={post} />
+                    ))}
+                  </ul>
+                </section>
+              )}
+            </>
           )
         }
       </div>
@@ -64,59 +100,17 @@ const posts = await getPublishedPosts()
 </BaseLayout>
 
 <style>
+  .post-group__meta {
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
   .post-list {
     display: grid;
     gap: var(--space-4);
-    margin: var(--space-12) 0 0;
+    margin: var(--space-6) 0 0;
     padding: 0;
     list-style: none;
-  }
-
-
-  /* Keep cards the same height: summary shows at most 3 lines. */
-  .post-list .card__body {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    overflow: hidden;
-  }
-
-  .post-list > li {
-    margin: 0;
-  }
-
-  .post-card--cover {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  @media (min-width: 720px) {
-    .post-card--cover {
-      grid-template-columns: 280px minmax(0, 1fr);
-      gap: var(--space-6);
-      align-items: start;
-    }
-  }
-
-  .post-card__cover {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 2 / 1;
-    object-fit: cover;
-    object-position: top left;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-  }
-
-  .post-list__link:hover .card__title {
-    color: var(--color-primary);
-  }
-
-  .post-list__link:focus-visible {
-    outline: none;
-    box-shadow: var(--shadow-focus);
-    border-radius: var(--radius-sm);
   }
 </style>

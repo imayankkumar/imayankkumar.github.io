@@ -4,8 +4,10 @@ import BaseLayout from "../../layouts/BaseLayout.astro"
 import Container from "../../components/layout/Container.astro"
 import { getPublishedPosts, getRoadmapPosts, postUrl, formatDate, readingTime, type Post } from "../../lib/blog"
 import { findRoadmapTopic } from "../../data/roadmap"
+import { interviewCards } from "../../data/interview"
 import { site } from "../../data/site"
 import AuthorNote from "../../components/blog/AuthorNote.astro"
+import SubscribeBox from "../../components/blog/SubscribeBox.astro"
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts()
@@ -24,7 +26,14 @@ const ogImage = post.data.ogImage ?? "/og-image.jpg"
 // Roadmap posts show their stage and the next topic in that stage.
 const roadmap = post.data.roadmap ? findRoadmapTopic(post.data.roadmap.topic) : undefined
 const nextTopic = roadmap?.stage.topics[roadmap.index + 1]
-const nextPost = nextTopic ? (await getRoadmapPosts()).get(nextTopic.id) : undefined
+const roadmapPosts = await getRoadmapPosts()
+const nextPost = nextTopic ? roadmapPosts.get(nextTopic.id) : undefined
+const stageDone = roadmap ? roadmap.stage.topics.filter((t) => roadmapPosts.has(t.id)).length : 0
+// The interview ladder for this topic, when its page exists.
+const ladder = roadmap
+  ? interviewCards.find((c) => c.kind === "ladder" && c.topic === roadmap.topic.id && c.page)
+  : undefined
+const ladderHref = ladder?.kind === "ladder" && ladder.page ? `/interview/${ladder.page.slug}/` : undefined
 
 // "Main title: subtitle" titles show the subtitle on its own line.
 const colonAt = post.data.title.indexOf(": ")
@@ -93,7 +102,12 @@ const articleSchema = {
         {
           roadmap && (
             <aside class="post-stage" aria-label="Android roadmap">
-              <p class="post-stage__label">Stage {roadmap.stage.number}: {roadmap.stage.title}</p>
+              <p class="post-stage__label">
+                Stage {roadmap.stage.number}: {roadmap.stage.title} · {stageDone} of {roadmap.stage.topics.length} topics published
+              </p>
+              {ladderHref && (
+                <p>Test yourself: <a class="page__link" href={ladderHref}>{roadmap.topic.title} interview questions</a></p>
+              )}
               {nextTopic ? (
                 nextPost ? (
                   <p>Next in this stage: <a class="page__link" href={postUrl(nextPost)}>{nextTopic.title}</a></p>
@@ -107,6 +121,8 @@ const articleSchema = {
             </aside>
           )
         }
+
+        <SubscribeBox />
 
         <AuthorNote />
 

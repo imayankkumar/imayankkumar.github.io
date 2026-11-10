@@ -1,8 +1,6 @@
 ---
 import { getNavigation } from "../../data/navigation"
-import { site } from "../../data/site"
 import SocialLinks from "./SocialLinks.astro"
-import Button from "../ui/Button.astro"
 
 const navigation = await getNavigation()
 const currentPath = Astro.url.pathname
@@ -65,7 +63,6 @@ const currentPath = Astro.url.pathname
 
     <div class="mobile-nav__actions">
       <SocialLinks />
-      <Button href={site.resume} class="mobile-nav__resume"> Resume </Button>
     </div>
   </div>
 </details>
@@ -167,7 +164,4 @@ const currentPath = Astro.url.pathname
     border-top: 1px solid var(--color-border);
   }
 
-  .mobile-nav__resume {
-    width: 100%;
-  }
 </style>

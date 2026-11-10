@@ -16,7 +16,11 @@ import { callToAction } from "../../../data/home"
         <h2 id="cta-heading" class="cta__title">{callToAction.title}</h2>
         <p class="cta__body">{callToAction.body}</p>
       </div>
-      <Button href={callToAction.href} class="cta__button">
+      <Button
+        href={callToAction.href}
+        target={callToAction.href.startsWith("http") ? "_blank" : undefined}
+        class="cta__button"
+      >
         {callToAction.label}
         <Icon name="arrow-right" size={16} />
       </Button>

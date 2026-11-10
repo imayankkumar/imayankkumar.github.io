@@ -1,37 +1,56 @@
 ---
 import { profile } from "../../../data/profile"
+import { hero } from "../../../data/home"
 import StatusBadge from "./StatusBadge.astro"
 import CTAButtons from "./CTAButtons.astro"
+import { getAndroidWeeklyFeatures } from "../../../lib/blog"
 
 interface Props {
   class?: string
 }
 
 const { class: className } = Astro.props
+
+// A count stays short as features add up; link the latest issue as proof.
+const features = await getAndroidWeeklyFeatures()
+const latest = features[0]
+const issueNumber = latest?.name.match(/#(\d+)/)?.[1]
 ---
 
 <div class:list={["introduction-content", className]}>
-  <StatusBadge label={profile.role} variant="role" />
+  <StatusBadge label={hero.badge} variant="role" />
 
   <h1 id="introduction-heading" class="introduction-content__title">
     {
-      profile.taglineLines.map((line) => (
+      hero.lines.map((line) => (
         <span class="introduction-content__line">
           {line.map((part) =>
             part.highlight ? (
               <span class="introduction-content__highlight">{part.text}</span>
             ) : (
               part.text
-            ),
+            )
           )}
         </span>
       ))
     }
   </h1>
 
-  <p class="introduction-content__bio">{profile.bio}</p>
+  <p class="introduction-content__bio">{hero.bio}</p>
 
   <CTAButtons />
+
+  {
+    latest && (
+      <p class="introduction-content__proof">
+        Featured in Android Weekly {features.length}{" "}
+        {features.length === 1 ? "time" : "times"}, latest{" "}
+        <a href={latest.url} target="_blank" rel="noopener noreferrer">
+          {issueNumber ? `issue ${issueNumber}` : latest.name}
+        </a>
+      </p>
+    )
+  }
 
   <div class="introduction-content__connect">
     <p class="introduction-content__connect-label">{profile.connectLabel}</p>
@@ -151,6 +170,22 @@ const { class: className } = Astro.props
     line-height: 1.65;
     color: var(--color-text-secondary);
     text-wrap: pretty;
+  }
+
+  .introduction-content__proof {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .introduction-content__proof a {
+    color: var(--color-text);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .introduction-content__proof a:hover {
+    color: var(--color-primary);
   }
 
   .introduction-content__connect {

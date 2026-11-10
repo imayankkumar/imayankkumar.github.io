@@ -6,7 +6,22 @@ export type Post = CollectionEntry<"blog">
 /** Published posts, newest first. Drafts never ship. */
 export async function getPublishedPosts(): Promise<Post[]> {
   const posts = await getCollection("blog", ({ data }) => !data.draft)
-  return posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  return posts.sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  )
+}
+
+/**
+ * Android Weekly issues that featured a post, newest first.
+ * Comes from each post's `featuredIn`, so adding it there updates the home page.
+ */
+export async function getAndroidWeeklyFeatures(): Promise<
+  { name: string; url: string }[]
+> {
+  const posts = await getPublishedPosts()
+  return posts.flatMap((post) =>
+    post.data.featuredIn.filter((f) => f.name.startsWith("Android Weekly"))
+  )
 }
 
 export function postUrl(post: Post): string {
@@ -38,7 +53,9 @@ export async function getRoadmapPosts(): Promise<Map<string, Post>> {
     const topic = post.data.roadmap?.topic
     if (!topic) continue
     if (!findRoadmapTopic(topic)) {
-      throw new Error(`Post "${post.id}" has roadmap topic "${topic}", which is not in src/data/roadmap.ts`)
+      throw new Error(
+        `Post "${post.id}" has roadmap topic "${topic}", which is not in src/data/roadmap.ts`
+      )
     }
     byTopic.set(topic, post)
   }
