@@ -2,6 +2,10 @@
 import BaseLayout from "../layouts/BaseLayout.astro"
 import Container from "../components/layout/Container.astro"
 import Button from "../components/ui/Button.astro"
+import { getPublishedPosts, postUrl } from "../lib/blog"
+
+// Send lost visitors to the learning pages, not a dead end.
+const [latest] = await getPublishedPosts()
 ---
 
 <BaseLayout
@@ -18,10 +22,24 @@ import Button from "../components/ui/Button.astro"
           The link may be old or mistyped. Here's where you can go instead.
         </p>
         <div class="not-found__actions">
-          <Button href="/">Go to the homepage</Button>
-          <Button href="/projects/" variant="secondary">See projects</Button>
-          <Button href="/contact/" variant="secondary">Contact</Button>
+          <Button href="/roadmap/">Start the roadmap</Button>
+          <Button href="/interview/" variant="secondary"
+            >Practice interview questions</Button
+          >
         </div>
+        {
+          latest && (
+            <p class="not-found__latest">
+              Or read the latest post:{" "}
+              <a class="page__link" href={postUrl(latest)}>
+                {latest.data.title}
+              </a>
+            </p>
+          )
+        }
+        <p class="not-found__latest">
+          <a class="page__link" href="/">Go to the homepage</a>
+        </p>
       </div>
     </Container>
   </main>
@@ -33,5 +51,10 @@ import Button from "../components/ui/Button.astro"
     flex-wrap: wrap;
     gap: var(--space-3);
     margin-top: var(--space-8);
+  }
+
+  .not-found__latest {
+    margin-top: var(--space-6);
+    color: var(--color-text-secondary);
   }
 </style>
