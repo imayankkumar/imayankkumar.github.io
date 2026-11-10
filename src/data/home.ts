@@ -40,19 +40,25 @@ export const featuredProjects: FeaturedProject[] = [
 export const hero = {
   badge: "Android Roadmap 2027 · New topic every week",
   lines: [
-    [{ text: "Learn " }, { text: "Android", highlight: true }, { text: " the way" }],
+    [
+      { text: "Learn " },
+      { text: "Android", highlight: true },
+      { text: " the way" },
+    ],
     [{ text: "it works in production." }],
   ],
   bio: `Plain explanations, code checked on the current Kotlin version, and the interview follow-ups for every topic. I'm Mayank Kumar, a Senior Android Engineer with ${profile.yearsInAndroid} years building Android apps.`,
   ctas: [
-    { label: "Start the roadmap", href: "/roadmap/", variant: "primary" as const },
-    { label: "Practice interview questions", href: "/interview/", variant: "secondary" as const },
-  ],
-  /** Android Weekly issues that featured a post. */
-  featuredIn: [
-    { label: "750", href: "https://androidweekly.net/issues/issue-750" },
-    { label: "751", href: "https://androidweekly.net/issues/issue-751" },
-    { label: "752", href: "https://androidweekly.net/issues/issue-752" },
+    {
+      label: "Start the roadmap",
+      href: "/roadmap/",
+      variant: "primary" as const,
+    },
+    {
+      label: "Practice interview questions",
+      href: "/interview/",
+      variant: "secondary" as const,
+    },
   ],
 }
 
@@ -81,7 +87,11 @@ export const footerColumns = [
     links: [
       { label: "FramePulse", href: framePulse.href, external: true },
       { label: "Patent", href: patent.href, external: true },
-      { label: "GitHub", href: "https://github.com/imayankkumar", external: true },
+      {
+        label: "GitHub",
+        href: "https://github.com/imayankkumar",
+        external: true,
+      },
     ],
   },
   {

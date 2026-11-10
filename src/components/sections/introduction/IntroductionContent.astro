@@ -3,12 +3,18 @@ import { profile } from "../../../data/profile"
 import { hero } from "../../../data/home"
 import StatusBadge from "./StatusBadge.astro"
 import CTAButtons from "./CTAButtons.astro"
+import { getAndroidWeeklyFeatures } from "../../../lib/blog"
 
 interface Props {
   class?: string
 }
 
 const { class: className } = Astro.props
+
+// A count stays short as features add up; link the latest issue as proof.
+const features = await getAndroidWeeklyFeatures()
+const latest = features[0]
+const issueNumber = latest?.name.match(/#(\d+)/)?.[1]
 ---
 
 <div class:list={["introduction-content", className]}>
@@ -23,7 +29,7 @@ const { class: className } = Astro.props
               <span class="introduction-content__highlight">{part.text}</span>
             ) : (
               part.text
-            ),
+            )
           )}
         </span>
       ))
@@ -34,17 +40,17 @@ const { class: className } = Astro.props
 
   <CTAButtons />
 
-  <p class="introduction-content__proof">
-    Featured in Android Weekly, issues{" "}
-    {
-      hero.featuredIn.map((issue, i) => (
-        <>
-          <a href={issue.href} target="_blank" rel="noopener noreferrer">{issue.label}</a>
-          {i < hero.featuredIn.length - 2 ? ", " : i === hero.featuredIn.length - 2 ? " and " : ""}
-        </>
-      ))
-    }
-  </p>
+  {
+    latest && (
+      <p class="introduction-content__proof">
+        Featured in Android Weekly {features.length}{" "}
+        {features.length === 1 ? "time" : "times"}, latest{" "}
+        <a href={latest.url} target="_blank" rel="noopener noreferrer">
+          {issueNumber ? `issue ${issueNumber}` : latest.name}
+        </a>
+      </p>
+    )
+  }
 
   <div class="introduction-content__connect">
     <p class="introduction-content__connect-label">{profile.connectLabel}</p>
