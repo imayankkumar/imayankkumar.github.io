@@ -1,0 +1,134 @@
+---
+import { Image } from "astro:assets"
+import Button from "../ui/Button.astro"
+import Icon from "../ui/Icon.astro"
+import SocialLinks from "../navigation/SocialLinks.astro"
+import StatusBadge from "../sections/introduction/StatusBadge.astro"
+import { profile } from "../../data/profile"
+import { site } from "../../data/site"
+import photo from "../../assets/profile-linkedin.png"
+
+// About is the page for hiring managers and collaborators: who I am, then proof.
+const buttons = [
+  { label: "View Projects", href: "/projects/", variant: "primary" as const },
+  { label: "Resume", href: site.resume, variant: "secondary" as const },
+  { label: "Get In Touch", href: "/contact/", variant: "secondary" as const },
+]
+---
+
+<div class="about-hero">
+  <div class="about-hero__text">
+    <StatusBadge label={profile.role} variant="role" />
+    <h1 class="about-hero__title">
+      {
+        profile.taglineLines.map((line) => (
+          <span class="about-hero__line">
+            {line.map((part) =>
+              part.highlight ? (
+                <span class="about-hero__highlight">{part.text}</span>
+              ) : (
+                part.text
+              )
+            )}
+          </span>
+        ))
+      }
+    </h1>
+    <p class="about-hero__bio">{profile.bio}</p>
+    <div class="about-hero__buttons">
+      {
+        buttons.map((b) => (
+          <Button href={b.href} variant={b.variant}>
+            {b.label}
+            <Icon name="arrow-right" size={16} />
+          </Button>
+        ))
+      }
+    </div>
+    <SocialLinks />
+  </div>
+
+  <Image
+    src={photo}
+    alt={profile.image.alt}
+    widths={[240, 480]}
+    sizes="240px"
+    format="webp"
+    quality={85}
+    class="about-hero__photo"
+    loading="eager"
+    fetchpriority="high"
+  />
+</div>
+
+<style>
+  .about-hero {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .about-hero {
+      grid-template-columns: minmax(0, 1fr) 240px;
+      gap: var(--space-12);
+    }
+  }
+
+  .about-hero__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  .about-hero__title {
+    font-size: clamp(1.75rem, 3vw, 2.375rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--color-text);
+    text-wrap: balance;
+  }
+
+  .about-hero__line + .about-hero__line::before {
+    content: " ";
+  }
+
+  .about-hero__highlight {
+    color: var(--color-primary);
+  }
+
+  .about-hero__bio {
+    font-size: var(--text-lg);
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+    text-wrap: pretty;
+  }
+
+  .about-hero__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .about-hero__photo {
+    display: block;
+    width: 240px;
+    max-width: 70vw;
+    height: auto;
+    aspect-ratio: 1;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    justify-self: center;
+  }
+
+  @media (max-width: 899px) {
+    .about-hero__photo {
+      grid-row: 1;
+      width: 200px;
+      justify-self: start;
+    }
+  }
+</style>
