@@ -29,7 +29,8 @@ const tones = ["blue", "violet", "green"] as const
                     class="post__cover"
                     src={post.data.cover}
                     alt={post.data.coverAlt ?? ""}
-                    widths={[400, 800]}
+                    widths={[480, 960, 1440]}
+                    quality={90}
                     sizes="(min-width: 900px) 380px, 100vw"
                   />
                 ) : (

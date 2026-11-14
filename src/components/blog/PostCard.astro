@@ -23,7 +23,8 @@ const { post } = Astro.props
           class="post-card__cover"
           src={post.data.cover}
           alt=""
-          widths={[400, 800]}
+          widths={[480, 960, 1440]}
+          quality={90}
           sizes="(min-width: 720px) 340px, 100vw"
         />
       </a>
