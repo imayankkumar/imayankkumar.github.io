@@ -31,8 +31,13 @@ The difference shows up when you compare it with the same class without `data`:
 ```kotlin
 class PlainCartItem(val name: String, val price: Int, val quantity: Int)
 
-CartItem("Paneer Roll", 120, 2) == CartItem("Paneer Roll", 120, 2)            // true
-PlainCartItem("Paneer Roll", 120, 2) == PlainCartItem("Paneer Roll", 120, 2)  // false
+val a = CartItem("Paneer Roll", 120, 2)
+val b = CartItem("Paneer Roll", 120, 2)
+a == b   // true
+
+val c = PlainCartItem("Paneer Roll", 120, 2)
+val d = PlainCartItem("Paneer Roll", 120, 2)
+c == d   // false
 ```
 
 A regular class gets `equals()` from [`Any`](/blog/kotlin-any-unit-nothing/), which only asks "is this the same object in memory?". A data class compares the values instead.
@@ -110,7 +115,8 @@ A private constructor is a common way to check values first:
 ```kotlin
 data class Coupon private constructor(val percent: Int) {
     companion object {
-        fun of(percent: Int): Coupon? = if (percent in 1..50) Coupon(percent) else null
+        fun of(percent: Int): Coupon? =
+            if (percent in 1..50) Coupon(percent) else null
     }
 }
 
