@@ -5,6 +5,8 @@ description: "What the data keyword really adds to a Kotlin class, the rules it 
 pubDate: 2026-11-14
 tags: ["kotlin", "android", "data-class", "basics"]
 ogImage: "/og/kotlin-data-class.jpg"
+linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7527364469723865088/"
+xUrl: "https://x.com/bymayankkumar/status/2121599105227247779"
 ogImageAlt: "Title card: Data class vs class. Tags: data class, equals(), copy(), component1()."
 cover: "../../assets/blog/covers/kotlin-data-class.png"
 coverAlt: "Title card: Data class vs class. Tags: data class, equals(), copy(), component1()."
