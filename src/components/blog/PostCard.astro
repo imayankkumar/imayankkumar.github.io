@@ -1,5 +1,5 @@
 ---
-// One post in the /blog/ list: cover, title, date, reading time and a 3-line summary.
+// One post in the /blog/ list: cover, then date and reading time, title and a 3-line summary (same order as the home cards).
 import { Image } from "astro:assets"
 import { postUrl, formatDate, readingTime, type Post } from "../../lib/blog"
 
@@ -23,22 +23,23 @@ const { post } = Astro.props
           class="post-card__cover"
           src={post.data.cover}
           alt=""
-          widths={[400, 800]}
-          sizes="(min-width: 720px) 280px, 100vw"
+          widths={[480, 960, 1440]}
+          quality={90}
+          sizes="(min-width: 720px) 340px, 100vw"
         />
       </a>
     )
   }
   <div class="post-card__text">
-    <a class="post-card__link" href={postUrl(post)}>
-      <h3 class="card__title">{post.data.title}</h3>
-    </a>
     <p class="card__meta">
       <time datetime={post.data.pubDate.toISOString()}
         >{formatDate(post.data.pubDate)}</time
       > ·{" "}
       {readingTime(post)}
     </p>
+    <a class="post-card__link" href={postUrl(post)}>
+      <h3 class="card__title">{post.data.title}</h3>
+    </a>
     <p class="card__body post-card__summary">{post.data.description}</p>
   </div>
 </li>
@@ -64,7 +65,7 @@ const { post } = Astro.props
 
   @media (min-width: 720px) {
     .post-card--cover {
-      grid-template-columns: 280px minmax(0, 1fr);
+      grid-template-columns: 340px minmax(0, 1fr);
       gap: var(--space-6);
       align-items: start;
     }
@@ -79,6 +80,10 @@ const { post } = Astro.props
     object-position: top left;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
+  }
+
+  .post-card__text .card__meta {
+    margin-bottom: var(--space-1);
   }
 
   .post-card__link:hover .card__title {

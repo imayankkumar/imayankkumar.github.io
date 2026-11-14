@@ -17,7 +17,7 @@ const tones = ["blue", "violet", "green"] as const
       <Container>
         <SectionHeader
           id="blog-heading"
-          title="Latest Posts"
+          title="Latest posts"
           link={{ label: "View all posts", href: "/blog/" }}
         />
         <ul class="posts">
@@ -29,7 +29,8 @@ const tones = ["blue", "violet", "green"] as const
                     class="post__cover"
                     src={post.data.cover}
                     alt={post.data.coverAlt ?? ""}
-                    widths={[400, 800]}
+                    widths={[480, 960, 1440]}
+                    quality={90}
                     sizes="(min-width: 900px) 380px, 100vw"
                   />
                 ) : (
@@ -38,11 +39,11 @@ const tones = ["blue", "violet", "green"] as const
                   </span>
                 )}
                 <div class="post__text">
-                  <h3 class="post__title">{post.data.title}</h3>
-                  <p class="post__body">{post.data.description}</p>
                   <p class="post__meta">
                     {formatDate(post.data.pubDate)} · {readingTime(post)}
                   </p>
+                  <h3 class="post__title">{post.data.title}</h3>
+                  <p class="post__body">{post.data.description}</p>
                 </div>
               </a>
             </li>
@@ -138,7 +139,6 @@ const tones = ["blue", "violet", "green"] as const
   }
 
   .post__meta {
-    margin-top: auto;
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
   }
