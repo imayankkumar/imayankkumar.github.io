@@ -282,8 +282,14 @@ const minutes = Math.max(1, Math.round(words / 200))
     border-radius: var(--radius-md);
     font-size: 0.875rem;
     line-height: 1.6;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
+    overflow-x: auto;
+  }
+
+  @media (min-width: 40rem) {
+    .lp__code :global(pre) {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
   }
 
   .lp__answers {

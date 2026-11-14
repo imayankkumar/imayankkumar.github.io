@@ -2,7 +2,7 @@
 title: "Kotlin Data Class vs Regular Class Explained Simply"
 seoTitle: "Kotlin Data Class vs Class: equals, copy, componentN and Bytecode"
 description: "What the data keyword really adds to a Kotlin class, the rules it comes with, why copy() is shallow, and what the compiler writes for you in bytecode."
-pubDate: 2026-11-16
+pubDate: 2026-11-14
 tags: ["kotlin", "android", "data-class", "basics"]
 ogImage: "/og/kotlin-data-class.jpg"
 ogImageAlt: "Title card: Data class vs class. Tags: data class, equals(), copy(), component1()."
@@ -152,7 +152,7 @@ The class is `final`: that is rule 3 in bytecode. `copy$default` handles default
 
 ## Data class vs regular class: quick comparison
 
-| | Regular class | Data class |
+| Feature | Regular class | Data class |
 | --- | --- | --- |
 | `==` compares | Same object in memory | Constructor property values |
 | `toString()` | `PlainCartItem@7a81197d` | `CartItem(name=..., price=...)` |
