@@ -14,7 +14,8 @@ export type Level = "Junior" | "Mid" | "Senior"
 
 export interface LadderStep {
   question: string
-  junior: string
+  /** Leave out when the step has one answer; the page then shows a single "Answer". */
+  junior?: string
   senior: string
   /** Full page only: a short Kotlin (or Java) snippet for this step. */
   code?: string
@@ -157,26 +158,69 @@ public class UserRepository {
     kind: "ladder",
     topic: "data-classes",
     level: "Junior",
+    page: {
+      slug: "kotlin-data-class",
+      title: "Kotlin data class interview questions",
+      description: "Kotlin data class interview questions: what data generates, body properties and equals, shallow copy with StateFlow, private constructors and copy(), and var in hash keys.",
+      intro: "One opener and four harder follow-ups. Each step builds on the last, the way a real interviewer digs.",
+      sayIt: "A data class is a final class where the compiler writes equals, hashCode, toString, copy and componentN from the primary constructor properties. Body properties don't count, and copy is shallow, which matters with mutable lists and StateFlow. If the constructor is private, add @ConsistentCopyVisibility.",
+    },
     steps: [
       {
-        question: "What does the data keyword give you?",
-        junior: "equals, hashCode, toString and copy.",
-        senior: "equals, hashCode, toString, copy and componentN functions for destructuring, all generated from the primary constructor properties.",
+        question: "What does the data keyword add to a class?",
+        junior: "It generates equals(), hashCode(), toString(), copy() and component1()..componentN(), so two objects with the same values are equal.",
+        senior: "Same five, but only from primary constructor properties. The class stays final, and it must have at least one val/var constructor parameter. You can override equals/hashCode/toString, but not copy or componentN.",
+        trap: "That you know it is code generation, not a new kind of class.",
       },
       {
-        question: "Which properties take part in equals?",
-        junior: "All of them.",
-        senior: "Only the ones in the primary constructor. A property declared in the class body is ignored by equals, hashCode, toString and copy.",
+        question: "Are these two orders equal?",
+        senior: "true. isSeen is in the body, so equals() ignores it. toString() hides it, and a.copy().isSeen is false.",
+        code: `data class CartItem(val name: String, val price: Int)
+data class Order(val id: String, val items: List<CartItem>) {
+    var isSeen: Boolean = false
+}
+
+val items = listOf(CartItem("Lassi", 60))
+val a = Order("A1", items).apply { isSeen = true }
+val b = Order("A1", items)
+println(a == b)   // ?`,
+        trap: "The trap is saying false because \"the objects are different\".",
       },
       {
-        question: "Why is a data class with var properties risky as a HashMap key?",
-        junior: "Because the values can change.",
-        senior: "hashCode depends on those properties. Change one after inserting the key and the map looks in the wrong bucket, so get returns null for a key that is still inside.",
+        question: "The cart screen doesn't update. Why?",
+        junior: "The list was changed in place, so the new state looks equal to the old one and StateFlow skips it.",
+        senior: "add() changes the list inside the current state. copy() is shallow, so the new state points to that same list and equals() returns true. StateFlow drops a value equal to the current one, so collectors never see it. Fix: read-only List and state.update { it.copy(items = it.items + item) }, which builds a new list.",
+        code: `data class CartState(val items: MutableList<CartItem>)
+val state = MutableStateFlow(CartState(mutableListOf()))  // in the ViewModel
+val item = CartItem("Lassi", 60)
+
+val old = state.value
+old.items.add(item)
+state.value = old.copy()`,
+        trap: "In-place mutation + shallow copy + equality-based conflation, a real production bug.",
       },
       {
-        question: "copy() is shallow. What does that mean for a property that holds a MutableList?",
-        junior: "The list is copied too.",
-        senior: "The list is not copied. The original and the copy share the same list, so adding to one changes both. Use read-only List types, or copy the list yourself.",
+        question: "A data class has a private constructor. What's the problem?",
+        senior: "The generated copy() is public, so it skips the 1..50 check in of(). Since Kotlin 2.0.20 the compiler warns about this; as of Kotlin 2.4.21 (November 2026) it is still a warning (KT-11914). @ConsistentCopyVisibility makes copy() private now; @ExposedCopyVisibility keeps it public and silences the warning on the class.",
+        code: `data class Coupon private constructor(val percent: Int) {
+    companion object {
+        fun of(percent: Int): Coupon? =
+            if (percent in 1..50) Coupon(percent) else null
+    }
+}
+
+val coupon = Coupon.of(20)!!
+val tooBig = coupon.copy(percent = 90)`,
+      },
+      {
+        question: "Why prefer val in a data class you put in a set or use as a map key?",
+        senior: "hashCode() uses the properties. When a var changes after the object is in a HashSet or HashMap, its hash changes, so the lookup goes to the wrong bucket and can't find an object that is still inside.",
+        code: `data class Tag(var label: String)
+
+val tag = Tag("veg")
+val tags = hashSetOf(tag)
+tag.label = "spicy"
+println(tags.contains(tag))   // false, but tags.size is still 1`,
       },
     ],
   },

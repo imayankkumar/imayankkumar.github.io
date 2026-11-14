@@ -372,6 +372,8 @@ a.page__link:hover {
   color: inherit;
 }
 
+/* Code blocks: long lines wrap on wider screens. On phones they scroll
+   sideways inside the box, so lines and trailing comments stay whole. */
 .prose pre {
   padding: var(--space-4);
   border-radius: var(--radius-md);
@@ -425,6 +427,24 @@ a.page__link:hover {
 /* Keep short code in the first column on one line. */
 .prose td:first-child code {
   white-space: nowrap;
+}
+
+@media (min-width: 40rem) {
+  .prose pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  /* Wide enough for code in any table cell to stay on one line. */
+  .prose td code {
+    white-space: nowrap;
+  }
+}
+
+/* Code comments: the github-dark grey (#6A737D) is dim on the dark
+   background, so use a lighter grey. */
+pre.astro-code span[style*="#6A737D"] {
+  color: #959da5 !important;
 }
 
 @media (max-width: 40rem) {

@@ -17,7 +17,7 @@ const { page } = card
 const found = findRoadmapTopic(card.topic)
 const post = (await getRoadmapPosts()).get(card.topic)
 
-const words = [page.intro, page.sayIt, ...card.steps.flatMap((s) => [s.question, s.junior, s.senior, s.trap ?? ""])]
+const words = [page.intro, page.sayIt, ...card.steps.flatMap((s) => [s.question, s.junior ?? "", s.senior, s.trap ?? ""])]
   .join(" ")
   .split(/\s+/).length
 const minutes = Math.max(1, Math.round(words / 200))
@@ -63,16 +63,25 @@ const minutes = Math.max(1, Math.round(words / 200))
                 </div>
               )}
 
-              <div class="lp__answers">
-                <div class="lp__answer">
-                  <p class="lp__label">Junior answer</p>
-                  <p>{step.junior}</p>
+              {step.junior ? (
+                <div class="lp__answers">
+                  <div class="lp__answer">
+                    <p class="lp__label">Junior answer</p>
+                    <p>{step.junior}</p>
+                  </div>
+                  <div class="lp__answer lp__answer--senior">
+                    <p class="lp__label">Senior answer</p>
+                    <p>{step.senior}</p>
+                  </div>
                 </div>
-                <div class="lp__answer lp__answer--senior">
-                  <p class="lp__label">Senior answer</p>
-                  <p>{step.senior}</p>
+              ) : (
+                <div class="lp__answers lp__answers--single">
+                  <div class="lp__answer lp__answer--senior">
+                    <p class="lp__label">Answer</p>
+                    <p>{step.senior}</p>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {step.trap && (
                 <p class="lp__trap">
@@ -276,11 +285,22 @@ const minutes = Math.max(1, Math.round(words / 200))
     overflow-x: auto;
   }
 
+  @media (min-width: 40rem) {
+    .lp__code :global(pre) {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+  }
+
   .lp__answers {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-3);
     margin-top: var(--space-4);
+  }
+
+  .lp__answers--single {
+    grid-template-columns: 1fr;
   }
 
   .lp__answer {
