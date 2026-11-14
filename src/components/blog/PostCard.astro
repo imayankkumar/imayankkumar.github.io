@@ -1,5 +1,5 @@
 ---
-// One post in the /blog/ list: cover, title, a 3-line summary, then date and reading time (same order as the home cards).
+// One post in the /blog/ list: cover, then date and reading time, title and a 3-line summary (same order as the home cards).
 import { Image } from "astro:assets"
 import { postUrl, formatDate, readingTime, type Post } from "../../lib/blog"
 
@@ -31,16 +31,16 @@ const { post } = Astro.props
     )
   }
   <div class="post-card__text">
-    <a class="post-card__link" href={postUrl(post)}>
-      <h3 class="card__title">{post.data.title}</h3>
-    </a>
-    <p class="card__body post-card__summary">{post.data.description}</p>
     <p class="card__meta">
       <time datetime={post.data.pubDate.toISOString()}
         >{formatDate(post.data.pubDate)}</time
       > ·{" "}
       {readingTime(post)}
     </p>
+    <a class="post-card__link" href={postUrl(post)}>
+      <h3 class="card__title">{post.data.title}</h3>
+    </a>
+    <p class="card__body post-card__summary">{post.data.description}</p>
   </div>
 </li>
 
@@ -80,6 +80,10 @@ const { post } = Astro.props
     object-position: top left;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
+  }
+
+  .post-card__text .card__meta {
+    margin-bottom: var(--space-1);
   }
 
   .post-card__link:hover .card__title {
