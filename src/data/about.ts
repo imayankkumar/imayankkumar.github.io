@@ -18,14 +18,14 @@ export const highlights: Highlight[] = [
   {
     icon: "shield",
     tone: "blue",
-    title: "USPTO Patent",
+    title: "USPTO patent",
     body: "Co-inventor on a granted United States patent",
     link: { label: "View patent", href: patent.href, external: true },
   },
   {
     icon: "calendar",
     tone: "green",
-    title: `${profile.yearsInAndroid} Years`,
+    title: `${profile.yearsInAndroid} years`,
     body: `Of Android development, ${profile.yearsInSoftware} years in software overall`,
   },
   {
@@ -38,7 +38,7 @@ export const highlights: Highlight[] = [
   {
     icon: "sparkles",
     tone: "violet",
-    title: "AI-Assisted Engineering",
+    title: "AI-assisted engineering",
     body: "Agent workflows for Android SDK upgrades and migrations",
   },
 ]
