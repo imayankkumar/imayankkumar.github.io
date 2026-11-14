@@ -204,7 +204,8 @@ state.value = old.copy()`,
         senior: "The generated copy() is public, so it skips the 1..50 check in of(). Since Kotlin 2.0.20 the compiler warns about this; as of Kotlin 2.4.21 (November 2026) it is still a warning (KT-11914). @ConsistentCopyVisibility makes copy() private now; @ExposedCopyVisibility keeps it public and silences the warning on the class.",
         code: `data class Coupon private constructor(val percent: Int) {
     companion object {
-        fun of(percent: Int): Coupon? = if (percent in 1..50) Coupon(percent) else null
+        fun of(percent: Int): Coupon? =
+            if (percent in 1..50) Coupon(percent) else null
     }
 }
 
