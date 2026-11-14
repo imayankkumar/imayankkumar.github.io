@@ -6,9 +6,9 @@ tags: ["kotlin", "android", "type-system", "basics"]
 ogImage: "/og/kotlin-any-unit-nothing.jpg"
 linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7525548676300136448/"
 xUrl: "https://x.com/bymayankkumar/status/2119781795902419150"
-ogImageAlt: "Title card: Any, Unit and Nothing. Tags: Any?, Any, Unit and Nothing."
+ogImageAlt: "Title card: What do Any, Unit and Nothing mean in Kotlin? Tags: Any?, Any, Unit, Nothing."
 cover: "../../assets/blog/covers/kotlin-any-unit-nothing.png"
-coverAlt: "Title card: Any, Unit and Nothing. Tags: Any?, Any, Unit and Nothing."
+coverAlt: "Title card: What do Any, Unit and Nothing mean in Kotlin? Tags: Any?, Any, Unit, Nothing."
 roadmap:
   topic: any-unit-nothing
 ---

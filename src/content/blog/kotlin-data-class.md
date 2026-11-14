@@ -7,9 +7,9 @@ tags: ["kotlin", "android", "data-class", "basics"]
 ogImage: "/og/kotlin-data-class.jpg"
 linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7527364469723865088/"
 xUrl: "https://x.com/bymayankkumar/status/2121599105227247779"
-ogImageAlt: "Title card: Data class vs class. Tags: data class, equals(), copy(), component1()."
+ogImageAlt: "Title card: When should a Kotlin class be a data class? Tags: data class, equals(), copy(), component1()."
 cover: "../../assets/blog/covers/kotlin-data-class.png"
-coverAlt: "Title card: Data class vs class. Tags: data class, equals(), copy(), component1()."
+coverAlt: "Title card: When should a Kotlin class be a data class? Tags: data class, equals(), copy(), component1()."
 roadmap:
   topic: data-classes
 ---
