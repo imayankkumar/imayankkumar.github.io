@@ -372,10 +372,12 @@ a.page__link:hover {
   color: inherit;
 }
 
+/* Long code lines wrap instead of scrolling sideways. */
 .prose pre {
   padding: var(--space-4);
   border-radius: var(--radius-md);
-  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
   font-size: 0.875rem;
   line-height: 1.6;
 }
