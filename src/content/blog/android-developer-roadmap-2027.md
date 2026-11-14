@@ -10,9 +10,9 @@ featuredIn:
     url: "https://androidweekly.net/issues/issue-751"
 tags: ["android", "kotlin", "roadmap", "interviews", "ai"]
 ogImage: "/og/android-developer-roadmap-2027.jpg"
-ogImageAlt: "Title card: Android Developer Roadmap 2027. Tags: 9 stages, 6 months, interviews, AI."
+ogImageAlt: "Title card: What should Android developers learn in 2027? Tags: 9 stages, 6 months, interviews, AI."
 cover: "../../assets/blog/covers/android-developer-roadmap-2027.png"
-coverAlt: "Title card: Android Developer Roadmap 2027. Tags: 9 stages, 6 months, interviews, AI."
+coverAlt: "Title card: What should Android developers learn in 2027? Tags: 9 stages, 6 months, interviews, AI."
 ---
 
 If you are an Android developer right now, you are probably asking three questions:

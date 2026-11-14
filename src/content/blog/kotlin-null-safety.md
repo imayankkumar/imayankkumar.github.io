@@ -10,9 +10,9 @@ featuredIn:
     url: "https://androidweekly.net/issues/issue-752"
 tags: ["kotlin", "android", "null-safety", "basics"]
 ogImage: "/og/kotlin-null-safety.jpg"
-ogImageAlt: "Title card: Null safety in Kotlin. Tags: String?, ?., ?: and !!."
+ogImageAlt: "Title card: How do ?, ?., ?: and !! work in Kotlin? Tags: String?, ?., ?:, !!."
 cover: "../../assets/blog/covers/kotlin-null-safety.png"
-coverAlt: "Title card: Null safety in Kotlin. Tags: String?, ?., ?: and !!."
+coverAlt: "Title card: How do ?, ?., ?: and !! work in Kotlin? Tags: String?, ?., ?:, !!."
 roadmap:
   topic: null-safety
 ---
