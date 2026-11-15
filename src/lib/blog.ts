@@ -3,9 +3,21 @@ import { findRoadmapTopic } from "../data/roadmap"
 
 export type Post = CollectionEntry<"blog">
 
-/** Published posts, newest first. Drafts never ship. */
+/** A post goes live at 00:00 IST on its pubDate (pubDate is parsed as 00:00 UTC). */
+const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000
+
+function isLive(pubDate: Date): boolean {
+  // The dev server shows future posts so they can be previewed.
+  return import.meta.env.DEV || pubDate.valueOf() - IST_OFFSET_MS <= Date.now()
+}
+
+/**
+ * Published posts, newest first. Drafts never ship, and a post with a future
+ * pubDate stays out of the build until its day. The daily scheduled deploy
+ * (.github/workflows/deploy.yml) rebuilds the site so it appears on time.
+ */
 export async function getPublishedPosts(): Promise<Post[]> {
-  const posts = await getCollection("blog", ({ data }) => !data.draft)
+  const posts = await getCollection("blog", ({ data }) => !data.draft && isLive(data.pubDate))
   return posts.sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   )
