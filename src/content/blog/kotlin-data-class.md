@@ -1,6 +1,5 @@
 ---
-title: "Kotlin Data Class vs Regular Class Explained Simply"
-seoTitle: "Kotlin Data Class vs Class: equals, copy, componentN and Bytecode"
+title: "When Should a Kotlin Class Be a Data Class?"
 description: "What the data keyword really adds to a Kotlin class, the rules it comes with, why copy() is shallow, and what the compiler writes for you in bytecode."
 pubDate: 2026-11-14
 tags: ["kotlin", "android", "data-class", "basics"]
@@ -14,7 +13,7 @@ roadmap:
   topic: data-classes
 ---
 
-> **In short:** a data class is a normal class where the compiler writes five things for you: `equals()`, `hashCode()`, `toString()`, `copy()` and `component1()`, `component2()` and so on. It uses only the properties in the primary constructor, and `copy()` copies values, not the objects inside them.
+> **In short:** a data class is a normal class where the compiler writes five things for you. They are `equals()`, `hashCode()`, `toString()`, `copy()` and `component1()`, `component2()` and so on. It uses only the properties in the primary constructor, and `copy()` copies values, not the objects inside them.
 
 You add an item to the cart, the ViewModel updates its `StateFlow`, and the screen does not change. No crash, nothing in Logcat. The state is a data class and the update uses `copy()`. The bug is in how `copy()` and `equals()` work together.
 
@@ -70,7 +69,7 @@ A regular class gets `equals()` from [`Any`](/blog/kotlin-any-unit-nothing/), wh
 3. A data class can't be `abstract`, `open`, `sealed` or `inner`.
 4. You can't write your own `copy()` or `componentN()` with the same parameters the compiler would generate. You can write your own `equals()`, `hashCode()` or `toString()`, and then the compiler uses yours.
 
-Rule 3 means nobody can extend a data class. It can still implement interfaces, which is why `data class Ready(...) : UiState` is so common in Android code. Break a rule and you get a compile error, like "Modifier 'open' is incompatible with 'data'".
+Rule 3 means nobody can extend a data class. It can still implement interfaces, which is why `data class Ready(...) : UiState` is so common in Android code. The [sealed class post](/blog/kotlin-sealed-class/) shows how that `UiState` is built. Break a rule and you get a compile error, like "Modifier 'open' is incompatible with 'data'".
 
 ## Which properties count in equals()?
 
@@ -150,7 +149,7 @@ public final class CartItem {
 }
 ```
 
-The class is `final`: that is rule 3 in bytecode. `copy$default` handles default arguments: an `int` mask marks which ones you passed, and the rest come from the old object. And `hashCode()` is the classic `result * 31 + next` over the three fields, the same code you would write by hand in Java. To see it yourself in Android Studio: *Tools > Kotlin > Show Kotlin Bytecode*, then *Decompile*.
+The class is `final`: that is rule 3 in bytecode. `copy$default` handles default arguments: an `int` mask marks which ones you passed, and the rest come from the old object. And `hashCode()` is the classic `result * 31 + next` over the three fields. It is the same code you would write by hand in Java. To see it yourself in Android Studio: *Tools > Kotlin > Show Kotlin Bytecode*, then *Decompile*.
 
 ## Data class vs regular class: quick comparison
 
@@ -180,6 +179,6 @@ The `data` keyword is a shortcut, not a different kind of class. It writes five 
 
 The practical habit: build state classes from `val`s and read-only types like `List`, and make changes with `copy()`.
 
-If you want to test yourself, try the [data class interview questions](/interview/kotlin-data-class/). This post is the third topic in Stage 1 of my [Android roadmap](/roadmap/).
+If you want to test yourself, try the [data class interview questions](/interview/kotlin-data-class/). This post is the third topic in Stage 1 of my [Android roadmap](/roadmap/). Next: [When should you use a sealed class in Kotlin?](/blog/kotlin-sealed-class/)
 
 Have you ever had a `StateFlow` that didn't update even though the code called `copy()`?

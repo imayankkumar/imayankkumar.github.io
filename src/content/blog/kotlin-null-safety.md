@@ -1,6 +1,5 @@
 ---
-title: "Kotlin Null Safety Explained Simply: ?, ?., ?:, !! and Platform Types"
-seoTitle: "Kotlin Null Safety Explained: ?., ?:, !! and Platform Types"
+title: "How Does Null Safety Work in Kotlin?"
 description: "How Kotlin stops NullPointerException before your app runs: nullable types, safe calls, the Elvis operator, why !! is risky, and where Java can still crash you."
 pubDate: 2026-11-04
 linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7523693169323163648/"
@@ -10,9 +9,9 @@ featuredIn:
     url: "https://androidweekly.net/issues/issue-752"
 tags: ["kotlin", "android", "null-safety", "basics"]
 ogImage: "/og/kotlin-null-safety.jpg"
-ogImageAlt: "Title card: How do ?, ?., ?: and !! work in Kotlin? Tags: String?, ?., ?:, !!."
+ogImageAlt: "Title card: How does null safety work in Kotlin? Tags: String?, ?., ?:, !!."
 cover: "../../assets/blog/covers/kotlin-null-safety.png"
-coverAlt: "Title card: How do ?, ?., ?: and !! work in Kotlin? Tags: String?, ?., ?:, !!."
+coverAlt: "Title card: How does null safety work in Kotlin? Tags: String?, ?., ?:, !!."
 roadmap:
   topic: null-safety
 ---
@@ -72,7 +71,7 @@ There are four everyday tools.
 
 ## Why is `!!` risky?
 
-`!!` is the not-null assertion operator. It tells the compiler: "Trust me, this is not null." If you are wrong, you get the same NPE that Kotlin was trying to prevent.
+`!!` is the not-null assertion operator. It tells the compiler: "Trust me, this is not null." If you are wrong, you get the same NPE that Kotlin tried to prevent.
 
 When the compiler shows a red line, adding `!!` is the fastest way to make it go away. That is true whether you, a teammate or an AI tool writes the fix. Here is what that looks like:
 
@@ -93,7 +92,7 @@ fun orderTitle(orderId: String): String {
 
 The first version hides a decision. Nobody said what should happen when the order is missing. The second version answers that question with `?:`, and after that line the compiler knows `order` is not null.
 
-In code review, treat every `!!` as a question: "Why can't this be null here?" If there is a good reason, show it in code. For example: `requireNotNull(order) { "Order must be loaded first" }`.
+In code review, treat every `!!` as a question. Ask "Why can't this be null here?" If there is a good reason, show it in code. For example: `requireNotNull(order) { "Order must be loaded first" }`.
 
 ## Where can a NullPointerException still happen in Kotlin?
 
@@ -137,6 +136,6 @@ Kotlin does not remove null. It makes you say, in the type, where null is allowe
 
 In everyday Kotlin code, watch two doors: `!!` and Java. Keep both small and easy to see.
 
-If you want to test yourself, try the [null safety interview questions](/interview/kotlin-null-safety/). This post is the first topic in Stage 1 of my [Android roadmap](/roadmap/).
+If you want to test yourself, try the [null safety interview questions](/interview/kotlin-null-safety/). This post is the first topic in Stage 1 of my [Android roadmap](/roadmap/). Next: [What do Any, Unit and Nothing mean in Kotlin?](/blog/kotlin-any-unit-nothing/)
 
 Where do most `!!` operators come from in your codebase: old Java code, framework callbacks, or habit?
