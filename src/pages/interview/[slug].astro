@@ -6,9 +6,11 @@ import { interviewCards, type LadderCard } from "../../data/interview"
 import { findRoadmapTopic } from "../../data/roadmap"
 import { getRoadmapPosts, postUrl } from "../../lib/blog"
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  // A ladder page goes live with its roadmap post (a future post isn't published yet).
+  const published = await getRoadmapPosts()
   return interviewCards
-    .filter((c): c is LadderCard & { page: NonNullable<LadderCard["page"]> } => c.kind === "ladder" && !!c.page)
+    .filter((c): c is LadderCard & { page: NonNullable<LadderCard["page"]> } => c.kind === "ladder" && !!c.page && published.has(c.topic))
     .map((card) => ({ params: { slug: card.page.slug }, props: { card } }))
 }
 

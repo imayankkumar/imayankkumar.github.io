@@ -9,9 +9,9 @@ type PageLadder = LadderCard & { page: NonNullable<LadderCard["page"]> }
 
 const published = await getRoadmapPosts()
 
-// Only ladders with a finished full page are listed. Other cards in
-// src/data/interview.ts stay hidden until their page is written.
-const ladders = interviewCards.filter((c): c is PageLadder => c.kind === "ladder" && !!c.page)
+// Only ladders with a finished full page whose roadmap post is live are listed.
+// Other cards in src/data/interview.ts stay hidden until then.
+const ladders = interviewCards.filter((c): c is PageLadder => c.kind === "ladder" && !!c.page && published.has(c.topic))
 
 const groups = roadmapStages
   .map((stage) => {
