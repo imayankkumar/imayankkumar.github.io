@@ -1,5 +1,5 @@
 ---
-title: "Kotlin Any, Unit and Nothing Explained Simply"
+title: "What Do Any, Unit and Nothing Mean in Kotlin?"
 description: "What Any, Unit and Nothing mean in Kotlin, how they differ from Java's Object and void, and why Android code is full of () -> Unit and UiState<Nothing>."
 pubDate: 2026-11-09
 tags: ["kotlin", "android", "type-system", "basics"]
@@ -25,7 +25,7 @@ Think of Kotlin's types as a ladder.
 
 - At the top is `Any?`. Every value fits here, even `null`.
 - Just below is `Any`. Every value except `null` fits here.
-- In the middle are the types you use every day: built-in ones like `String` and `Int`, your own classes like `Order` (from the food-order app in this series), and also `Unit`.
+- In the middle are the types you use every day. That means built-in ones like `String` and `Int`, your own classes like `Order` (from the food-order app in this series), and also `Unit`.
 - At the bottom is `Nothing`. No value fits here at all.
 
 A type high on the ladder accepts more values but tells you less about them. A type low on the ladder tells you more. `Nothing` is the extreme case: it tells the compiler "you will never get a value from here".
@@ -54,7 +54,7 @@ Here each value is `Any?`, because the note can be missing. To use a value as it
 
 On the JVM, Kotlin [maps Java's `Object` to `Any`](https://kotlinlang.org/docs/java-interop.html#mapped-types). They are not exactly the same, though. `Any` only has those three functions, so `wait()` and `notify()` are not available on it.
 
-`Any` is useful at the edges of your app: logging, analytics, a `Bundle`. Inside your own code, it throws away type information. If a function takes `Any` and then checks five types with `is`, a sealed type or a generic is usually a better fit.
+`Any` is useful at the edges of your app: logging, analytics, a `Bundle`. Inside your own code, it throws away type information. If a function takes `Any` and then checks five types with `is`, a [sealed type](/blog/kotlin-sealed-class/) or a generic is usually a better fit.
 
 ## What is Unit, and how is it different from void?
 
@@ -156,10 +156,10 @@ A `Unit` function finishes and comes back, just without a useful result. A `Noth
 
 ## What should you remember?
 
-`Any` is the top of the ladder: it accepts everything and tells you little. `Unit` is a real value that means "done". `Nothing` is the bottom: it tells the compiler a path never comes back, and the compiler uses that to make your other types more exact.
+`Any` is the top of the ladder: it accepts everything and tells you little. `Unit` is a real value that means "done". `Nothing` is the bottom: it tells the compiler a path never comes back. The compiler uses that to make your other types more exact.
 
 The practical habit: when you write a helper that always throws, give it `: Nothing`. Your smart casts will start working, and a few `!!` will go away.
 
-If you want to test yourself, try the [Any, Unit and Nothing interview questions](/interview/kotlin-any-unit-nothing/). This post is the second topic in Stage 1 of my [Android roadmap](/roadmap/).
+If you want to test yourself, try the [Any, Unit and Nothing interview questions](/interview/kotlin-any-unit-nothing/). This post is the second topic in Stage 1 of my [Android roadmap](/roadmap/). Next: [When should a Kotlin class be a data class?](/blog/kotlin-data-class/)
 
 Have you seen `UiState<Nothing>` in your codebase, or does your team write a separate state class for every screen?
