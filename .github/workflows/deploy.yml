@@ -5,6 +5,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Daily rebuild at 00:05 IST (18:35 UTC) so posts with a future pubDate
+  # go live on their day. GitHub may start scheduled runs a few minutes late.
+  schedule:
+    - cron: "35 18 * * *"
 
 permissions:
   contents: read
