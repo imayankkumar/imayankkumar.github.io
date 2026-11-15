@@ -225,25 +225,82 @@ println(tags.contains(tag))   // false, but tags.size is still 1`,
     ],
   },
   {
-    id: "sealed-vs-enum-ladder",
+    id: "sealed-class-ladder",
     kind: "ladder",
     topic: "sealed-vs-enum",
     level: "Mid",
+    page: {
+      slug: "kotlin-sealed-class",
+      title: "Kotlin sealed class interview questions",
+      description: "Kotlin sealed class interview questions: why sealed types fit UI state, exhaustive when and the else trap, where subclasses can live, indirect subclasses, and sealed class vs sealed interface.",
+      intro: "One opener and four harder follow-ups. Each step builds on the last, the way a real interviewer digs.",
+      sayIt: "A sealed class or interface has a closed list of subtypes, so a when over it can be checked for every case. Direct subtypes must be in the same module and package; indirect ones can live anywhere. Avoid else on a sealed when, because it hides new cases. Use a sealed interface by default, and a sealed class when subtypes share constructor data.",
+    },
     steps: [
       {
-        question: "When would you use a sealed class instead of an enum?",
-        junior: "When you need more than constants.",
-        senior: "An enum has a fixed set of single instances that all share the same shape. A sealed class has a fixed set of types, and each type can carry its own data, like Loading, Error(message) and Success(items).",
+        question: "What is a sealed class, and why use one for screen state?",
+        junior: "It's a class with a fixed list of subclasses, so a when over it needs no else.",
+        senior: "It's a type whose subtypes are all known at compile time. For screen state it replaces flags like isLoading + error + order, where wrong mixes are possible, with one value that is exactly Loading, Ready or Failed. The compiler then checks every when covers all of them.",
+        trap: "That you see the real benefit: impossible states can't be written, and the compiler checks every when.",
       },
       {
-        question: "Why doesn't a when on a sealed type need an else branch?",
-        junior: "Because Kotlin knows all the cases.",
-        senior: "The compiler knows every direct subtype, so it can check the when is exhaustive. That is the real benefit: add a new subtype and every when that misses it stops compiling.",
+        question: "You add a Cancelled state. Which function still compiles?",
+        senior: "titleA still compiles, and a cancelled order now shows \"Loading\". titleB fails with \"'when' expression must be exhaustive. Add the 'is Cancelled' branch or an 'else' branch.\" That error is what you want: it lists every place that needs a decision.",
+        code: `sealed interface OrderUiState {
+    data object Loading : OrderUiState
+    data class Ready(val total: Int) : OrderUiState
+    data class Failed(val message: String) : OrderUiState
+    data class Cancelled(val reason: String) : OrderUiState  // new
+}
+
+fun titleA(state: OrderUiState) = when (state) {
+    is OrderUiState.Ready -> "Your order"
+    is OrderUiState.Failed -> "Something went wrong"
+    else -> "Loading"
+}
+
+fun titleB(state: OrderUiState) = when (state) {
+    OrderUiState.Loading -> "Loading"
+    is OrderUiState.Ready -> "Your order"
+    is OrderUiState.Failed -> "Something went wrong"
+}`,
+        trap: "Seeing that else on a sealed type switches off the exhaustiveness check.",
       },
       {
-        question: "Where can the subclasses of a sealed class live?",
+        question: "Where can the direct subclasses of a sealed class live?",
         junior: "In the same file.",
-        senior: "Since Kotlin 1.5, in the same package and the same module, not only the same file. That's what lets a sealed hierarchy be split across files while still being closed to outside code.",
+        senior: "In the same module and the same package, in any file, top-level or nested. Another package fails with \"A class can only extend a sealed class or interface declared in the same package\"; another module fails even with the same package name. Local classes and anonymous objects can't extend it. \"Same file\" was the rule before Kotlin 1.5.",
+        trap: "The junior answer is the pre-1.5 rule. Knowing the module part matters in a multi-module app.",
+      },
+      {
+        question: "This class is in another module. Does it compile, and is the when still exhaustive?",
+        senior: "Yes to both. The same-module and same-package rule only applies to direct subclasses. Pending is open, so UpiPending can extend it from anywhere. The is PaymentResult.Pending branch also covers UpiPending. Make Pending sealed if you want that level closed too.",
+        code: `// :core:model
+sealed class PaymentResult(val orderId: String) {
+    class Paid(orderId: String, val receiptUrl: String) : PaymentResult(orderId)
+    class Declined(orderId: String, val reason: String) : PaymentResult(orderId)
+    open class Pending(orderId: String) : PaymentResult(orderId)
+}
+
+// :feature:checkout
+class UpiPending(orderId: String) : PaymentResult.Pending(orderId)
+
+fun label(r: PaymentResult) = when (r) {
+    is PaymentResult.Paid -> "Paid"
+    is PaymentResult.Declined -> r.reason
+    is PaymentResult.Pending -> "Waiting for \${r.orderId}"
+}`,
+        trap: "Direct vs indirect subclasses: the closed list is only one level deep.",
+      },
+      {
+        question: "Sealed class or sealed interface: which would you pick, and when?",
+        junior: "Sealed interface for UI state, sealed class when you need a constructor.",
+        senior: "A sealed class can hold constructor data and logic shared by every subtype, like orderId, but a type can extend only one class. A sealed interface has no stored state, but one type can implement several, so it can be in two closed lists, and an enum can implement it. Default to a sealed interface; use a sealed class when subtypes share constructor data.",
+        code: `sealed interface CartEvent
+sealed interface AnalyticsEvent
+
+data class ItemAdded(val name: String) : CartEvent, AnalyticsEvent
+enum class SortOrder : CartEvent { PRICE, RATING }`,
       },
     ],
   },

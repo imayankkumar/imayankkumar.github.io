@@ -176,6 +176,6 @@ Java added sealed classes in [Java 17](https://openjdk.org/jeps/409), where you 
 
 A sealed type turns "all the states this screen can be in" into a list the compiler checks for you. Direct subtypes stay in one module and one package. Indirect ones can live anywhere. And an `else` on a sealed `when` throws away the check.
 
-This post is the fourth topic in Stage 1 of my [Android roadmap](/roadmap/).
+If you want to test yourself, try the [sealed class interview questions](/interview/kotlin-sealed-class/). This post is the fourth topic in Stage 1 of my [Android roadmap](/roadmap/).
 
 Is there an `else ->` on a sealed type in your codebase right now?
