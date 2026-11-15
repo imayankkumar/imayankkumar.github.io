@@ -16,13 +16,13 @@ coverAlt: "Title card: AI can write my Kotlin. Who debugs it at 2 AM? Tags: test
 
 It's 2:07 AM, and Crashlytics has opinions. The crash is in a ViewModel that `git blame` says you wrote. You didn't. An agent did, and its pull request said "all tests pass." They do. The agent updated the expected values to match its new behaviour.
 
-That's a composite, not a confession. But it points at a real shift in Android work. This post covers what AI tools can do on Android today, why "the tests pass" is not the same as "it works" on a phone, and what to get better at.
+That's a composite, not a confession. But it points at a real shift in Android work. This post covers what AI tools can do on Android today. It also covers why "the tests pass" is not the same as "it works" on a phone, and what to get better at.
 
 Short answer: AI can now write and fix Android code, but proving it works on a real device is still your job.
 
 ## What can AI tools do on Android today?
 
-Quite a lot. Android Studio's [May 2026 release](https://android-developers.googleblog.com/2026/05/whats-new-android-developer-tools.html) includes an agent that plans multi-step work and fixes its own build errors, "Fix with AI" for crashes in App Quality Insights, and an option to hand LeakCanary traces to an agent. Google also runs [Android Bench](https://android-developers.googleblog.com/2026/03/elevating-ai-assisted-androi.html), which gives models real issues from public Android repos and checks each fix with tests. At its March 2026 launch, models solved between 16% and 72% of tasks.
+Quite a lot. Android Studio's [May 2026 release](https://android-developers.googleblog.com/2026/05/whats-new-android-developer-tools.html) includes an agent that plans multi-step work and fixes its own build errors. It also adds "Fix with AI" for crashes in App Quality Insights, and an option to hand LeakCanary traces to an agent. Google also runs [Android Bench](https://android-developers.googleblog.com/2026/03/elevating-ai-assisted-androi.html), which gives models real issues from public Android repos and checks each fix with tests. At its March 2026 launch, models solved between 16% and 72% of tasks.
 
 So writing Android code is no longer the slow part. Checking it is.
 
@@ -66,7 +66,7 @@ Android Bench counts a task as solved when the tests pass. That's fair for a ben
 
 ## Doesn't AI debug too?
 
-It does, and it's improving. At 2 AM, an agent can give you three possible explanations for a crash in seconds. The hard part is picking the true one: what the evidence supports, and whether the fix treats the cause or just hides it behind a `?.let`. That takes a mental model of the system.
+It does, and it's improving. At 2 AM, an agent can give you three possible explanations for a crash in seconds. The hard part is picking the true one. What does the evidence support? Does the fix treat the cause, or just hide it behind a `?.let`? That takes a mental model of the system.
 
 Two things are less certain. Simple apps may end up mostly built by agents, so deep Android skill will matter most where failure is expensive. And if junior engineers stop writing the boring code, it's not clear how they'll build that mental model. I don't have an answer to that yet.
 
@@ -99,5 +99,7 @@ And write some code by hand on purpose, in the parts you want to understand deep
 ## So, who debugs at 2 AM?
 
 You and an agent, together. The agent will produce explanations faster. Your job is knowing which one is true and owning the release.
+
+If you want a full learning path for these skills, start with my [Android Developer Roadmap 2027](/blog/android-developer-roadmap-2027/).
 
 What's the most convincing "almost right" code an AI tool has given you on Android?

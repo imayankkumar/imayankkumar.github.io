@@ -21,13 +21,13 @@ If you are an Android developer right now, you are probably asking three questio
 2. **Does any of it still matter, now that AI writes code?**
 3. **What will interviews actually ask me?**
 
-The last year did not make this easier. In May 2026, Google said [Android UI is now Compose-first](https://android-developers.googleblog.com/2026/05/android-ui-development-is-compose-first.html) and moved the View components that Compose replaces into maintenance mode: critical bug fixes only, no new features, but no plan to remove them. The same day, [Android CLI 1.0](https://android-developers.googleblog.com/2026/05/android-cli-stable-1-0-agent-development.html) went stable so AI agents can build and run Android apps. And Google was reported to be [piloting coding interviews where candidates use Gemini](https://careers.northeastern.edu/blog/2026/05/13/googles-ai-assisted-coding-interview-2026-guide/).
+The last year did not make this easier. In May 2026, Google said [Android UI is now Compose-first](https://android-developers.googleblog.com/2026/05/android-ui-development-is-compose-first.html) It also moved the View components that Compose replaces into maintenance mode. That means critical bug fixes only and no new features, but no plan to remove them. The same day, [Android CLI 1.0](https://android-developers.googleblog.com/2026/05/android-cli-stable-1-0-agent-development.html) went stable so AI agents can build and run Android apps. And Google was reported to be [piloting coding interviews where candidates use Gemini](https://careers.northeastern.edu/blog/2026/05/13/googles-ai-assisted-coding-interview-2026-guide/).
 
-This post answers all three questions. It is a complete roadmap for 2027: what to learn, in what order, how deep to go, what interviewers ask at each stage, and where AI fits.
+This post answers all three questions. It is a complete roadmap for 2027. It covers what to learn, in what order, and how deep to go. It also covers what interviewers ask at each stage, and where AI fits.
 
 **Short answer:** Learn Kotlin and the Android platform first, then coroutines, Compose and architecture, then data, testing, production and system design. Use AI at every stage, but only as fast as you can check what it gives you. Interviews test the same things, plus coding problems and design.
 
-I built this from the official [Android Developers](https://developer.android.com/) and [Kotlin](https://kotlinlang.org/docs/) documentation, recent interview write-ups that developers posted publicly, and what I have seen in production Android work. It is my own roadmap, not one published by Google or JetBrains.
+I built this from the official [Android Developers](https://developer.android.com/) and [Kotlin](https://kotlinlang.org/docs/) documentation. I also used recent interview write-ups that developers posted publicly, and what I have seen in production Android work. It is my own roadmap, not one published by Google or JetBrains.
 
 **Contents**
 
@@ -63,7 +63,7 @@ Before the topic lists, five rules. They matter more than any single library.
 1. **Fundamentals before tools.** Libraries change every year. Lifecycle, state, threading and data flow have not changed much in a decade. Learn the things that will still be true in 2030.
 2. **One project, not ten tutorials.** Build one app and improve it at every stage. You learn more from fixing your own design than from finishing someone else's.
 3. **Use AI, but check it.** Let AI write, explain and suggest. Then prove it right with a test, a profiler or the docs. If you can't check it, you are not ready to ship it.
-4. **Go deep in one area.** Be solid across all nine stages, then pick one to become known for: performance, architecture, testing, AI features or Kotlin Multiplatform (KMP). Depth is what makes a senior engineer.
+4. **Go deep in one area.** Be solid across all nine stages. Then pick one to become known for: performance, architecture, testing, AI features or Kotlin Multiplatform (KMP). Depth is what makes a senior engineer.
 5. **Show your work.** A GitHub repo, a short write-up or a talk proves more than a certificate. It also gives you real stories for interviews.
 
 ## The roadmap at a glance
@@ -97,7 +97,7 @@ If you already work as an Android developer, do not start at stage 1 by default.
 
 ## The nine stages
 
-Every stage has the same parts: why it matters, what you must know, what to learn when you want to go deeper, where to start, the interview questions it prepares you for, and one exercise to test yourself.
+Every stage has the same parts. You get why it matters, what you must know, and what to learn when you want to go deeper. Then where to start, the interview questions it prepares you for, and one exercise to test yourself.
 
 ### Stage 1: Kotlin and DSA basics
 
@@ -128,6 +128,8 @@ Kotlin is the language of Android. Knowing the syntax is easy. Knowing what the 
 
 **Where to start:** the [Kotlin docs](https://kotlinlang.org/docs/), then [what's new in Kotlin 2.4](https://kotlinlang.org/docs/whatsnew24.html) to see where the language is going.
 
+**My posts for this stage so far:** [null safety](/blog/kotlin-null-safety/), [Any, Unit and Nothing](/blog/kotlin-any-unit-nothing/), [data classes](/blog/kotlin-data-class/) and [sealed classes](/blog/kotlin-sealed-class/). The [roadmap page](/roadmap/) lists every topic as it comes out.
+
 **Interview questions**
 
 - `lateinit` vs `by lazy`: when would you use each?
@@ -136,11 +138,11 @@ Kotlin is the language of Android. Knowing the syntax is easy. Knowing what the 
 - (Senior) What does `inline` change at the call site, and why does `reified` need it?
 - (Senior) How does `by lazy` handle threads by default, and when would you change that?
 
-**Try this:** Write a sealed `UiState` with four states and a `when` that handles them. Add a fifth state. Notice what the compiler does, and explain why that is the point of sealed types.
+**Try this:** Write a sealed `UiState` with four states and a `when` that handles them. Add a fifth state. Notice what the compiler does, and explain why that is the point of sealed types. ([The sealed class post](/blog/kotlin-sealed-class/) walks through it.)
 
 ### Stage 2: The Android platform
 
-This is the stage people skip, and it is where many production bugs live. The platform also keeps changing under you. Apps that target Android 16 [can no longer opt out of edge-to-edge](https://developer.android.com/about/versions/16/behavior-changes-16), get predictive back by default, and have orientation and resize limits ignored on large screens. Apps that target Android 17 [lose the large-screen opt-out](https://developer.android.com/about/versions/17/behavior-changes-17) and need a new permission for local network access.
+This is the stage people skip, and it is where many production bugs live. The platform also keeps changing under you. Apps that target Android 16 [can no longer opt out of edge-to-edge](https://developer.android.com/about/versions/16/behavior-changes-16), and get predictive back by default. On large screens, their orientation and resize limits are ignored. Apps that target Android 17 [lose the large-screen opt-out](https://developer.android.com/about/versions/17/behavior-changes-17) and need a new permission for local network access.
 
 **Must know**
 
@@ -581,7 +583,7 @@ What is asked depends on the company and the level. Do not count how many questi
 
 A roadmap that makes everything look equally important does not help anyone. These are worth learning when your product, team or next role needs them.
 
-- **Kotlin Multiplatform and Compose Multiplatform.** JetBrains made [Compose Multiplatform for iOS stable](https://blog.jetbrains.com/kotlin/2025/05/compose-multiplatform-1-8-0-released) in May 2025, and KMP is a main focus on the [Kotlin roadmap](https://kotlinlang.org/docs/roadmap.html). It is a strong skill, but it builds on stages 1 to 7. Learn it after them, or when your team shares code.
+- **Kotlin Multiplatform and Compose Multiplatform.** JetBrains made [Compose Multiplatform for iOS stable](https://blog.jetbrains.com/kotlin/2025/05/compose-multiplatform-1-8-0-released) in May 2025. KMP is also a main focus on the [Kotlin roadmap](https://kotlinlang.org/docs/roadmap.html). It is a strong skill, but it builds on stages 1 to 7. Learn it after them, or when your team shares code.
 - **XML Views, Fragments and RxJava.** Many production apps still use them, and interviews still ask about Fragment lifecycles. Learn enough to maintain and migrate them. For new code, Compose, coroutines and Flow come first.
 - **Specialized APIs.** Bluetooth, camera, media, location, health, Wear OS, TV, Auto and XR. Learn them deeply when a product needs them. Everyone should still know the privacy and permission basics.
 
@@ -591,7 +593,7 @@ The rule is simple: fundamentals first, then go deep where the product takes you
 
 - **New to Android (0 to 1 year).** Start at stage 1 and go in order. Google's [Android Basics with Compose](https://developer.android.com/courses/android-basics-compose/course) course covers the first stages well. Start coding problems early. Do not jump to AI features or KMP yet.
 - **Working Android developer (1 to 4 years).** Test yourself with the "done when" column. Stages 2, 3 and 7 are the easiest to skip while still shipping features: process death, cancellation and tests that catch real bugs. Check those first, then add system design.
-- **Senior (5+ years).** Stages 8 and 9 are your job now. Add both AI tracks, and make sure you can still answer the stage 2 and 3 interview questions without notes, because you are the one reviewing everyone's AI-written code.
+- **Senior (5+ years).** Stages 8 and 9 are your job now. Add both AI tracks. Make sure you can still answer the stage 2 and 3 interview questions without notes, because you are the one reviewing everyone's AI-written code.
 
 ## Should you build many small apps or one real project?
 
