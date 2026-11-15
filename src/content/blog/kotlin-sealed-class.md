@@ -17,11 +17,16 @@ Three fields can describe a screen. They can't stop it from being in two states 
 
 Your order screen state starts as three fields: `isLoading`, `error` and `order`. One day a bug report shows a spinner and an error message on the screen at the same time. Nothing in the types stopped `isLoading = true` and `error = "Timeout"` from being set together.
 
-A sealed type fixes this kind of bug by making the wrong mix impossible to write. This post covers what a sealed class is, the rules for who can extend it, and when to pick a sealed class or a sealed interface.
+A sealed type fixes this kind of bug by making the wrong mix impossible to write. This post covers what a sealed class is and who can extend it. It also shows when to pick a sealed class or a sealed interface.
 
 ## What is a sealed class in Kotlin?
 
 A sealed class is a class with a fixed list of subclasses. You write the subclasses, and nobody else can add more. A sealed interface is the same idea for an interface.
+
+Think of it this way:
+
+- **A regular `open` class:** anyone, in any module, can add a new subclass later.
+- **A sealed class:** the list of subclasses is fixed when your module compiles. Nobody outside can add to it.
 
 ```kotlin
 sealed interface OrderUiState {
@@ -59,7 +64,7 @@ Now add a fourth state, `Cancelled`. Every `when` that doesn't handle it stops c
 'when' expression must be exhaustive. Add the 'is Cancelled' branch or an 'else' branch.
 ```
 
-The compiler gives you a to-do list of every place that needs a decision. Since Kotlin 1.7 this applies to a `when` statement too, not only to a `when` whose result you use ([announced in the 1.6 notes](https://kotlinlang.org/docs/whatsnew16.html#stable-exhaustive-when-statements-for-enum-sealed-and-boolean-subjects)).
+The compiler gives you a to-do list of every place that needs a decision. This also works for a `when` statement, not only for a `when` whose result you use. It became an error in Kotlin 1.7, as [planned in the 1.6 notes](https://kotlinlang.org/docs/whatsnew16.html#stable-exhaustive-when-statements-for-enum-sealed-and-boolean-subjects).
 
 ## Why is else almost right?
 
@@ -120,7 +125,7 @@ sealed class PaymentResult(val orderId: String) {
 class UpiPending(orderId: String) : PaymentResult.Pending(orderId)
 ```
 
-A `when` on `PaymentResult` is still exhaustive: `is PaymentResult.Pending` also covers `UpiPending`, because a `UpiPending` is a `Pending`. What you lose is a closed list of the kinds of pending. If you want the list closed all the way down, make `Pending` sealed too.
+A `when` on `PaymentResult` is still exhaustive. The `is PaymentResult.Pending` branch also covers `UpiPending`, because a `UpiPending` is a `Pending`. What you lose is a closed list of the kinds of pending. If you want the list closed all the way down, make `Pending` sealed too.
 
 ## Sealed class or sealed interface?
 
@@ -139,7 +144,7 @@ enum class SortOrder : CartEvent { PRICE, RATING }
 
 `ItemAdded` is in both lists. The same-module and same-package rule still applies to each interface, so `ItemAdded` has to live next to both of them.
 
-A simple default: use a sealed interface for UI state and events, and a sealed class when every subtype needs the same constructor data, like `orderId`.
+A simple default: use a sealed interface for UI state and events. Use a sealed class when every subtype needs the same constructor data, like `orderId`.
 
 ## Sealed class vs sealed interface: quick comparison
 
@@ -156,7 +161,7 @@ A simple default: use a sealed interface for UI state and events, and a sealed c
 ## Frequently asked questions
 
 **Can a data class extend a sealed class?**
-Yes. A data class can't be sealed itself, but it can be a subclass of a sealed class or implement a sealed interface. Most UI states are written this way. The [data class post](/blog/kotlin-data-class/) explains what `data` adds, and why `data object` prints a readable name.
+Yes. A data class can't be sealed itself. But it can extend a sealed class or implement a sealed interface. Most UI states are written this way. The [data class post](/blog/kotlin-data-class/) explains what `data` adds, and why `data object` prints a readable name.
 
 **Is adding a new subclass a breaking change?**
 For every `when` without `else`, yes, and that is the point. For a public library it means callers must update their code, so add new cases with care.
@@ -169,7 +174,7 @@ Java added sealed classes in [Java 17](https://openjdk.org/jeps/409), where you 
 
 ## What should you remember?
 
-A sealed type turns "all the states this screen can be in" into a list the compiler checks for you. Direct subtypes stay in one module and one package, indirect ones can live anywhere, and an `else` on a sealed `when` throws away the check.
+A sealed type turns "all the states this screen can be in" into a list the compiler checks for you. Direct subtypes stay in one module and one package. Indirect ones can live anywhere. And an `else` on a sealed `when` throws away the check.
 
 This post is the fourth topic in Stage 1 of my [Android roadmap](/roadmap/).
 
