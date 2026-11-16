@@ -2,6 +2,9 @@
 title: "When Should a Kotlin Class Be a Data Class?"
 description: "What the data keyword really adds to a Kotlin class, the rules it comes with, why copy() is shallow, and what the compiler writes for you in bytecode."
 pubDate: 2026-11-14
+featuredIn:
+  - name: "Android Weekly #753"
+    url: "https://androidweekly.net/issues/issue-753"
 tags: ["kotlin", "android", "data-class", "basics"]
 ogImage: "/og/kotlin-data-class.jpg"
 linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7527364469723865088/"
