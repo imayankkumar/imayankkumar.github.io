@@ -2,6 +2,8 @@
 title: "When Should You Use a Sealed Class in Kotlin?"
 description: "What a sealed class is, where its subclasses are allowed to live, why when needs no else, and how to choose between a sealed class and a sealed interface."
 pubDate: 2026-11-16
+linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7527944027950895107/"
+xUrl: "https://x.com/bymayankkumar/status/2122177847066251646"
 tags: ["kotlin", "android", "sealed-class", "basics"]
 ogImage: "/og/kotlin-sealed-class.jpg"
 ogImageAlt: "Title card: When should you use a sealed class in Kotlin? Tags: sealed class, sealed interface, when, else."
