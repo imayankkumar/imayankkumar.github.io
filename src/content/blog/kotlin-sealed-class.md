@@ -150,7 +150,7 @@ A simple default: use a sealed interface for UI state and events. Use a sealed c
 
 ## Sealed class vs sealed interface: quick comparison
 
-| | Sealed class | Sealed interface |
+| Feature | Sealed class | Sealed interface |
 | --- | --- | --- |
 | Closed list of subtypes | Yes | Yes |
 | Exhaustive `when` | Yes | Yes |
@@ -178,6 +178,6 @@ Java added sealed classes in [Java 17](https://openjdk.org/jeps/409), where you 
 
 A sealed type turns "all the states this screen can be in" into a list the compiler checks for you. Direct subtypes stay in one module and one package. Indirect ones can live anywhere. And an `else` on a sealed `when` throws away the check.
 
-If you want to test yourself, try the [sealed class interview questions](/interview/kotlin-sealed-class/). This post is the fourth topic in Stage 1 of my [Android roadmap](/roadmap/).
+If you want to test yourself, try the [sealed class interview questions](/interview/kotlin-sealed-class/). This post is the fourth topic in Stage 1 of my [Android roadmap](/roadmap/). Next: [Inner vs nested class in Kotlin: what is the difference?](/blog/kotlin-inner-vs-nested-class/)
 
 Is there an `else ->` on a sealed type in your codebase right now?
