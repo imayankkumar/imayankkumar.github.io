@@ -160,7 +160,7 @@ Use a plain nested class for everything else: builders, small helper types, or [
 
 ## Nested vs inner class: quick comparison
 
-| | Nested class | Inner class |
+| Feature | Nested class | Inner class |
 | --- | --- | --- |
 | Keyword | none (default) | `inner` |
 | Holds the outer object | No | Yes, in `this$0` |
