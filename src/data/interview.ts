@@ -305,6 +305,80 @@ enum class SortOrder : CartEvent { PRICE, RATING }`,
     ],
   },
   {
+    id: "inner-vs-nested-ladder",
+    kind: "ladder",
+    topic: "inner-vs-nested-classes",
+    level: "Mid",
+    page: {
+      slug: "kotlin-inner-vs-nested-class",
+      title: "Kotlin inner vs nested class interview questions",
+      description: "Kotlin inner vs nested class interview questions: what inner adds, the hidden this$0 field, why a nested class can't read outer members, Activity leaks, and when lambdas capture the outer class.",
+      intro: "One opener and four harder follow-ups. Each step builds on the last, the way a real interviewer digs.",
+      sayIt: "A nested class has no link to an outer object; it compiles to a static nested class. An inner class keeps a hidden this$0 reference to its outer object, which lets it use outer members but also keeps the outer object alive. That's how an inner listener given to a long-lived object leaks an Activity. The fix is matching lifetimes, for example removing the listener in onStop.",
+    },
+    steps: [
+      {
+        question: "What is the difference between a nested class and an inner class in Kotlin?",
+        junior: "An inner class can use the outer class's members. A nested class can't.",
+        senior: "A nested class has no link to any outer object. It compiles to a static nested class, and you create it with Outer.Nested(). An inner class belongs to one outer object: the compiler adds a hidden this$0 field, you create it with outer.Inner(), and inside it this@Outer reads that field. Kotlin makes nested the default; Java does the opposite.",
+        trap: "That you know where the access comes from: a hidden reference, not magic. That reference is also the cost.",
+      },
+      {
+        question: "This doesn't compile. Why, and what are two ways to fix it?",
+        senior: "DeliveryStop is nested, so it has no OrderTracker object to read orderId from. The error is \"Outer class ... of non-inner class cannot be used as receiver\". Fix 1: mark it inner, then create it with tracker.DeliveryStop(...). Fix 2, often better: keep it nested and pass orderId in as a constructor parameter, so it doesn't hold the whole tracker.",
+        code: `class OrderTracker(val orderId: String) {
+    class DeliveryStop(val name: String) {
+        fun label() = "$name for order $orderId"   // error
+    }
+}`,
+        trap: "Whether you reach for inner by reflex, or ask if the class really needs the whole outer object.",
+      },
+      {
+        question: "What does the compiler generate for an inner class?",
+        junior: "A reference to the outer class.",
+        senior: "A non-static class with a field this$0 (package-private and synthetic) that points to the outer object. The constructor gets the outer object as an extra first parameter, so outer.Inner() becomes new Inner(outer). If the inner class uses a private outer member, Kotlin also adds synthetic access$ helper methods in the outer class. You can see all of it in Android Studio: Tools > Kotlin > Show Kotlin Bytecode > Decompile.",
+        trap: "Reading the bytecode, not just the docs. Senior candidates can describe the constructor change.",
+      },
+      {
+        question: "Does this leak the Activity? Would making StatusUpdater a nested class fix it?",
+        senior: "Yes, it leaks. OrderUpdates lives as long as the app, it holds the listener, and the listener's this$0 holds the Activity and its views. Every rotation leaves one more Activity in memory. Making it nested and passing statusText doesn't fix it, because a View holds its Context, which is the Activity. The fix is the lifetime: add the listener in onStart and remove it in onStop, or expose a Flow and collect it with repeatOnLifecycle.",
+        code: `object OrderUpdates {
+    private val listeners = mutableListOf<StatusListener>()
+    fun add(listener: StatusListener) { listeners += listener }
+    fun remove(listener: StatusListener) { listeners -= listener }
+}
+
+class OrderTrackingActivity : AppCompatActivity() {
+    private lateinit var statusText: TextView
+
+    inner class StatusUpdater : StatusListener {
+        override fun onStatus(status: String) { statusText.text = status }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        OrderUpdates.add(StatusUpdater())
+    }
+}`,
+        trap: "\"Use a nested class\" is the textbook answer. The real question is whether the object outlives its outer object.",
+      },
+      {
+        question: "Does every lambda or object : expression hold the outer class?",
+        junior: "Yes, like an anonymous class in Java.",
+        senior: "No. In Kotlin, a lambda or an object : expression only captures the outer object if its body uses something from it. Here the first Runnable gets no this$0 field; the second one does, because it reads title. One stray property inside a callback is enough to pull the whole Activity in.",
+        code: `class Screen(val title: String) {
+    fun quiet() = object : Runnable {
+        override fun run() { println("hi") }       // no this$0
+    }
+    fun capturing() = object : Runnable {
+        override fun run() { println(title) }      // holds Screen
+    }
+}`,
+        trap: "Knowing Kotlin differs from old Java anonymous classes, and that capture depends on what the body uses.",
+      },
+    ],
+  },
+  {
     id: "any-unit-nothing-ladder",
     kind: "ladder",
     topic: "any-unit-nothing",
