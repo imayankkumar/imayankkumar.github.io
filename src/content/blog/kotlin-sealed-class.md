@@ -150,7 +150,7 @@ A simple default: use a sealed interface for UI state and events. Use a sealed c
 
 ## Sealed class vs sealed interface: quick comparison
 
-| | Sealed class | Sealed interface |
+| Feature | Sealed class | Sealed interface |
 | --- | --- | --- |
 | Closed list of subtypes | Yes | Yes |
 | Exhaustive `when` | Yes | Yes |
