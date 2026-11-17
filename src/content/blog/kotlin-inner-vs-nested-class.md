@@ -184,6 +184,6 @@ No. On Kotlin 2.4.21, an `object :` expression or a lambda only stores the outer
 
 A nested class is a class in a namespace. An inner class is a class with a hidden pointer to its outer object. The pointer is what gives you `this@Outer`, and it's also what keeps the outer object alive. Before you give an inner object to something long-lived, check who removes it.
 
-This post is the fifth topic in Stage 1 of my [Android roadmap](/roadmap/). The previous one is [sealed classes](/blog/kotlin-sealed-class/).
+If you want to test yourself, try the [inner vs nested class interview questions](/interview/kotlin-inner-vs-nested-class/). This post is the fifth topic in Stage 1 of my [Android roadmap](/roadmap/). The previous one is [sealed classes](/blog/kotlin-sealed-class/).
 
 Do you have a listener in your app that is added in `onCreate` and never removed?
