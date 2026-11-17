@@ -1,12 +1,12 @@
 ---
-title: "What Is the Difference Between Inner and Nested Classes in Kotlin?"
+title: "Inner vs Nested Class in Kotlin: What Is the Difference?"
 description: "A nested class has no link to its outer object. An inner class keeps one. What the compiler generates for each, and how that hidden link can leak an Activity."
 pubDate: 2026-11-18
 tags: ["kotlin", "android", "inner-class", "basics"]
-ogImage: "/og/kotlin-inner-class.jpg"
-ogImageAlt: "Title card: What is the difference between inner and nested classes in Kotlin? Tags: inner, this$0, this@Outer, static."
-cover: "../../assets/blog/covers/kotlin-inner-class.png"
-coverAlt: "Title card: What is the difference between inner and nested classes in Kotlin? Tags: inner, this$0, this@Outer, static."
+ogImage: "/og/kotlin-inner-vs-nested-class.jpg"
+ogImageAlt: "Title card: Inner vs nested class in Kotlin: what is the difference? Tags: inner, this$0, this@Outer, static."
+cover: "../../assets/blog/covers/kotlin-inner-vs-nested-class.png"
+coverAlt: "Title card: Inner vs nested class in Kotlin: what is the difference? Tags: inner, this$0, this@Outer, static."
 roadmap:
   topic: inner-vs-nested-classes
 ---
@@ -140,10 +140,10 @@ class OrderTrackingActivity : AppCompatActivity() {
 In the first version, rotate the phone once. The old Activity is destroyed, but `OrderUpdates` still holds the old `StatusUpdater`. Its `this$0` still points to the old Activity, and the Activity holds its whole view tree. Rotate again and another one stays in memory.
 
 <picture>
-  <source media="(max-width: 640px)" type="image/webp" srcset="/blog/kotlin-inner-class/kotlin-inner-class-mobile.webp" width="960" height="2077" />
-  <source media="(max-width: 640px)" srcset="/blog/kotlin-inner-class/kotlin-inner-class-mobile.png" width="960" height="2077" />
-  <source type="image/webp" srcset="/blog/kotlin-inner-class/kotlin-inner-class.webp" width="1600" height="780" />
-  <img src="/blog/kotlin-inner-class/kotlin-inner-class.png" width="1600" height="780" loading="lazy" decoding="async" alt="Diagram: how an inner class keeps an Activity alive. OrderUpdates, a singleton, holds the StatusUpdater listener. The listener's hidden this$0 field points to the destroyed OrderTrackingActivity, which holds its views. A nested class has no this$0 arrow." />
+  <source media="(max-width: 640px)" type="image/webp" srcset="/blog/kotlin-inner-vs-nested-class/kotlin-inner-vs-nested-class-mobile.webp" width="960" height="2077" />
+  <source media="(max-width: 640px)" srcset="/blog/kotlin-inner-vs-nested-class/kotlin-inner-vs-nested-class-mobile.png" width="960" height="2077" />
+  <source type="image/webp" srcset="/blog/kotlin-inner-vs-nested-class/kotlin-inner-vs-nested-class.webp" width="1600" height="780" />
+  <img src="/blog/kotlin-inner-vs-nested-class/kotlin-inner-vs-nested-class.png" width="1600" height="780" loading="lazy" decoding="async" alt="Diagram: how an inner class keeps an Activity alive. OrderUpdates, a singleton, holds the StatusUpdater listener. The listener's hidden this$0 field points to the destroyed OrderTrackingActivity, which holds its views. A nested class has no this$0 arrow." />
 </picture>
 
 Notice the fix. The second version is still an `inner` class. What changed is its lifetime: it is removed in `onStop`, so nothing outlives the screen. Making the class nested and passing it `statusText` would not fix the first version. A View keeps a reference to [its Context](https://developer.android.com/reference/android/view/View#getContext()), which here is the Activity. So the real question isn't "inner or nested?" A better question is:
