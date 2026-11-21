@@ -379,6 +379,70 @@ class OrderTrackingActivity : AppCompatActivity() {
     ],
   },
   {
+    id: "enum-class-ladder",
+    kind: "ladder",
+    topic: "enum-classes",
+    level: "Mid",
+    page: {
+      slug: "kotlin-enum-class",
+      title: "Kotlin enum class interview questions",
+      description: "Kotlin enum class interview questions: per-constant behavior, why an enum can't extend a class, entries vs values(), and why saving ordinal or name breaks after an update.",
+      intro: "One opener and four harder follow-ups. Each step builds on the last, the way a real interviewer digs.",
+      sayIt: "An enum is a fixed list of single objects known at compile time. Each constant can carry constructor values and its own behavior, and an enum can implement interfaces, but it can't extend a class because it already extends Enum. A when over an enum is checked for every constant. Use entries, not values(), which copies an array on every call. Never save ordinal or name: save your own fixed code and map unknown codes to null with a fromCode() function.",
+    },
+    steps: [
+      {
+        question: "When would you use an enum class instead of a sealed class?",
+        junior: "When I have a fixed list of constants, like statuses.",
+        senior: "When every option has the same shape and its values are known when you write the code, like order statuses or sort orders. Each constant is a single object. When options need their own runtime data, like an error message or a list of items, use a sealed class, because an enum constant can't hold data that only exists at runtime.",
+        trap: "Whether you can say what an enum can't do, not just what it is.",
+      },
+      {
+        question: "Can each enum constant have its own behavior? Can an enum extend a class?",
+        junior: "No, all constants share the same code.",
+        senior: "Yes to behavior: declare an abstract function and give each constant its own body, or implement an interface. No to extending a class: every enum already extends Enum, and a class can extend only one class. Kotlin says \"Enum classes cannot extend classes.\"",
+        code: `enum class DeliverySpeed {
+    STANDARD {
+        override fun deliveryCharge(orderTotal: Int) = if (orderTotal >= 500) 0 else 30
+    },
+    EXPRESS {
+        override fun deliveryCharge(orderTotal: Int) = 60
+    };
+
+    abstract fun deliveryCharge(orderTotal: Int): Int
+}`,
+        trap: "Many notes say constants can't have behavior. Knowing they can, and why extending a class is the real limit, shows you've used enums beyond constants.",
+      },
+      {
+        question: "Why is entries preferred over values()?",
+        junior: "entries is the newer API.",
+        senior: "values() returns a new array on every call, because an array can be changed by whoever gets it, so values() === values() is false. entries, stable since Kotlin 1.9.0, returns a read-only List created once. For generic code with a reified T, use enumEntries<T>().",
+        trap: "That you know the cost behind the API change, not only that the IDE suggests it.",
+      },
+      {
+        question: "What goes wrong with this code after a few app updates?",
+        senior: "Two things. The saved ordinal is a position: add CONFIRMED after PLACED, and a saved 1 now reads as CONFIRMED instead of PREPARING, with no crash. And valueOf() throws for any name it doesn't know, so a renamed constant or a new status from the server crashes older app versions. Save a fixed code you never change, and read it back with a fromCode() that returns null for unknown codes.",
+        code: `prefs.edit { putInt("last_status", status.ordinal) }
+val saved = OrderStatus.entries[prefs.getInt("last_status", 0)]
+
+val fromServer = OrderStatus.valueOf(json.getString("status"))`,
+        trap: "The real Android bug: saved data lives longer than the enum's current order and names.",
+      },
+      {
+        question: "Why should a when over an enum have no else branch?",
+        junior: "It's not needed because the compiler knows all constants.",
+        senior: "Without else, adding a constant breaks every when that doesn't handle it, so the compiler gives you a list of places to update. With else, the new constant silently falls into the default branch and nothing warns you. Since Kotlin 1.7 this check also applies to when statements, not only expressions.",
+        code: `fun label(status: OrderStatus): String = when (status) {
+    OrderStatus.PLACED -> "Order placed"
+    OrderStatus.PREPARING -> "Being prepared"
+    OrderStatus.OUT_FOR_DELIVERY -> "On the way"
+    OrderStatus.DELIVERED -> "Delivered"
+}`,
+        trap: "Seeing else as a hidden bug, not a convenience.",
+      },
+    ],
+  },
+  {
     id: "any-unit-nothing-ladder",
     kind: "ladder",
     topic: "any-unit-nothing",
