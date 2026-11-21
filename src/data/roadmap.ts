@@ -39,6 +39,7 @@ export const roadmapStages: RoadmapStage[] = [
       { id: "data-classes", title: "Data class vs regular class" },
       { id: "sealed-vs-enum", title: "Sealed class vs sealed interface" },
       { id: "inner-vs-nested-classes", title: "Inner vs nested classes" },
+      { id: "enum-classes", title: "Enum classes" },
       { id: "value-classes", title: "Value classes" },
       { id: "objects-and-companion-objects", title: "object and companion object" },
       { id: "properties", title: "val, var and backing properties" },
