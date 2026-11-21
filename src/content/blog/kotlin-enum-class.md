@@ -176,6 +176,6 @@ Yes. Each constant is a single object, so `==` and `===` both work and give the 
 
 An enum is a fixed list of single objects that can hold values and behavior. `when` checks that you covered every constant. Use `entries`, not `values()`. And never save `ordinal` or `name`: save a code you control, and handle codes you don't know.
 
-This post is the sixth topic in Stage 1 of my [Android roadmap](/roadmap/). The previous one is [inner vs nested classes](/blog/kotlin-inner-vs-nested-class/).
+If you want to test yourself, try the [enum class interview questions](/interview/kotlin-enum-class/). This post is the sixth topic in Stage 1 of my [Android roadmap](/roadmap/). The previous one is [inner vs nested classes](/blog/kotlin-inner-vs-nested-class/).
 
 Where does your app save an enum today, and what would happen if you added a constant in the middle?
