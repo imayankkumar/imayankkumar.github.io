@@ -2,6 +2,8 @@
 title: "When Should You Use an Enum Class in Kotlin?"
 description: "What an enum class is, how to add values and behavior to it, why entries replaced values(), and why saving ordinal or name can break your saved data."
 pubDate: 2026-11-22
+linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7530117876796731392/"
+xUrl: "https://x.com/bymayankkumar/status/2124352175941861750"
 tags: ["kotlin", "android", "enum-class", "basics"]
 ogImage: "/og/kotlin-enum-class.jpg"
 ogImageAlt: "Title card: When should you use an enum class in Kotlin? Tags: enum class, entries, when, ordinal."
