@@ -443,6 +443,67 @@ val fromServer = OrderStatus.valueOf(json.getString("status"))`,
     ],
   },
   {
+    kind: "ladder",
+    id: "value-class-ladder",
+    level: "Mid",
+    topic: "value-classes",
+    page: {
+      slug: "kotlin-value-class",
+      title: "Kotlin value class interview questions",
+      description: "Kotlin value class interview questions: why not a typealias, when a value class is boxed, why function names change in bytecode, and inline class vs value class.",
+      intro: "One opener and four harder follow-ups. Each step builds on the last, the way a real interviewer digs.",
+      sayIt: "A value class wraps exactly one value and gives it its own type, like Email instead of String, so the compiler catches mix-ups. On the JVM it needs @JvmInline, and at runtime Kotlin passes the plain value, so usually no object is created. It is boxed when it is used as another type: Any, a generic T, an interface, an item in a collection, or a non-inline lambda. A nullable value class is boxed only when it wraps a primitive like Int. Functions that take one get a hash added to their name, so Java can't call them without @JvmName or @JvmExposeBoxed.",
+    },
+    steps: [
+      {
+        question: "What is a value class, and why use one instead of a plain String?",
+        junior: "It's a lightweight wrapper class that is faster than a normal class.",
+        senior: "It wraps exactly one val and gives it a new type, like Email or PhoneNumber, so you can't pass a phone number where an email is expected. On the JVM it needs @JvmInline. At runtime Kotlin passes the plain String, so in most places there is no extra object. An init block can also check the value once, when it's created.",
+        code: `@JvmInline
+value class Email(val value: String) {
+    init { require("@" in value) { "Not an email: $value" } }
+}
+
+@JvmInline
+value class PhoneNumber(val value: String)
+
+fun sendOtp(email: Email, phone: PhoneNumber) { /* ... */ }`,
+        trap: "Type safety is the main reason. Speed is only the reason it costs nothing.",
+      },
+      {
+        question: "Why not just use typealias Email = String?",
+        junior: "A typealias does the same thing.",
+        senior: "A typealias is only a second name. Email and String are the same type to the compiler, so a String, or a phone number, still fits where an Email is expected and the swap still compiles. A value class is a different type, so the swap fails with \"Argument type mismatch\".",
+        trap: "Knowing that typealias gives readability but no safety.",
+      },
+      {
+        question: "When you call these functions, which ones create an Age object?",
+        senior: "Only b and c. In a, the parameter is a plain int. In b, Age? wraps an Int, and an int can't be null, so Kotlin boxes it into an Age object. In c, a List can only hold objects, so every item is boxed. The rule: a value class is boxed when it is used as another type, like Any, a generic T, an interface, a collection item or a non-inline lambda. An Email? that wraps a String is not boxed, because a String can already be null.",
+        code: `@JvmInline
+value class Age(val value: Int)
+
+fun a(age: Age) {}
+fun b(age: Age?) {}
+fun c(ages: List<Age>) {}`,
+        trap: "Most people say nullable always boxes. It depends on what the value class wraps.",
+      },
+      {
+        question: "Why does sendOtp show up as sendOtp-JkvqDOU in the bytecode? Can Java call it?",
+        junior: "That's the compiler's internal name, Java can call it normally.",
+        senior: "That is name mangling. The parameters compile to String, so without the hash, sendOtp(Email, PhoneNumber) would clash with any sendOtp(String, String). The dash also stops Java from calling it with a raw String. To call it from Java, add @JvmName to keep a normal name, or use @JvmExposeBoxed, added in Kotlin 2.2 and still experimental, which generates Java-friendly versions that take the boxed class.",
+        code: `public static final void sendOtp-JkvqDOU(String email, String phone)`,
+        codeLang: "java",
+        trap: "Library authors who ship value classes in a public API need this answer.",
+      },
+      {
+        question: "What is the difference between an inline class and a value class?",
+        junior: "Value classes are a new kind of class that replaced inline classes.",
+        senior: "They are the same feature. Kotlin 1.3 added it as inline class, in Alpha. The name confused people, because these classes are sometimes boxed, unlike inline functions, which are always inlined. Kotlin 1.5 made it stable as value class with @JvmInline. The annotation leaves room for a future JVM with built-in value types (Project Valhalla). The inline modifier still compiles, with a deprecation warning.",
+        trap: "Knowing why it was renamed shows you understand boxing, not just the syntax.",
+      },
+    ],
+  },
+  {
     id: "any-unit-nothing-ladder",
     kind: "ladder",
     topic: "any-unit-nothing",
