@@ -9,6 +9,7 @@ cover: "../../assets/blog/covers/kotlin-inner-vs-nested-class.png"
 coverAlt: "Title card: Inner vs nested class in Kotlin: what is the difference? Tags: inner, this$0, this@Outer, static."
 roadmap:
   topic: inner-vs-nested-classes
+  code: true
 ---
 
 > **In short:** a nested class is just a class written inside another class. It has no link to any outer object. Mark it `inner` and every instance keeps a hidden reference to the outer object. That lets it use the outer class's members, but it also keeps the outer object alive for as long as the inner one lives.

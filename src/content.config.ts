@@ -30,7 +30,13 @@ const blog = defineCollection({
       /** Newsletters or sites that featured the post, shown under its date. */
       featuredIn: z.array(z.object({ name: z.string(), url: z.string().url() })).default([]),
       /** Puts the post on the /roadmap/ hub. `topic` is an id from src/data/roadmap.ts. */
-      roadmap: z.object({ topic: z.string() }).optional(),
+      roadmap: z
+        .object({
+          topic: z.string(),
+          /** Set once topics/<topic> exists in the android-roadmap repo, so the post links to its code. */
+          code: z.boolean().default(false),
+        })
+        .optional(),
     }),
 })
 

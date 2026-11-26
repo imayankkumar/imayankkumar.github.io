@@ -1,13 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro"
 import Container from "../components/layout/Container.astro"
-import FramePulseCard from "../components/career/FramePulseCard.astro"
+import OpenSourceCard from "../components/career/OpenSourceCard.astro"
+import { framePulse, roadmapCode } from "../data/career"
 import PatentCard from "../components/career/PatentCard.astro"
 ---
 
 <BaseLayout
   title="Projects · Mayank Kumar"
-  description="FramePulse, an open-source Android rendering and jank analysis library, and a granted US patent on push-to-talk session control."
+  description="Runnable code for every Android roadmap topic, FramePulse (an open-source Android rendering and jank analysis library), and a granted US patent on push-to-talk session control."
 >
   <main class="page">
     <Container>
@@ -21,7 +22,10 @@ import PatentCard from "../components/career/PatentCard.astro"
 
         <section class="page__section" aria-labelledby="oss-heading">
           <h2 id="oss-heading" class="page__section-title">Open source</h2>
-          <FramePulseCard />
+          <div class="oss-list">
+            <OpenSourceCard project={roadmapCode} />
+            <OpenSourceCard project={framePulse} />
+          </div>
         </section>
 
         <section class="page__section" aria-labelledby="patent-heading">
@@ -42,3 +46,10 @@ import PatentCard from "../components/career/PatentCard.astro"
     </Container>
   </main>
 </BaseLayout>
+
+<style>
+  .oss-list {
+    display: grid;
+    gap: var(--space-6);
+  }
+</style>

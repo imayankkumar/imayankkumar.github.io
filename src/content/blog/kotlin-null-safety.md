@@ -14,6 +14,7 @@ cover: "../../assets/blog/covers/kotlin-null-safety.png"
 coverAlt: "Title card: How does null safety work in Kotlin? Tags: String?, ?., ?:, !!."
 roadmap:
   topic: null-safety
+  code: true
 ---
 
 > **In short:** In Kotlin, a type says if a value can be null. `String` can never be null. `String?` can. You must handle the null case before you use a `String?`. So most null crashes become build errors instead.

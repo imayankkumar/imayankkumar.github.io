@@ -11,6 +11,7 @@ cover: "../../assets/blog/covers/kotlin-any-unit-nothing.png"
 coverAlt: "Title card: What do Any, Unit and Nothing mean in Kotlin? Tags: Any?, Any, Unit, Nothing."
 roadmap:
   topic: any-unit-nothing
+  code: true
 ---
 
 > **In short:** `Any` is the parent of every non-null type, so it can hold any value. `Unit` means "the work is done, there is no result to give back". `Nothing` means "this code never finishes normally", for example because it always throws.

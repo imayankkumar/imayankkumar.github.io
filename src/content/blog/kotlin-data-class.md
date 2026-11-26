@@ -14,6 +14,7 @@ cover: "../../assets/blog/covers/kotlin-data-class.png"
 coverAlt: "Title card: When should a Kotlin class be a data class? Tags: data class, equals(), copy(), component1()."
 roadmap:
   topic: data-classes
+  code: true
 ---
 
 > **In short:** a data class is a normal class where the compiler writes five things for you. They are `equals()`, `hashCode()`, `toString()`, `copy()` and `component1()`, `component2()` and so on. It uses only the properties in the primary constructor, and `copy()` copies values, not the objects inside them.
