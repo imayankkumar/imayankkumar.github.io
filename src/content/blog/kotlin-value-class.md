@@ -134,7 +134,9 @@ I checked each case in the decompiled Java:
 The nullable case depends on what is inside. `Email?` stays a `String`, because a `String` can already be `null`. But if a value class wraps an `Int`, like `value class Age(val value: Int)`, then `Age?` becomes an object. An `int` can't be `null`, so Kotlin needs an object to hold the `null`. It's the same reason `Int?` becomes a Java `Integer` (see the [null safety post](/blog/kotlin-null-safety/)).
 
 <picture>
+  <source media="(max-width: 640px)" type="image/webp" srcset="/blog/kotlin-value-class/kotlin-value-class-mobile.webp" width="960" height="1920" />
   <source media="(max-width: 640px)" srcset="/blog/kotlin-value-class/kotlin-value-class-mobile.png" width="960" height="1920" />
+  <source type="image/webp" srcset="/blog/kotlin-value-class/kotlin-value-class.webp" width="1600" height="738" />
   <img src="/blog/kotlin-value-class/kotlin-value-class.png" width="1600" height="738" loading="lazy" decoding="async" alt="Diagram: raw value or real object? A value class stays a raw value as a parameter, a property, in an equals check or string, and as a nullable type when it wraps a String. It becomes a real object as Any, a generic T or an interface, inside a List, Set or Map, in a lambda, and as a nullable type when it wraps an Int or Long." />
 </picture>
 
