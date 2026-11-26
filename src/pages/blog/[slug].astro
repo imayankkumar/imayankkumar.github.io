@@ -34,6 +34,8 @@ const ladder = roadmap
   ? interviewCards.find((c) => c.kind === "ladder" && c.topic === roadmap.topic.id && c.page)
   : undefined
 const ladderHref = ladder?.kind === "ladder" && ladder.page ? `/interview/${ladder.page.slug}/` : undefined
+// Runnable code for this topic in the android-roadmap repo.
+const codeHref = roadmap && post.data.roadmap?.code ? `${site.codeRepo}/tree/main/topics/${roadmap.topic.id}` : undefined
 
 // "Main title: subtitle" titles show the subtitle on its own line.
 const colonAt = post.data.title.indexOf(": ")
@@ -105,6 +107,15 @@ const articleSchema = {
               <p class="post-stage__label">
                 Stage {roadmap.stage.number}: {roadmap.stage.title} · {stageDone} of {roadmap.stage.topics.length} topics published
               </p>
+              {codeHref && (
+                <p>
+                  Run the code:{" "}
+                  <a class="page__link" href={codeHref} target="_blank" rel="noopener noreferrer">
+                    android-roadmap/{roadmap.topic.id} on GitHub
+                  </a>
+                  , with a test for each claim and the Java it compiles to
+                </p>
+              )}
               {ladderHref && (
                 <p>Test yourself: <a class="page__link" href={ladderHref}>{roadmap.topic.title} interview questions</a></p>
               )}
@@ -122,7 +133,7 @@ const articleSchema = {
           )
         }
 
-        <SubscribeBox />
+        <SubscribeBox placement="post" />
 
         <AuthorNote />
 

@@ -3,9 +3,9 @@
  * no invented metrics, star counts, articles or employer internals.
  */
 import type { IconName } from "../components/ui/Icon.astro"
-import { contact, framePulse, patent } from "./career"
+import { contact, framePulse, patent, roadmapCode } from "./career"
 import { profile } from "./profile"
-import { site } from "./site"
+import { newsletterLink } from "./site"
 
 export interface FeaturedProject {
   icon: IconName
@@ -67,7 +67,7 @@ export const callToAction = {
   title: "New Android topics every week",
   body: "Each one comes with a plain explanation, checked code and the interview follow-ups. Get them by email: one email a week, free.",
   label: "Subscribe",
-  href: site.newsletter,
+  href: newsletterLink("home"),
 }
 
 export const footerColumns = [
@@ -86,6 +86,7 @@ export const footerColumns = [
   {
     title: "Work",
     links: [
+      { label: "Roadmap code", href: roadmapCode.href, external: true },
       { label: "FramePulse", href: framePulse.href, external: true },
       { label: "Patent", href: patent.href, external: true },
       {
@@ -104,7 +105,7 @@ export const footerColumns = [
         external: true,
       },
       { label: "X", href: "https://x.com/bymayankkumar", external: true },
-      { label: "Newsletter", href: site.newsletter, external: true },
+      { label: "Newsletter", href: newsletterLink("footer"), external: true },
       { label: "Email", href: `mailto:${contact.email}` },
     ],
   },

@@ -11,6 +11,7 @@ cover: "../../assets/blog/covers/kotlin-enum-class.png"
 coverAlt: "Title card: When should you use an enum class in Kotlin? Tags: enum class, entries, when, ordinal."
 roadmap:
   topic: enum-classes
+  code: true
 ---
 
 > **In short:** use an enum class when a value must be one of a small, fixed set that you know at compile time, and every option has the same shape. Each constant is a single object. It can carry values and its own behavior. When the options need different data, use a sealed class instead.

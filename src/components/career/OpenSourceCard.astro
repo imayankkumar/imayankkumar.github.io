@@ -1,0 +1,38 @@
+---
+interface Props {
+  project: {
+    name: string
+    href: string
+    status: string
+    summary: string
+    points: string[]
+    tags: string[]
+  }
+}
+
+const { project } = Astro.props
+---
+
+<article class="card">
+  <div class="card__head">
+    <h3 class="card__title">{project.name}</h3>
+    <span class="card__meta">{project.status}</span>
+  </div>
+  <p class="card__body">{project.summary}</p>
+  <ul class="list">
+    {project.points.map((point) => <li>{point}</li>)}
+  </ul>
+  <ul class="tags" aria-label="Topics">
+    {project.tags.map((tag) => <li>{tag}</li>)}
+  </ul>
+  <p class="card__body">
+    <a
+      class="page__link"
+      href={project.href}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View on GitHub
+    </a>
+  </p>
+</article>

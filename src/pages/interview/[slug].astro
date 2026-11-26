@@ -5,6 +5,7 @@ import Container from "../../components/layout/Container.astro"
 import { interviewCards, type LadderCard } from "../../data/interview"
 import { findRoadmapTopic } from "../../data/roadmap"
 import { getRoadmapPosts, postUrl } from "../../lib/blog"
+import SubscribeBox from "../../components/blog/SubscribeBox.astro"
 
 export async function getStaticPaths() {
   // A ladder page goes live with its roadmap post (a future post isn't published yet).
@@ -130,6 +131,8 @@ const minutes = Math.max(1, Math.round(words / 200))
             <span class="lp__card-body">Practise every ladder, and mark the ones you need to revisit.</span>
           </a>
         </div>
+
+        <SubscribeBox placement="interview" title="Get the next interview ladder by email" />
       </article>
     </Container>
   </main>
@@ -230,7 +233,7 @@ const minutes = Math.max(1, Math.round(words / 200))
   }
 
   .lp__toggle[aria-pressed="true"] {
-    background: var(--color-primary);
+    background: var(--color-primary-solid);
     color: #fff;
   }
 

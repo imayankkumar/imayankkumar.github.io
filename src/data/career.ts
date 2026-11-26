@@ -33,6 +33,20 @@ export const framePulse = {
   tags: ["Kotlin", "Choreographer", "Rendering", "Open source"],
 }
 
+export const roadmapCode = {
+  name: "Android Roadmap: the code",
+  href: "https://github.com/imayankkumar/android-roadmap",
+  status: "Grows with every roadmap post",
+  summary:
+    "Runnable Kotlin for every topic on my Android roadmap, with the Java the compiler makes from it. Each post explains one question; this repo is where you run the examples, change them, and check every claim yourself.",
+  points: [
+    "One folder per topic, with a Main.kt that runs every step of the post",
+    "One test for each claim the post makes",
+    "Decompiled Java for every file, plus snippets that must fail to build, with the exact compiler error",
+  ],
+  tags: ["Kotlin", "Teaching", "Decompiled bytecode", "Open source"],
+}
+
 export interface Role {
   title: string
   period: string

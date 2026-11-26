@@ -1,14 +1,16 @@
 ---
 // Newsletter signup. Links to the Substack subscribe page instead of embedding
 // Substack's iframe, so it matches the site (light and dark) and loads no third-party script.
-import { site } from "../../data/site"
+import { newsletterLink } from "../../data/site"
 
 interface Props {
+  /** Where the box sits, sent to Substack as the link's campaign tag. */
+  placement: Parameters<typeof newsletterLink>[0]
   title?: string
   class?: string
 }
 
-const { title = "Get new topics by email", class: className } = Astro.props
+const { placement, title = "Get new topics by email", class: className } = Astro.props
 ---
 
 <aside class:list={["subscribe", className]} aria-label="Newsletter">
@@ -21,7 +23,7 @@ const { title = "Get new topics by email", class: className } = Astro.props
   </div>
   <a
     class="subscribe__button"
-    href={site.newsletter}
+    href={newsletterLink(placement)}
     target="_blank"
     rel="noopener noreferrer"
   >
@@ -91,13 +93,13 @@ const { title = "Get new topics by email", class: className } = Astro.props
     font-size: var(--text-sm);
     font-weight: 600;
     color: #fff;
-    background: var(--color-primary);
+    background: var(--color-primary-solid);
     text-decoration: none;
     transition: background-color 150ms ease;
   }
 
   .subscribe__button:hover {
-    background: color-mix(in srgb, var(--color-primary) 85%, black);
+    background: var(--color-primary-solid-hover);
   }
 
   .subscribe__button:focus-visible {

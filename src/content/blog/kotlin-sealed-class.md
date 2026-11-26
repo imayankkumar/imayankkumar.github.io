@@ -11,6 +11,7 @@ cover: "../../assets/blog/covers/kotlin-sealed-class.png"
 coverAlt: "Title card: When should you use a sealed class in Kotlin? Tags: sealed class, sealed interface, when, else."
 roadmap:
   topic: sealed-vs-enum
+  code: true
 ---
 
 > **In short:** a sealed class (or sealed interface) is a type with a closed list of subtypes. The compiler knows all of them, so a `when` over it can check that you handled every case. Its direct subtypes must live in the same module and the same package.

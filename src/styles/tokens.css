@@ -8,6 +8,10 @@
   --color-border: #e5e7eb;
   --color-primary: #2563eb;
   --color-primary-hover: #1d4ed8;
+  /* Fill behind white text, and blue text on a light blue tint. Both pass 4.5:1. */
+  --color-primary-solid: #2563eb;
+  --color-primary-solid-hover: #1d4ed8;
+  --color-primary-text: #1d4ed8;
 
   /* Layout */
   --container-width: 1200px;
@@ -64,6 +68,10 @@
   --color-border: #1f2937;
   --color-primary: #3b82f6;
   --color-primary-hover: #60a5fa;
+  /* The dark-theme blue is too pale behind white text, so fills stay the light-theme blue. */
+  --color-primary-solid: #2563eb;
+  --color-primary-solid-hover: #1d4ed8;
+  --color-primary-text: #60a5fa;
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.45), 0 2px 4px -2px rgb(0 0 0 / 0.35);
   --shadow-focus: 0 0 0 3px rgb(59 130 246 / 0.45);

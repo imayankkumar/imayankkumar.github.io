@@ -535,7 +535,7 @@ pre.astro-code span[style*="#6A737D"] {
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 999px;
-  background: var(--color-primary);
+  background: var(--color-primary-solid);
   color: #fff;
   font-size: 0.75rem;
   font-weight: 700;
