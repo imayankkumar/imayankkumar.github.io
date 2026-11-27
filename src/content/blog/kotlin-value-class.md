@@ -2,6 +2,8 @@
 title: "What Is a Value Class in Kotlin, and When Does It Create an Object?"
 description: "What a Kotlin value class is, what the compiler turns it into, and the exact cases where it creates a real object."
 pubDate: 2026-11-26
+linkedinUrl: "https://www.linkedin.com/posts/mayankkumar-mk_androiddev-kotlin-androiddevelopment-share-7531739363672743936-zZ3J/"
+xUrl: "https://x.com/bymayankkumar/status/2125974516295934265"
 tags: ["kotlin", "android", "value-class", "basics"]
 ogImage: "/og/kotlin-value-class.jpg"
 ogImageAlt: "Title card: What is a value class in Kotlin, and when does it create an object? Tags: value class, @JvmInline, Email, boxing."
