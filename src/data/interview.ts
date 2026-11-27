@@ -504,6 +504,69 @@ fun c(ages: List<Age>) {}`,
     ],
   },
   {
+    kind: "ladder",
+    id: "object-ladder",
+    level: "Mid",
+    topic: "objects",
+    page: {
+      slug: "kotlin-object",
+      title: "Kotlin object interview questions",
+      description: "Kotlin object interview questions: object vs class, what the compiler generates, when an object is created, object expressions and data objects.",
+      intro: "One opener and four harder follow-ups. Each step builds on the last, the way a real interviewer digs.",
+      sayIt: "An object declaration is a class with exactly one instance. It has no constructor, and Kotlin creates it the first time you use it. On the JVM it becomes a final class with a private constructor and a static INSTANCE field, created in a static block, so creation is thread-safe. Its mutable state is not. On Android it lives as long as the process, so it is reset after process death and can leak an Activity it holds. An object expression, object : Listener { }, is an anonymous class that creates a new instance each time it runs. A data object is an object whose toString prints its name, which is why it fits sealed state like LoggedOut.",
+    },
+    steps: [
+      {
+        question: "What is an object in Kotlin, and how is it different from a class?",
+        junior: "An object is an instance of a class.",
+        senior: "In Kotlin, the object keyword declares a class and its only instance in one step. A class can have many instances, one per constructor call. An object has exactly one, has no constructor, and you reach it by its name. Kotlin creates it the first time you use it.",
+        code: `object Session {
+    var email: String? = null
+    fun isLoggedIn(): Boolean = email != null
+}
+
+Session.email = "hello@imayankkumar.com"`,
+        trap: "Saying \"an instance of a class\". The question is about the object keyword.",
+      },
+      {
+        question: "What does the compiler turn object Session into?",
+        junior: "A class with static methods.",
+        senior: "A final class with a private constructor and a public static final INSTANCE field. The instance is created in the class's static block, which also runs your property initializers and init block in the order you wrote them. Session.isLoggedIn() compiles to Session.INSTANCE.isLoggedIn(), so the functions are instance methods, not static ones. Add @JvmStatic if Java callers need static methods.",
+        code: `public final class Session {
+    public static final Session INSTANCE = new Session();
+    private Session() { }
+    static { /* properties and init, in order */ }
+}`,
+        codeLang: "java",
+        trap: "The functions are not static. That's why an object can implement an interface and be passed as a value.",
+      },
+      {
+        question: "Is an object thread-safe?",
+        junior: "Yes, objects are thread-safe.",
+        senior: "Only its creation. The JVM runs a class's static block once, and other threads wait for it, so you never get two instances. But a var inside the object is a normal shared variable. Two threads changing Session.email at the same time can still race. Use a StateFlow, an atomic type or a lock.",
+        trap: "Mixing up thread-safe creation with thread-safe state.",
+      },
+      {
+        question: "This code adds a listener and later removes it. Why does the listener keep running?",
+        senior: "Each object expression creates a new instance of an anonymous class. The object passed to removeLoginListener is a different object from the one that was added, so nothing matches and nothing is removed. Keep one reference in a val and pass the same instance to both calls.",
+        code: `loginButton.addLoginListener(object : LoginListener { /* ... */ })
+// later
+loginButton.removeLoginListener(object : LoginListener { /* ... */ })`,
+        trap: "Thinking object : is a singleton because it uses the object keyword.",
+      },
+      {
+        question: "Why use data object LoggedOut instead of object LoggedOut in a sealed interface?",
+        junior: "So it gets copy() and componentN() like a data class.",
+        senior: "A plain object prints its class name and a hash, like AuthState$LoggedOut@3fee733d. A data object prints LoggedOut, which matches the data classes next to it in logs. It also gets an equals that checks the type and a fixed hashCode, so == works even if reflection or serialization creates a second instance. It has no copy() or componentN(), and you can't override equals or hashCode. Data objects are stable since Kotlin 1.9.0.",
+        code: `sealed interface AuthState {
+    data object LoggedOut : AuthState
+    data class LoggedIn(val email: String) : AuthState
+}`,
+        trap: "Data objects don't get copy() or componentN(). There's only one instance and no data to copy.",
+      },
+    ],
+  },
+  {
     id: "any-unit-nothing-ladder",
     kind: "ladder",
     topic: "any-unit-nothing",

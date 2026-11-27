@@ -166,6 +166,6 @@ No. Kotlin compares the two `String` values directly. `===` doesn't compile for 
 
 A value class gives a plain value its own type, so the compiler catches mix-ups like a swapped email and phone number. At runtime it is usually just the plain value. It becomes an object when used as `Any`, a generic type, an interface, in a collection or a lambda, or as nullable when it wraps an `Int` or `Long`.
 
-If you want to test yourself, try the [value class interview questions](/interview/kotlin-value-class/). This post is the seventh topic in Stage 1 of my [Android roadmap](/roadmap/). The previous one is [enum classes](/blog/kotlin-enum-class/).
+If you want to test yourself, try the [value class interview questions](/interview/kotlin-value-class/). This post is the seventh topic in Stage 1 of my [Android roadmap](/roadmap/). The previous one is [enum classes](/blog/kotlin-enum-class/). Next: [What is an object in Kotlin, and how is it different from a class?](/blog/kotlin-object/)
 
 Which two values in your app share the same type today, and what happens if someone swaps them?
