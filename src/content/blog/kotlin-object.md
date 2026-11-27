@@ -65,7 +65,7 @@ A few rules, checked on Kotlin 2.4.21:
 
 ## How is an object different from a class?
 
-| | Class | Object |
+| Feature | Class | Object |
 | --- | --- | --- |
 | Instances | As many as you create | Exactly one |
 | How you get one | Call the constructor: `Session()` | Use the name: `Session` |
