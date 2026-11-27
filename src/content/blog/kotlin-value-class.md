@@ -11,6 +11,7 @@ cover: "../../assets/blog/covers/kotlin-value-class.png"
 coverAlt: "Title card: What is a value class in Kotlin, and when does it create an object? Tags: value class, @JvmInline, Email, boxing."
 roadmap:
   topic: value-classes
+  code: true
 ---
 
 > **In short:** a value class wraps one value and gives it its own type, like `Email` instead of a plain `String`. The compiler checks the type, but at runtime Kotlin passes the plain `String`, so no extra object is created. It creates a real object only when the value is used as another type, like `Any`, a generic type or an item in a list.
