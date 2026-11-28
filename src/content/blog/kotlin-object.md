@@ -187,7 +187,7 @@ There is no `copy()` or `component1()`, because there's only one instance and no
 ## Frequently asked questions
 
 **Is an object the same as `static` in Java?**
-Close, but no. Its functions run on one real instance, `Session.INSTANCE`, so it can implement interfaces and be passed around. For static-like members inside a class, Kotlin has the companion object, the topic of the next post.
+Close, but no. Its functions run on one real instance, `Session.INSTANCE`, so it can implement interfaces and be passed around. For static-like members inside a class, Kotlin has the companion object, the topic of the [next post](/blog/kotlin-companion-object/).
 
 **Can an object take parameters?**
 No, because it has no constructor. If you need a value at creation time, use a class.
