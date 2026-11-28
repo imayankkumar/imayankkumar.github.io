@@ -190,6 +190,6 @@ Yes. `Job` in kotlinx.coroutines is an interface, and its companion `Key` is wha
 
 A companion object is one real object inside a class. You call it with the class name, it can use the class's private constructor, and Kotlin creates it the first time the class is used. It isn't `static`, but `@JvmStatic`, `const val` and `@JvmField` make it look static to Java.
 
-If you want to test yourself, try the [companion object interview questions](/interview/kotlin-companion-object/). This post is the ninth topic in Stage 1 of my [Android roadmap](/roadmap/). The previous one is [objects](/blog/kotlin-object/).
+If you want to test yourself, try the [companion object interview questions](/interview/kotlin-companion-object/). This post is the ninth topic in Stage 1 of my [Android roadmap](/roadmap/). The previous one is [objects](/blog/kotlin-object/). Next: [What is the difference between val and var in Kotlin, and is val immutable?](/blog/kotlin-val-vs-var/)
 
 Do you keep constants in a companion object or at the top level of the file?
