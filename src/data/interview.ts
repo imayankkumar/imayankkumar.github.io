@@ -567,6 +567,82 @@ loginButton.removeLoginListener(object : LoginListener { /* ... */ })`,
     ],
   },
   {
+    kind: "ladder",
+    id: "companion-object-ladder",
+    level: "Mid",
+    topic: "companion-objects",
+    page: {
+      slug: "kotlin-companion-object",
+      title: "Kotlin companion object interview questions",
+      description: "Kotlin companion object interview questions: companion vs static, what the compiler generates, when it is created, @JvmStatic, const val and @JvmField.",
+      intro: "One opener and four harder follow-ups. Each step builds on the last, the way a real interviewer digs.",
+      sayIt: "A companion object is an object declared inside a class with the companion keyword. You call its members with the class name, and it can use the class's private constructor, which makes it the usual place for factory functions and constants. It is not static: on the JVM it is a nested class Companion whose one instance sits in a static field of the outer class, and its functions are instance methods. That is why it can implement an interface and be passed as a value, like Job in coroutineContext[Job]. It is created in the outer class's static block, on first real use of the class, so creation is thread-safe. A const val is inlined, so reading it does not create the companion. For Java callers, @JvmStatic adds a static method, const val and @JvmField give static fields.",
+    },
+    steps: [
+      {
+        question: "What is a companion object in Kotlin?",
+        junior: "It's how you write static in Kotlin.",
+        senior: "An object declared inside a class with the companion keyword. Its members belong to the class, not to an instance, so you call them with the class name: Otp.parse(\"482913\"). A class can have only one. Its default name is Companion. Because it sits inside the class, it can call a private constructor, so it's the usual home for factory functions and constants.",
+        code: `class Otp private constructor(val code: String) {
+    companion object {
+        const val LENGTH = 6
+        fun parse(text: String): Otp? =
+            if (text.length == LENGTH && text.all { it.isDigit() }) Otp(text) else null
+    }
+}`,
+        trap: "Calling it \"static\". It looks static from Kotlin, but it is a real object.",
+      },
+      {
+        question: "What does the compiler turn the companion object into?",
+        junior: "Static methods on the class.",
+        senior: "A nested class Otp.Companion with a private constructor. Its one instance is stored in a public static final field Companion on Otp, created in Otp's static block. parse() is an instance method of Companion, and Otp.parse() in Kotlin compiles to Otp.Companion.parse(). Properties are stored as static fields on Otp itself: a const val becomes a public constant, a plain val a private field with a getter on Companion.",
+        code: `public final class Otp {
+    public static final Otp.Companion Companion = new Otp.Companion(null);
+    public static final int LENGTH = 6;
+
+    public static final class Companion {
+        private Companion() { }
+        public final Otp parse(String text) { /* ... */ }
+    }
+}`,
+        codeLang: "java",
+        trap: "Thinking the functions become static. They are instance methods unless you add @JvmStatic.",
+      },
+      {
+        question: "What can a companion object do that Java static can't?",
+        junior: "Nothing, it's the same thing.",
+        senior: "It's a real object, so it can implement an interface, and the class name can be passed as a value of that interface type. kotlinx.coroutines uses this: Job's companion object Key implements CoroutineContext.Key<Job>, so coroutineContext[Job] works. You can also add extension functions to it, like fun Otp.Companion.fromSms(sms: String), if the class declares a companion.",
+        code: `interface Parser<T> { fun parse(text: String): T? }
+
+class Otp private constructor(val code: String) {
+    companion object : Parser<Otp> {
+        override fun parse(text: String): Otp? = /* ... */ null
+    }
+}
+
+fun <T> readField(text: String, parser: Parser<T>) = parser.parse(text)
+readField("482913", Otp)   // Otp means Otp.Companion`,
+        trap: "Forgetting that a companion extension needs the class to declare a companion, even an empty one.",
+      },
+      {
+        question: "When is the companion object created? Does reading Otp.LENGTH create it?",
+        senior: "It's created in the outer class's static block, so the JVM creates it once, on the first real use of Otp, like calling Otp.parse() or creating an Otp. Creation is thread-safe. Reading a const val doesn't count: the compiler copies the value 6 into the caller, so Otp is never touched and the companion isn't created. A plain val would trigger it, because it's read through a getter.",
+        trap: "Saying \"when you first access the companion\". It is tied to the outer class's initialization, and const reads skip it.",
+      },
+      {
+        question: "How do Java callers see these members, and what do @JvmStatic, const val and @JvmField change?",
+        junior: "Java calls them like normal static members.",
+        senior: "Without annotations, Java must write Otp.Companion.parse() and Otp.Companion.getMAX_TRIES(). @JvmStatic adds a real static method Otp.parse() that calls the companion, and keeps the instance method, so the interface still works. const val, only for primitives and String, gives a public static constant Otp.LENGTH. @JvmField gives a public static field without a getter, for other types. Kotlin callers still go through Companion even with @JvmStatic, so it changes nothing for Kotlin.",
+        code: `// Java
+Otp.Companion.parse("482913"); // plain fun
+Otp.parse("482913");           // @JvmStatic fun
+int n = Otp.LENGTH;            // const val`,
+        codeLang: "java",
+        trap: "Thinking @JvmStatic makes Kotlin calls faster or removes the companion instance.",
+      },
+    ],
+  },
+  {
     id: "any-unit-nothing-ladder",
     kind: "ladder",
     topic: "any-unit-nothing",
