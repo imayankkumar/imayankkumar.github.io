@@ -2,6 +2,8 @@
 title: "What Is an Object in Kotlin, and How Is It Different from a Class?"
 description: "What a Kotlin object is, how it differs from a class, what the compiler turns it into, and when to use an object expression or a data object."
 pubDate: 2026-11-27
+linkedinUrl: "https://www.linkedin.com/posts/mayankkumar-mk_androiddev-kotlin-androiddevelopment-share-7532135103322316800-JblZ/"
+xUrl: "https://x.com/bymayankkumar/status/2126518947617071295"
 tags: ["kotlin", "android", "object", "basics"]
 ogImage: "/og/kotlin-object.jpg"
 ogImageAlt: "Title card: What is an object in Kotlin, and how is it different from a class? Tags: object, INSTANCE, object :, data object."
@@ -9,6 +11,7 @@ cover: "../../assets/blog/covers/kotlin-object.png"
 coverAlt: "Title card: What is an object in Kotlin, and how is it different from a class? Tags: object, INSTANCE, object :, data object."
 roadmap:
   topic: objects
+  code: true
 ---
 
 > **In short:** a class is a blueprint. You call its constructor and get a new instance each time. An `object` is a class with exactly one instance. Kotlin creates it the first time you use it, and you reach it by its name.
