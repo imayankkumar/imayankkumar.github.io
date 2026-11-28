@@ -2,6 +2,8 @@
 title: "What Is a Companion Object in Kotlin, and How Is It Different from static?"
 description: "What a Kotlin companion object is, how it differs from Java static, what the compiler turns it into, and how @JvmStatic, const val and @JvmField change Java calls."
 pubDate: 2026-11-28
+linkedinUrl: "https://www.linkedin.com/posts/mayankkumar-mk_androiddev-kotlin-androiddevelopment-share-7532346026527981568-EA4h/"
+xUrl: "https://x.com/bymayankkumar/status/2126654843045527962"
 tags: ["kotlin", "android", "companion object", "basics"]
 ogImage: "/og/kotlin-companion-object.jpg"
 ogImageAlt: "Title card: What is a companion object in Kotlin, and how is it different from static? Tags: companion object, @JvmStatic, const val."
