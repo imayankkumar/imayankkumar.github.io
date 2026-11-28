@@ -643,6 +643,70 @@ int n = Otp.LENGTH;            // const val`,
     ],
   },
   {
+    kind: "ladder",
+    id: "val-vs-var-ladder",
+    level: "Junior",
+    topic: "val-vs-var",
+    page: {
+      slug: "kotlin-val-vs-var",
+      title: "Kotlin val vs var interview questions",
+      description: "Kotlin val vs var interview questions: read-only vs immutable, custom getters, overriding val with var, const val, and the StateFlow in-place mutation bug.",
+      intro: "One opener and four harder follow-ups. Each step builds on the last, the way a real interviewer digs.",
+      sayIt: "var can be assigned again, val is assigned once. But val is read-only, not immutable: it locks the reference, not the object, so a val MutableList can still grow. For a property, val only means there is no setter: a custom getter can return a new value on every read, and a subclass can override an open val with a var. On the JVM a val property is a private final field with a getter, a var adds a setter. const val is different: it's a compile-time constant, only for primitives and String, at the top level or in an object or companion object, and the compiler copies its value into callers. On Android, mutating a list inside StateFlow state doesn't emit, because StateFlow compares with equals and the object is equal to itself. Use a read-only List and copy() instead.",
+    },
+    steps: [
+      {
+        question: "What is the difference between val and var?",
+        junior: "val is a constant and var is a variable.",
+        senior: "A var can be assigned a new value later. A val is assigned exactly once, though not always on the same line: you can declare it and assign it later if every code path assigns it once. In a class, a val property compiles to a private final field with only a getter, a var to a field with a getter and a setter.",
+        code: `var query = "kotlin"
+query = "compose"   // fine
+
+val email = "hello@imayankkumar.com"
+email = "hi@imayankkumar.com" // 'val' cannot be reassigned.`,
+        trap: "Calling val a constant. That's const val, which is a different thing.",
+      },
+      {
+        question: "Is a val immutable?",
+        junior: "Yes, a val can never change.",
+        senior: "No, it's read-only. val locks the reference, not the object. A val that holds a MutableList can still add items. Even a read-only List can change if someone else holds it as a MutableList. For real immutability, use immutable types, make copies, or kotlinx.collections.immutable.",
+        code: `val recent = mutableListOf("kotlin")
+recent.add("compose")      // fine: the list changes
+recent = mutableListOf()   // error: the name can't change`,
+        trap: "Thinking a read-only List is immutable. It's a view with no add(), not a guarantee.",
+      },
+      {
+        question: "Can reading the same val property twice give two different values?",
+        senior: "Yes. A val property can have a custom getter that runs on every read, like val isExpired get() = System.currentTimeMillis() > expiresAtMillis. And a subclass can override an open val with a var (not the other way round). So val on a property only promises that callers can't set it.",
+        code: `class Session(private val expiresAtMillis: Long) {
+    val isExpired: Boolean
+        get() = System.currentTimeMillis() > expiresAtMillis
+}`,
+        trap: "Assuming val means \"same value forever\". It means \"no setter\".",
+      },
+      {
+        question: "What is const val, and how is it different from val?",
+        junior: "It's the same as val, just more constant.",
+        senior: "A val gets its value when the code runs. A const val is known when the code compiles. It's only allowed at the top level, in an object or in a companion object, only for primitive types and String, and the initializer must be a constant. The compiler copies the value into every caller, so MAX_RECENT + 1 compiles to the number 11.",
+        code: `const val MAX_RECENT = 10                     // fine
+val startedAt = System.currentTimeMillis()    // fine, runtime
+const val builtAt = System.currentTimeMillis()
+// Const 'val' initializer must be a constant value.`,
+        trap: "Changing a const val in a library and expecting old callers to see the new value without recompiling.",
+      },
+      {
+        question: "Your StateFlow holds a data class with val recent: MutableList<String>. You call recent.add(query) and the screen doesn't update. Why, and how do you fix it?",
+        senior: "add() changes the object in place, so nothing new is set on the flow. Even setting the same object again doesn't help, because StateFlow compares values with equals and the object is equal to itself. Fix: make the field a read-only List, and on each change create a new state with copy(recent = recent + query) inside update {}. The flow sees a different value and emits, and no one can change the list behind your back.",
+        code: `data class SearchState(val recent: List<String> = emptyList())
+
+fun onSearch(query: String) {
+    _state.update { it.copy(recent = it.recent + query) }
+}`,
+        trap: "Fixing it with _state.value = _state.value. Same object, equals is true, no emission.",
+      },
+    ],
+  },
+  {
     id: "any-unit-nothing-ladder",
     kind: "ladder",
     topic: "any-unit-nothing",
